@@ -20,7 +20,9 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"prettier": "prettier --write .",
+		"eslint": "eslint --fix ."
 	},
 	"eslintConfig": {
 		"extends": [
