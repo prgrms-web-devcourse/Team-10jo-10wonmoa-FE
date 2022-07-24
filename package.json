@@ -22,7 +22,8 @@
 		"build": "react-scripts build",
 		"prepare": "husky install",
 		"prettier": "prettier --write .",
-		"eslint": "eslint --fix ."
+		"lint:eslint": "eslint src/ --ext .ts,.tsx --config .eslintrc.json",
+		"lint:type": "tsc --noEmit"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -56,7 +57,8 @@
 	},
 	"lint-staged": {
 		"*.{ts,tsx}": [
-			"prettier --write"
+			"prettier --write",
+			"eslint --fix"
 		]
 	}
 }
