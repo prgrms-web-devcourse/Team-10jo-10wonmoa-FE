@@ -19,7 +19,10 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "react-scripts build"
+		"build": "react-scripts build",
+		"prepare": "husky install",
+		"prettier": "prettier --write .",
+		"eslint": "eslint --fix ."
 	},
 	"eslintConfig": {
 		"extends": [
@@ -47,6 +50,13 @@
 		"eslint-plugin-import": "^2.26.0",
 		"eslint-plugin-node": "^11.1.0",
 		"eslint-plugin-prettier": "^4.2.1",
+		"husky": "^8.0.1",
+		"lint-staged": "^13.0.3",
 		"prettier": "^2.7.1"
+	},
+	"lint-staged": {
+		"*.{ts,tsx}": [
+			"prettier --write"
+		]
 	}
 }
