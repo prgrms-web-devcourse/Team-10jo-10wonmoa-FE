@@ -2,16 +2,17 @@ import React from 'react';
 import { Global, ThemeProvider } from '@emotion/react';
 import { theme, reset } from '@styles';
 import { AppLayout } from '@components';
+import AppRouter from '@router';
 
-function App() {
+const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Global styles={reset} />
       <AppLayout>
-        <div>10원모아10조</div>
+        <AppRouter />
       </AppLayout>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
