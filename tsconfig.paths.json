@@ -12,6 +12,7 @@
       "@styles/*": ["styles/*"],
       "@utils": ["utils"],
       "@utils/*": ["utils/*"],
+      "@router": ["router"],
       "@api": ["api"],
       "@api/*": ["api/*"],
       "@assets": ["assets"],
