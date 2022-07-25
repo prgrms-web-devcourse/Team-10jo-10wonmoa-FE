@@ -1,96 +1,100 @@
 {
-	"name": "team-10jo-10wonmoa-fe",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"@craco/craco": "^6.4.5",
-		"@emotion/react": "^11.9.3",
-		"@emotion/styled": "^11.9.3",
-		"@tanstack/react-query": "^4.0.10",
-		"@testing-library/jest-dom": "^5.16.4",
-		"@testing-library/react": "^13.3.0",
-		"@testing-library/user-event": "^13.5.0",
-		"@types/jest": "^27.5.2",
-		"@types/node": "^16.11.45",
-		"@types/react": "^18.0.15",
-		"@types/react-dom": "^18.0.6",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"react-router-dom": "6",
-		"react-scripts": "5.0.1",
-		"typescript": "^4.7.4",
-		"web-vitals": "^2.1.4"
-	},
-	"scripts": {
-		"start": "craco start",
-		"build": "craco build",
-		"prepare": "husky install",
-		"prettier": "prettier --write .",
-		"lint:eslint": "eslint src/ --ext .ts,.tsx --config .eslintrc.json",
-		"lint:type": "tsc --noEmit",
-		"storybook": "start-storybook -p 6006 -s public",
-		"build-storybook": "build-storybook -s public"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		],
-		"overrides": [
-			{
-				"files": [
-					"**/*.stories.*"
-				],
-				"rules": {
-					"import/no-anonymous-default-export": "off"
-				}
-			}
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"@emotion/babel-preset-css-prop": "^11.2.0",
-		"@storybook/addon-actions": "^6.5.9",
-		"@storybook/addon-essentials": "^6.5.9",
-		"@storybook/addon-interactions": "^6.5.9",
-		"@storybook/addon-links": "^6.5.9",
-		"@storybook/builder-webpack5": "^6.5.9",
-		"@storybook/manager-webpack5": "^6.5.9",
-		"@storybook/node-logger": "^6.5.9",
-		"@storybook/preset-create-react-app": "^4.1.2",
-		"@storybook/react": "^6.5.9",
-		"@storybook/testing-library": "^0.0.13",
-		"@typescript-eslint/eslint-plugin": "^5.30.7",
-		"@typescript-eslint/parser": "^5.30.7",
-		"babel-plugin-named-exports-order": "^0.0.2",
-		"craco-alias": "^3.0.1",
-		"eslint": "^8.20.0",
-		"eslint-config-prettier": "^8.5.0",
-		"eslint-import-resolver-typescript": "^3.3.0",
-		"eslint-plugin-import": "^2.26.0",
-		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-prettier": "^4.2.1",
-		"husky": "^8.0.1",
-		"lint-staged": "^13.0.3",
-		"prettier": "^2.7.1",
-		"prop-types": "^15.8.1",
-		"webpack": "^5.73.0"
-	},
-	"lint-staged": {
-		"*.{ts,tsx}": [
-			"prettier --write",
-			"eslint --fix"
-		]
-	}
+  "name": "team-10jo-10wonmoa-fe",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^6.4.5",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@tanstack/react-query": "^4.0.10",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.45",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "6",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.4",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "prepare": "husky install",
+    "prettier": "prettier --write .",
+    "lint:eslint": "eslint src/ --ext .ts,.tsx --config .eslintrc.json",
+    "lint:type": "tsc --noEmit",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@storybook/addon-actions": "^6.5.9",
+    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/addon-interactions": "^6.5.9",
+    "@storybook/addon-links": "^6.5.9",
+    "@storybook/builder-webpack5": "^6.5.9",
+    "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/node-logger": "^6.5.9",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.9",
+    "@storybook/testing-library": "^0.0.13",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "craco-alias": "^3.0.1",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.3.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "msw": "^0.44.2",
+    "prettier": "^2.7.1",
+    "prop-types": "^15.8.1",
+    "webpack": "^5.73.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "msw": {
+    "workerDirectory": "public"
+  }
 }
