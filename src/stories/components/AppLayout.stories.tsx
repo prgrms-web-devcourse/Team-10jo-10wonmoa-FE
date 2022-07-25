@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { BrowserRouter } from 'react-router-dom';
-import AppLayout from '../../components/AppLayout';
+import AppLayout from '@components/layout/AppLayout';
 
 export default {
   title: 'Component/AppLayout',
