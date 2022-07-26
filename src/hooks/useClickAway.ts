@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const targetEvent = ['touchstart', 'mousedown'];
 
