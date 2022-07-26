@@ -4,9 +4,10 @@ import { createPortal } from 'react-dom';
 
 interface BackupLayerProps {
   children: React.ReactNode;
+  visible: boolean;
 }
 
-const BackupLayer: React.FC<BackupLayerProps> = ({ children }) => {
+const BackupLayer: React.FC<BackupLayerProps> = ({ children, visible }) => {
   const el = useMemo(() => document.createElement('div'), []);
   useEffect(() => {
     document.querySelector('.app_layout')?.appendChild(el);
@@ -17,7 +18,7 @@ const BackupLayer: React.FC<BackupLayerProps> = ({ children }) => {
   });
 
   return createPortal(
-    <ModalWrapper>
+    <ModalWrapper style={{ display: visible ? 'block' : 'none' }}>
       <ModalContainer>{children}</ModalContainer>
     </ModalWrapper>,
     el
@@ -41,4 +42,5 @@ const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 80%;
 `;

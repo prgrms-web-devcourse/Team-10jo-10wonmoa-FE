@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { BackupLayer, Modal } from '@components';
+import { Modal } from '@components';
 
 const Account = () => {
   const [visible, setVisible] = useState(false);
   return (
     <>
-      <Modal visible={visible} onClose={() => setVisible(false)}>
-        hello
+      <Modal
+        visible={visible}
+        onClose={() => setVisible(false)}
+        onSubmit={() => setVisible(false)}
+      >
+        모달을 띄우는데 성공했습니다.
       </Modal>
-      Account
+      <div onClick={() => setVisible(true)}>Account</div>
     </>
   );
 };
