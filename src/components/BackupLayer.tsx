@@ -6,23 +6,6 @@ interface BackupLayerProps {
   children: React.ReactNode;
 }
 
-const ModalWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.6);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 999;
-`;
-
-const ModalContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
 const BackupLayer: React.FC<BackupLayerProps> = ({ children }) => {
   const el = useMemo(() => document.createElement('div'), []);
   useEffect(() => {
@@ -42,3 +25,20 @@ const BackupLayer: React.FC<BackupLayerProps> = ({ children }) => {
 };
 
 export default BackupLayer;
+
+const ModalWrapper = styled.div`
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+`;
+
+const ModalContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
