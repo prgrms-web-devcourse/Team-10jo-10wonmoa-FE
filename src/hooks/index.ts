@@ -1,3 +1,4 @@
+import useForm from './useForm';
 import useClickAway from './useClickAway';
 
-export { useClickAway };
+export { useForm, useClickAway };

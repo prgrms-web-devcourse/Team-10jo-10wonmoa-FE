@@ -1,101 +1,48 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+
+import LoginForm from './components/LoginForm';
+import { CoinIcon, SubTitle } from '@components';
+import { User } from '@models';
 
 const Login = () => {
+  const submitHandler = (loginData: User) => {
+    // TODO: API 연결
+    console.log(loginData);
+  };
+
   return (
-    <Wrapper>
-      <Text>로그인</Text>
-      <CardForm>
-        <Input
-          type="email"
-          name="email"
-          placeholder="이메일 주소"
-          autoComplete={'off'}
-          required={true}
-        />
-        <Input
-          type="password"
-          name="password"
-          placeholder="비밀번호"
-          required={true}
-        />
-        <Button type="submit">로그인</Button>
-      </CardForm>
-    </Wrapper>
+    <>
+      <SubTitle>로그인</SubTitle>
+      <CoinIcon />
+      <LoginForm submitHandler={submitHandler} buttonTitle="로그인하기" />
+      <Button>구글로 로그인</Button>
+
+      <LoginDescription>
+        <p>오늘 처음이신가요?</p>
+        <Link to={'/signUp'}>회원가입하기</Link>
+      </LoginDescription>
+    </>
   );
 };
 
 export default Login;
 
-const Text = styled.p`
-  font-size: 1rem;
-`;
-
+/*
+ * TODO: Base Componenet 추가 되면, Styled 코드 컨버팅 후 제거
+ */
 const Button = styled.button`
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  height: 2rem;
-  font-size: 2rem;
-  padding: 0.8rem 0.8rem;
-  background-color: yellow;
   outline: none;
-  text-align: center;
-  border-radius: 0.8rem;
-  color: #fff;
-  box-sizing: border-box;
-  cursor: pointer;
-  box-shadow: 0 0.2rem 0.2rem #919191;
-
-  &:hover {
-    background-color: darkgreen;
-    color: white;
-    border: transparent;
-  }
-
-  &:active {
-    background-color: #0070ee;
-    color: white;
-    border: transparent;
-  }
-
-  &:disabled {
-    background-color: #919191;
-    cursor: default;
-  }
-`;
-
-export const ButtonWrapper = styled.div`
-  margin-top: 2.2rem;
-`;
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const Input = styled.input`
-  box-sizing: border-box;
-  width: 100%;
-  height: 3rem;
-  padding: 1.5rem;
-  margin: 0;
+  border-radius: 3px;
   border: none;
-  outline: none;
-  align-items: center;
-  font-size: 1.5rem;
-  border-radius: 1.1rem;
-  background-color: #f8f9fa;
 `;
 
-export const CardForm = styled.form`
-  width: 100%;
-  background-color: #fff;
+const LoginDescription = styled.span`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  row-gap: 1rem;
+  width: 100%;
   align-items: center;
-  margin-top: 2rem;
+  justify-content: center;
+  gap: 2rem;
 `;
