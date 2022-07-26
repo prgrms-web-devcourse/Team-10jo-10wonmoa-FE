@@ -1,4 +1,4 @@
-import loginHandlers from './handlers/Login';
+import loginHandlers from './handlers/Users';
 
 const handlers = [...loginHandlers];
 
