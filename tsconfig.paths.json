@@ -13,6 +13,8 @@
       "@utils": ["utils"],
       "@utils/*": ["utils/*"],
       "@router": ["router"],
+      "@models": ["models"],
+      "@models/*": ["models/*"],
       "@api": ["api"],
       "@api/*": ["api/*"],
       "@assets": ["assets"],
