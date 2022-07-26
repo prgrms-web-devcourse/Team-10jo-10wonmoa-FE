@@ -9,7 +9,7 @@ interface AppLayoutInterface {
 const AppLayout: React.FC<AppLayoutInterface> = ({ children }) => {
   return (
     <Wrapper>
-      <Layout>{children}</Layout>
+      <Layout className="app_layout">{children}</Layout>
     </Wrapper>
   );
 };
