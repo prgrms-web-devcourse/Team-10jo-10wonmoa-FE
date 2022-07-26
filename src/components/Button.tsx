@@ -6,7 +6,7 @@ interface ButtonInterface {
   isDisabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
-  buttonType?: 'orange' | 'beige' | 'red';
+  buttonType?: 'primary' | 'secondary' | 'red' | 'green';
   sizeType?: 'small' | 'medium' | 'large';
 }
 
@@ -14,7 +14,7 @@ const Button: React.FC<ButtonInterface> = ({
   isDisabled = false,
   children,
   onClick,
-  buttonType = 'orange',
+  buttonType = 'primary',
   sizeType = 'small',
 }) => {
   return (
@@ -50,17 +50,21 @@ const StyledButton = styled.button<ButtonInterface>`
 `;
 
 const ButtonType = {
-  orange: css`
+  primary: css`
     color: ${theme.$white};
     background: ${theme.$primary};
   `,
-  beige: css`
+  secondary: css`
     color: ${theme.$primary};
-    background: ${theme.$beige};
+    background: ${theme.$secondary};
   `,
   red: css`
     color: ${theme.$white};
     background: ${theme.$red};
+  `,
+  green: css`
+    color: ${theme.$white};
+    background: ${theme.$green};
   `,
 };
 
@@ -74,5 +78,7 @@ const SizeType = {
   `,
   large: css`
     width: 80%;
+    /* position: absolute;
+    bottom: calc(env(safe-area-inset-bottom) + 1rem); */
   `,
 };
