@@ -29,7 +29,7 @@ const Login = () => {
 
 export default Login;
 
-/**
+/*
  * TODO: Base Componenet 추가 되면, Styled 코드 컨버팅 후 제거
  */
 const Button = styled.button`
