@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { BackupLayer } from '@components';
 import { theme } from '@styles';
@@ -10,27 +11,26 @@ interface ModalProps {
   onSubmit?: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({
-  children,
-  visible,
-  onClose,
-  onSubmit,
-}) => {
+const Modal = ({ children, visible, onClose, onSubmit }: ModalProps) => {
   const modalRef = useClickAway(onClose);
 
   return (
-    <BackupLayer visible={visible}>
-      <ModalContainer ref={modalRef}>
-        <ButtonContainer>
-          {onClose && <button onClick={onClose}>X</button>}
-        </ButtonContainer>
-        <ContentContainer>{children}</ContentContainer>
-        <ButtonContainer>
-          {onClose && <button onClick={onClose}>취소</button>}
-          {onSubmit && <button onClick={onSubmit}>확인</button>}
-        </ButtonContainer>
-      </ModalContainer>
-    </BackupLayer>
+    <>
+      {visible && (
+        <BackupLayer visible={visible}>
+          <ModalContainer ref={modalRef}>
+            <ButtonContainer>
+              {onClose && <button onClick={onClose}>X</button>}
+            </ButtonContainer>
+            <ContentContainer>{children}</ContentContainer>
+            <ButtonContainer>
+              {onClose && <button onClick={onClose}>취소</button>}
+              {onSubmit && <button onClick={onSubmit}>확인</button>}
+            </ButtonContainer>
+          </ModalContainer>
+        </BackupLayer>
+      )}
+    </>
   );
 };
 

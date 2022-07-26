@@ -11,7 +11,8 @@ const useClickAway = (handler: () => void) => {
   }, [handler]);
 
   const handleEvent = (e: Event) => {
-    if (targetRef.current && !targetRef.current.contains(e.target as Node)) {
+    // EventTarget의 자식 -> Node로 다운캐스트
+    if (!targetRef.current?.contains(e.target as Node)) {
       handlerRef.current();
     }
   };
