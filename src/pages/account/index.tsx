@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal } from '@components';
+import { Modal, Tabs } from '@components';
 
 const Account = () => {
   const [visible, setVisible] = useState(false);
@@ -13,6 +13,7 @@ const Account = () => {
         모달을 띄우는데 성공했습니다.
       </Modal>
       <div onClick={() => setVisible(true)}>Account</div>
+      <Tabs></Tabs>
     </>
   );
 };
