@@ -1,37 +1,66 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Button } from '@components';
+import { Button, Input } from '@components';
+import { useForm } from '@hooks';
 
-const currentDate = new Date().toLocaleDateString();
+interface AccountFormProps {
+  // accountType: 'incomes' | 'expenditures';
+  accountType: string;
+}
 
-const AccountForm = () => {
+const AccountForm = ({ accountType }: AccountFormProps) => {
+  const { formValues, handleChange } = useForm({});
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(accountType, formValues);
+  };
+
   return (
     <>
-      <form>
-        <Input type="text" />
-        <input type="date" value={currentDate} />
-        <Input type="text" />
-        <Input type="text" />
+      <StyledForm onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          name="amount"
+          labelText="금액"
+          onChange={handleChange}
+        />
+        <Input
+          type="date"
+          name="registerDate"
+          labelText="날짜"
+          onChange={handleChange}
+        />
+        <Input
+          type="text"
+          name="userCategoryId"
+          labelText="분류"
+          onChange={handleChange}
+        />
+        <Input
+          type="text"
+          name="content"
+          labelText="내용"
+          onChange={handleChange}
+          required={false}
+        />
         <Button buttonType="primary" sizeType="large">
           저장하기
         </Button>
-      </form>
+      </StyledForm>
     </>
   );
 };
 
 export default AccountForm;
 
-const Input = styled.input`
-  box-sizing: border-box;
+const StyledForm = styled.form`
   width: 100%;
-  height: 3rem;
-  padding: 1.5rem;
-  margin: 0;
-  border: none;
-  outline: none;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
-  font-size: 1.5rem;
-  border-radius: 1.1rem;
-  background-color: #f8f9fa;
+  flex-grow: 1;
 `;

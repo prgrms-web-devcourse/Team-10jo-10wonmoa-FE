@@ -2,8 +2,28 @@ import React, { useState } from 'react';
 import { Modal, Tabs } from '@components';
 import AccountForm from './components/AccountForm';
 
+const ACCOUNT_TYPE = [
+  {
+    value: 'incomes',
+    title: '수입',
+  },
+  {
+    value: 'expenditures',
+    title: '지출',
+  },
+];
+
 const Account = () => {
   const [visible, setVisible] = useState(false);
+  const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0].value);
+
+  const handleTabClick = (
+    e: React.MouseEvent<HTMLDivElement>,
+    item: { value: string; title: string }
+  ) => {
+    setAccountType(item.value);
+  };
+
   return (
     <>
       <Modal
@@ -13,9 +33,9 @@ const Account = () => {
       >
         모달을 띄우는데 성공했습니다.
       </Modal>
-      <div onClick={() => setVisible(true)}>Account</div>
-      <Tabs></Tabs>
-      <AccountForm />
+      <div onClick={() => setVisible(true)}>{accountType}</div>
+      <Tabs TabItems={ACCOUNT_TYPE} onClick={handleTabClick}></Tabs>
+      <AccountForm accountType={accountType} />
     </>
   );
 };

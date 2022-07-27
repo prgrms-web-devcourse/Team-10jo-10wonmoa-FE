@@ -5,5 +5,15 @@ import CoinIcon from './CoinIcon';
 import SubTitle from './SubTitle';
 import Tabs from './Tabs';
 import Button from './Button';
+import Input from './Input';
 
-export { AppLayout, BackupLayer, Modal, Tabs, CoinIcon, SubTitle, Button };
+export {
+  AppLayout,
+  BackupLayer,
+  Modal,
+  Tabs,
+  CoinIcon,
+  SubTitle,
+  Button,
+  Input,
+};
