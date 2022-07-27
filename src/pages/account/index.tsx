@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Tabs } from '@components';
+import AccountForm from './components/AccountForm';
 
 const Account = () => {
   const [visible, setVisible] = useState(false);
@@ -14,6 +15,7 @@ const Account = () => {
       </Modal>
       <div onClick={() => setVisible(true)}>Account</div>
       <Tabs></Tabs>
+      <AccountForm />
     </>
   );
 };

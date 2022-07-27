@@ -17,7 +17,6 @@ const TabListContainer = styled.div`
   height: 60px;
   display: flex;
   flex-direction: row;
-  background-color: ${theme.$background};
 `;
 
 const Tab = styled.div`
@@ -26,12 +25,12 @@ const Tab = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background-color: ${theme.$background};
   border-bottom: 1px solid ${theme.$gray_dark};
   color: ${theme.$gray_dark};
+  background-color: ${theme.$white};
 
   &.active {
-    background-color: ${theme.$beige};
+    background-color: ${theme.$secondary};
     border-bottom: 1px solid ${theme.$primary};
     color: ${theme.$primary};
   }
