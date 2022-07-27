@@ -1,8 +1,9 @@
 const theme = {
   $primary: '#FF9900',
-  $beige: '#FFF8EF',
+  $secondary: '#FFF8EF',
   $red: '#D81921',
   $white: '#FFFFFF',
+  $green: '#37B24D',
   $background: '#EFEFF0',
   $text_black: '#312F2F',
   $black: '#19191B',
