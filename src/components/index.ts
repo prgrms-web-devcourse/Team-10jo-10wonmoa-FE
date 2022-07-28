@@ -9,7 +9,7 @@ import Input from './Input';
 import MonthSelector from './MonthSelector';
 import TopNavOutline from './TopNavOutline';
 import TopNavBar from './TopNavBar';
-import TopNavAccount from './TopNavAccount';
+import TopNavMonthSelector from './TopNavMonthSelector';
 
 export {
   AppLayout,
@@ -23,5 +23,5 @@ export {
   MonthSelector,
   TopNavOutline,
   TopNavBar,
-  TopNavAccount,
+  TopNavMonthSelector,
 };
