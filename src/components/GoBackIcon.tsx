@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
+import { ChevronLeft } from 'react-feather';
 
 const GoBackIcon: React.FC = () => {
   const navigate = useNavigate();
@@ -8,7 +9,11 @@ const GoBackIcon: React.FC = () => {
     navigate(-1);
   };
 
-  return <StyledGoBackIcon onClick={handleGoBack} />;
+  return (
+    <StyledGoBackIcon onClick={handleGoBack}>
+      <ChevronLeft />
+    </StyledGoBackIcon>
+  );
 };
 
 const StyledGoBackIcon = styled.a`
@@ -17,9 +22,6 @@ const StyledGoBackIcon = styled.a`
   position: relative;
   left: 0;
   cursor: pointer;
-  &:before {
-    content: '<';
-  }
 `;
 
 export default GoBackIcon;
