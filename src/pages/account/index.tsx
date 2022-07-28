@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, Tabs, TopNavBar } from '@components';
+import type { TabItem } from '@components/Tabs';
 import AccountForm from './components/AccountForm';
 
-const ACCOUNT_TYPE = [
+const ACCOUNT_TYPE: TabItem[] = [
   {
     value: 'incomes',
     title: '수입',
@@ -16,10 +17,7 @@ const Account = () => {
   const [visible, setVisible] = useState(false);
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0].value);
 
-  const handleTabClick = (
-    e: React.MouseEvent<HTMLDivElement>,
-    item: { value: string; title: string }
-  ) => {
+  const handleTabClick = (item: TabItem) => {
     setAccountType(item.value);
   };
 
