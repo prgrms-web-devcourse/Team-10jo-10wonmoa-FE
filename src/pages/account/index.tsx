@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Tabs } from '@components';
+import { Modal, Tabs, TopNavBar } from '@components';
 import AccountForm from './components/AccountForm';
 
 const ACCOUNT_TYPE = [
@@ -12,7 +12,6 @@ const ACCOUNT_TYPE = [
     title: '지출',
   },
 ];
-
 const Account = () => {
   const [visible, setVisible] = useState(false);
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0].value);
@@ -26,6 +25,7 @@ const Account = () => {
 
   return (
     <>
+      <TopNavBar />
       <Modal
         visible={visible}
         onClose={() => setVisible(false)}
