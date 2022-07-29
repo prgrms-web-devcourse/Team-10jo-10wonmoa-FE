@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { theme } from '@styles';
-import GoogleLogin from 'react-google-login';
+import { GoogleLogin } from 'react-google-login';
 
 import LoginForm from './components/LoginForm';
 import { LoginLayout } from '@components';
