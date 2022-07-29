@@ -261,6 +261,16 @@ const reset = css`
   button {
     font-size: 16px;
   }
+
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
 `;
 
 export default reset;
