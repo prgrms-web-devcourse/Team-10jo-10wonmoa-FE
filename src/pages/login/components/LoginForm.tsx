@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
+import { Button, Input } from '@components';
 import { useForm } from '@hooks';
 import { User } from '@models';
 
-interface UserCardFormProps {
+interface LoginFormProps {
   submitHandler: (data: User) => void;
   buttonTitle: string;
 }
 
-const UserCardForm: React.FC<UserCardFormProps> = (props) => {
+const LoginForm: React.FC<LoginFormProps> = (props) => {
   const { formValues, handleChange } = useForm(new User());
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,37 +36,16 @@ const UserCardForm: React.FC<UserCardFormProps> = (props) => {
         required={true}
       />
       <ButtonArea>
-        <Button>{props.buttonTitle}</Button>
+        <Button sizeType="large">{props.buttonTitle}</Button>
       </ButtonArea>
     </form>
   );
 };
 
-export default UserCardForm;
-
-const Input = styled.input`
-  box-sizing: border-box;
-  width: 100%;
-  height: 3rem;
-  padding: 1.5rem;
-  margin: 0;
-  border: none;
-  outline: none;
-  align-items: center;
-  font-size: 1.5rem;
-  border-radius: 1.1rem;
-  background-color: #f8f9fa;
-`;
+export default LoginForm;
 
 export const ButtonArea = styled.div`
   position: absolute;
   width: 100%;
   bottom: calc(env(safe-area-inset-bottom) + 1rem);
-`;
-
-const Button = styled.button`
-  width: 100%;
-  outline: none;
-  border-radius: 3px;
-  border: none;
 `;

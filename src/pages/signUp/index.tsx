@@ -1,6 +1,6 @@
 import React from 'react';
 import SignUpForm from './components/SignUpForm';
-import { CoinIcon, SubTitle } from '@components';
+import { LoginLayout } from '@components';
 import { User } from '@models';
 
 const SignUp = () => {
@@ -10,11 +10,9 @@ const SignUp = () => {
   };
 
   return (
-    <>
-      <SubTitle>회원가입</SubTitle>
-      <CoinIcon />
+    <LoginLayout title="회원가입" isActiveGoBack={true}>
       <SignUpForm submitHandler={submitHandler} buttonTitle="회원가입하기" />
-    </>
+    </LoginLayout>
   );
 };
 

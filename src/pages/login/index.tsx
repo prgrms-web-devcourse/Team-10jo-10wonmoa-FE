@@ -1,29 +1,38 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import { theme } from '@styles';
+import { GoogleLogin } from 'react-google-login';
 
 import LoginForm from './components/LoginForm';
-import { CoinIcon, SubTitle } from '@components';
+import { LoginLayout } from '@components';
 import { User } from '@models';
 
 const Login = () => {
+  const googleClientId: string = process.env.REACT_APP_CLIENT_ID || '';
+  const onLoginSuccess = (res: unknown) => {
+    console.log(res);
+  };
   const submitHandler = (loginData: User) => {
     // TODO: API 연결
     console.log(loginData);
   };
 
   return (
-    <>
-      <SubTitle>로그인</SubTitle>
-      <CoinIcon />
+    <LoginLayout title="로그인" isActiveGoBack={true}>
       <LoginForm submitHandler={submitHandler} buttonTitle="로그인하기" />
-      <Button>구글로 로그인</Button>
+      <GoogleLogin
+        clientId={googleClientId}
+        buttonText="Google로 로그인하기"
+        onSuccess={(res) => onLoginSuccess(res)}
+        onFailure={(res) => console.log(res)}
+      />
 
       <LoginDescription>
         <p>오늘 처음이신가요?</p>
         <Link to={'/signUp'}>회원가입하기</Link>
       </LoginDescription>
-    </>
+    </LoginLayout>
   );
 };
 
@@ -32,12 +41,6 @@ export default Login;
 /*
  * TODO: Base Componenet 추가 되면, Styled 코드 컨버팅 후 제거
  */
-const Button = styled.button`
-  width: 100%;
-  outline: none;
-  border-radius: 3px;
-  border: none;
-`;
 
 const LoginDescription = styled.span`
   display: flex;
@@ -45,4 +48,9 @@ const LoginDescription = styled.span`
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  > * {
+    &:nth-child(2) {
+      color: ${theme.$primary};
+    }
+  }
 `;
