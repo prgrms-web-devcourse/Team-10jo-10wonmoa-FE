@@ -1,7 +1,7 @@
 import { TopNavOutline, MonthSelector } from '@components';
 import type { MonthSelectorProps } from '@components/MonthSelector';
 
-const TopNavAccount: React.FC<MonthSelectorProps> = (props) => {
+const TopNavMonthSelector: React.FC<MonthSelectorProps> = (props) => {
   return (
     <TopNavOutline>
       <MonthSelector
@@ -13,4 +13,4 @@ const TopNavAccount: React.FC<MonthSelectorProps> = (props) => {
   );
 };
 
-export default TopNavAccount;
+export default TopNavMonthSelector;

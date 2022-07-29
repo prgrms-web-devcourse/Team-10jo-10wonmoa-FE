@@ -10,6 +10,7 @@ import MonthSelector from './MonthSelector';
 import TopNavOutline from './TopNavOutline';
 import TopNavBar from './TopNavBar';
 import TopNavMonthSelector from './TopNavMonthSelector';
+import LoginLayout from './layout/LoginLayout';
 
 export {
   AppLayout,
@@ -24,4 +25,5 @@ export {
   TopNavOutline,
   TopNavBar,
   TopNavMonthSelector,
+  LoginLayout,
 };
