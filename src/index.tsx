@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = createRoot(rootElement);
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.REACT_APP_MOCK_API) {
   const { worker } = require('./mocks/browsers');
   worker.start();
 }
