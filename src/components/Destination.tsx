@@ -1,4 +1,4 @@
-import React, { ReactComponentElement, ReactElement } from 'react';
+import React from 'react';
 import { ReactComponent as HomeIcon } from '@assets/Icon/Home.svg';
 import { ReactComponent as ProfileIcon } from '@assets/Icon/Profile.svg';
 import { ReactComponent as SearchIcon } from '@assets/Icon/Search.svg';
