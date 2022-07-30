@@ -28,8 +28,8 @@ const UseMonthSelector = (initialDate: Date) => {
 
   return {
     date,
-    monthNextHandler,
-    monthPrevHandler,
+    changePrevMonthHandler: monthPrevHandler,
+    changeNextMonthHandler: monthNextHandler,
   };
 };
 
