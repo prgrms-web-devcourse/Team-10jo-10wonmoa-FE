@@ -1,6 +1,7 @@
 import React from 'react';
 import { AccountBookDailySum, AccountBookDailyItem } from '@components/account';
 import type { SingleAccount } from '@pages/accountBookDaily';
+import styled from '@emotion/styled';
 
 interface SingleAccountProp {
   items: {
@@ -19,13 +20,21 @@ const AccountBookDailyCard: React.FC<SingleAccountProp> = (props) => {
   };
 
   return (
-    <>
+    <Container>
       <AccountBookDailySum dailySum={dailySum} />
       {props.items.dayDetails.map((item) => (
         <AccountBookDailyItem item={item} />
       ))}
-    </>
+    </Container>
   );
 };
 
 export default AccountBookDailyCard;
+
+const Container = styled.div`
+  width: 100%;
+  padding: 0 1rem;
+  height: 15rem;
+  box-shadow: 0px 8px 13px rgba(185, 89, 0, 0.15);
+  border-radius: 4.79484px;
+`;
