@@ -1,5 +1,5 @@
 import React from 'react';
-import { TopNavMonthSelector, Tabs } from '@components';
+import { BottomNavigation, TopNavMonthSelector, Tabs } from '@components';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
 
@@ -41,6 +41,7 @@ const AccountBook = () => {
       />
       <Tabs TabItems={ACCOUNT_TYPE} onClick={tabClickHandler} />
       <Outlet />
+      <BottomNavigation />
     </>
   );
 };
