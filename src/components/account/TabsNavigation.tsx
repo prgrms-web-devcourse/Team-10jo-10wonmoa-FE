@@ -17,6 +17,7 @@ const TabsNavigation: React.FC<TabsProps> = (props) => {
     <TabListContainer>
       {props.tabItems.map((item) => (
         <TabNav
+          key={item.path}
           to={item.path}
           className={(item) => (item.isActive ? 'active' : '')}
         >
