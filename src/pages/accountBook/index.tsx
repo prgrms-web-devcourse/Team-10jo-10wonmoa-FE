@@ -28,7 +28,7 @@ const AccountBook = () => {
     event: React.MouseEvent<HTMLDivElement>,
     item = ACCOUNT_TYPE[0]
   ) => {
-    navigate(`/account-book/${item.value}`);
+    navigate(`${item.value}`);
     console.log(event);
   };
 

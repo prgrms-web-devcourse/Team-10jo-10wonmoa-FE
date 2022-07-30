@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { theme } from '@styles';
 import { GoogleLogin } from 'react-google-login';
 
@@ -9,13 +9,18 @@ import { LoginLayout } from '@components';
 import { User } from '@models';
 
 const Login = () => {
-  const googleClientId: string = process.env.REACT_APP_CLIENT_ID || '';
+  const navigate = useNavigate();
+
+  const googleClientId = process.env.REACT_APP_CLIENT_ID || '';
+
   const onLoginSuccess = (res: unknown) => {
     console.log(res);
   };
+
   const submitHandler = (loginData: User) => {
     // TODO: API 연결
     console.log(loginData);
+    navigate('/account-book/daily');
   };
 
   return (
