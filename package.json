@@ -27,6 +27,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "dev:mock": "cross-env REACT_APP_MOCK_API=true craco start",
     "prepare": "husky install",
     "prettier": "prettier --write .",
     "lint:eslint": "eslint src/ --ext .ts,.tsx --config .eslintrc.json",
