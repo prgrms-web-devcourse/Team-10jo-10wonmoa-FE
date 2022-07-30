@@ -1,6 +1,4 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { theme } from '@styles';
 import Destination from './Destination';
 import { useState } from 'react';
 

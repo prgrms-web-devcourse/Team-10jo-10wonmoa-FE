@@ -1,8 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
-import Login from '@pages/login';
-import SignUp from '@pages/signUp';
-import Account from '@pages/account';
+import {
+  Login,
+  SignUp,
+  Account,
+  AccountBook,
+  AccountBookDaily,
+  AccountBookCalendar,
+  AccountBookMonthly,
+} from '@pages';
 
 const AppRouter = () => {
   return (
@@ -11,7 +16,19 @@ const AppRouter = () => {
         <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<SignUp />} />
-        <Route path="/account" element={<Account />} />
+
+        <Route path="/account">
+          <Route path={`create`} element={<Account />} />
+          <Route path={`update/:id`} />
+        </Route>
+
+        <Route path="/account-book" element={<AccountBook />}>
+          <Route path={`daily`} element={<AccountBookDaily />} />
+          <Route path={`calendar`} element={<AccountBookCalendar />} />
+          <Route path={`monthly`} element={<AccountBookMonthly />} />
+        </Route>
+
+        <Route path="/account-statistics"></Route>
       </Routes>
     </BrowserRouter>
   );
