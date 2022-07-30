@@ -1,45 +1,67 @@
 import React from 'react';
-import { BottomNavigation, TopNavMonthSelector, Tabs } from '@components';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { BottomNavigation, TopNavMonthSelector } from '@components';
+import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
+import { Outlet } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
+import { currencyFormatter } from '@utils/formatter/currencyFormatter';
 
 const AccountBook = () => {
-  const navigate = useNavigate();
+  const { date, changePrevMonthHandler, changeNextMonthHandler } =
+    useMonthSelector(new Date());
 
-  const { date, monthNextHandler, monthPrevHandler } = useMonthSelector(
-    new Date()
-  );
-  const ACCOUNT_TYPE = [
+  /**
+   * API 명세 임시 목업 데이터
+   * - Axios 세팅 후 연결
+   * */
+  const data = {
+    results: {
+      monthIncome: 60000,
+      monthExpenditure: 20000,
+      monthTotal: 40000,
+    },
+  };
+
+  const { results: accountSum } = data;
+
+  const ACCOUNT_BOOK_TAB_ITEMS = [
     {
-      value: 'daily',
+      path: 'daily',
       title: '일일',
     },
     {
-      value: 'calendar',
+      path: 'calendar',
       title: '캘린더',
     },
     {
-      value: 'monthly',
+      path: 'monthly',
       title: '월간',
     },
   ];
 
-  const tabClickHandler = (
-    event: React.MouseEvent<HTMLDivElement>,
-    item = ACCOUNT_TYPE[0]
-  ) => {
-    navigate(`${item.value}`);
-    console.log(event);
-  };
+  const ACCOUNT_TYPE = [
+    {
+      value: currencyFormatter(accountSum.monthIncome),
+      title: '수입',
+    },
+    {
+      value: currencyFormatter(accountSum.monthExpenditure),
+      title: '지출',
+    },
+    {
+      value: currencyFormatter(accountSum.monthTotal),
+      title: '합계',
+    },
+  ];
 
   return (
     <>
       <TopNavMonthSelector
         date={date}
-        monthNextHandler={monthNextHandler}
-        monthPrevHandler={monthPrevHandler}
+        onChangePrevMonth={changePrevMonthHandler}
+        onChangeNextMonth={changeNextMonthHandler}
       />
-      <Tabs TabItems={ACCOUNT_TYPE} onClick={tabClickHandler} />
+      <TabsNavigation tabItems={ACCOUNT_BOOK_TAB_ITEMS} />
+      <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />
       <Outlet />
       <BottomNavigation />
     </>
