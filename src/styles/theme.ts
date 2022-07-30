@@ -2,6 +2,7 @@ const theme = {
   $primary: '#FF9900',
   $secondary: '#FFF8EF',
   $red: '#D81921',
+  $blue: '#228be6',
   $white: '#FFFFFF',
   $green: '#37B24D',
   $background: '#EFEFF0',
