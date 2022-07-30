@@ -1,14 +1,14 @@
 import React from 'react';
 import { ReactComponent as HomeIcon } from '@assets/Icon/Home.svg';
 import { ReactComponent as ProfileIcon } from '@assets/Icon/Profile.svg';
-import { ReactComponent as SearchIcon } from '@assets/Icon/Search.svg';
+import { ReactComponent as StaticsIcon } from '@assets/Icon/Statics.svg';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
 
 interface DestinationProps {
   selected: boolean;
   text: string;
-  icon: 'HOME' | 'PROFILE' | 'SEARCH';
+  icon: 'HOME' | 'PROFILE' | 'STATICS';
   onClick: () => void;
 }
 
@@ -17,7 +17,7 @@ const Destination = ({ selected, text, icon, onClick }: DestinationProps) => {
     <Container onClick={onClick} selected={selected}>
       {icon === 'HOME' && <HomeIcon />}
       {icon === 'PROFILE' && <ProfileIcon />}
-      {icon === 'SEARCH' && <SearchIcon />}
+      {icon === 'STATICS' && <StaticsIcon />}
       <DestinationText>{text}</DestinationText>
     </Container>
   );

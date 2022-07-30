@@ -5,7 +5,7 @@ import { useState } from 'react';
 const Tabs = {
   HOME: 'HOME',
   PROFILE: 'PROFILE',
-  SEARCH: 'SEARCH',
+  STATICS: 'STATICS',
 } as const;
 
 type selectedTab = typeof Tabs[keyof typeof Tabs];
@@ -34,11 +34,11 @@ const BottomNavigation = () => {
       />
 
       <Destination
-        selected={selectedTab === Tabs.SEARCH ? true : false}
-        text={Tabs.SEARCH}
-        icon={Tabs.SEARCH}
+        selected={selectedTab === Tabs.STATICS ? true : false}
+        text={Tabs.STATICS}
+        icon={Tabs.STATICS}
         onClick={() => {
-          setSelectedTab(Tabs.SEARCH);
+          setSelectedTab(Tabs.STATICS);
         }}
       />
     </Container>
