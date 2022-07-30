@@ -32,7 +32,7 @@ const Account = () => {
         모달을 띄우는데 성공했습니다.
       </Modal>
       <div onClick={() => setVisible(true)}>{accountType}</div>
-      <Tabs TabItems={ACCOUNT_TYPE} onClick={handleTabClick}></Tabs>
+      <Tabs tabItems={ACCOUNT_TYPE} onClick={handleTabClick}></Tabs>
       <AccountForm accountType={accountType} />
     </>
   );

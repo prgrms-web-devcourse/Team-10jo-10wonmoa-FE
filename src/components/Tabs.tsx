@@ -8,12 +8,12 @@ export type TabItem = {
 };
 
 interface TabsProps {
-  TabItems: TabItem[];
+  tabItems: TabItem[];
   onClick: (item: TabItem) => void;
 }
 
-const Tabs = ({ TabItems, onClick }: TabsProps) => {
-  const [selectedItem, setSelectedItem] = useState(TabItems[0].title);
+const Tabs = ({ tabItems, onClick }: TabsProps) => {
+  const [selectedItem, setSelectedItem] = useState(tabItems[0].title);
 
   const handleClick = (item: TabItem) => {
     setSelectedItem(item.title);
@@ -22,7 +22,7 @@ const Tabs = ({ TabItems, onClick }: TabsProps) => {
 
   return (
     <TabListContainer>
-      {TabItems.map((item) => (
+      {tabItems.map((item) => (
         <Tab
           key={item.title}
           className={item.title === selectedItem ? 'active' : ''}
