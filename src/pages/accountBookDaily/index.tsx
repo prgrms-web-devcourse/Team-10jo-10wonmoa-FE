@@ -2,11 +2,14 @@ import React from 'react';
 
 import { AccountBookDailyCard } from '@components/account';
 
-export type AccountType = 'INCOME' | 'EXPENDITURE';
+const ACCOUNT_TYPE = {
+  INCOME: 'INCOME',
+  EXPENDITURE: 'EXPENDITURE',
+} as const;
 
 export type SingleAccount = {
   id: string;
-  type: AccountType | unknown;
+  type: 'INCOME' | 'EXPENDITURE';
   registerDate: string;
   amount: number;
   content: string;
@@ -26,15 +29,15 @@ const AccountBookDaily: React.FC = () => {
         dayDetails: [
           {
             id: '111',
-            type: 'INCOME',
+            type: ACCOUNT_TYPE.INCOME,
             registerDate: '2022-07-20T22:11',
             amount: 10000,
             content: '오늘 얼마를 등록',
             categoryName: '은행',
           },
           {
-            id: '111',
-            type: 'INCOME',
+            id: '222',
+            type: ACCOUNT_TYPE.EXPENDITURE,
             registerDate: '2022-07-20T22:11',
             amount: 10000,
             content: '오늘 얼마를 등록',
@@ -48,8 +51,8 @@ const AccountBookDaily: React.FC = () => {
         dayExpenditure: 10000,
         dayDetails: [
           {
-            id: '111',
-            type: 'INCOME',
+            id: '333',
+            type: ACCOUNT_TYPE.INCOME,
             registerDate: '2022-07-20T22:11',
             amount: 10000,
             content: '오늘 얼마를 등록',
@@ -64,8 +67,8 @@ const AccountBookDaily: React.FC = () => {
 
   return (
     <>
-      {results.map((item) => (
-        <AccountBookDailyCard items={item} />
+      {results.map((item, idx) => (
+        <AccountBookDailyCard key={idx} items={item} />
       ))}
     </>
   );
