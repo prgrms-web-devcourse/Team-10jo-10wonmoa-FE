@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, Tabs, TopNavBar } from '@components';
+import { Tabs, TopNavBar } from '@components';
 import type { TabItem } from '@components/Tabs';
 import AccountForm from './components/AccountForm';
+import { useMutation } from 'react-query';
+import { fetchPostIncomes } from '@api';
+import type { CreateAccountForm } from '@api';
 
 const ACCOUNT_TYPE: TabItem[] = [
   {
@@ -13,27 +16,37 @@ const ACCOUNT_TYPE: TabItem[] = [
     title: '지출',
   },
 ];
+
 const Account = () => {
-  const [visible, setVisible] = useState(false);
-  const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0].value);
+  const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0]);
+  const [formValues, setFormValues] = useState<CreateAccountForm>({
+    amount: '',
+    userCategoryId: '',
+    registerDate: '',
+  });
+
+  const mutation = useMutation((accountForm: CreateAccountForm) => {
+    return fetchPostIncomes(accountForm);
+  });
 
   const handleTabClick = (item: TabItem) => {
-    setAccountType(item.value);
+    setAccountType(item);
+  };
+
+  const handleSubmit = () => {
+    console.log(formValues);
+    mutation.mutate(formValues);
   };
 
   return (
     <>
-      <TopNavBar />
-      <Modal
-        visible={visible}
-        onClose={() => setVisible(false)}
-        onSubmit={() => setVisible(false)}
-      >
-        모달을 띄우는데 성공했습니다.
-      </Modal>
-      <div onClick={() => setVisible(true)}>{accountType}</div>
+      <TopNavBar title={accountType.title} isActiveGoBack />
       <Tabs tabItems={ACCOUNT_TYPE} onClick={handleTabClick}></Tabs>
-      <AccountForm accountType={accountType} />
+      <>
+        {mutation.isLoading ? 'loading..' : mutation.isError ? 'error' : null}
+        {mutation.isSuccess ? 'success' : null}
+      </>
+      <AccountForm onSubmit={handleSubmit} onChangeForm={setFormValues} />
     </>
   );
 };

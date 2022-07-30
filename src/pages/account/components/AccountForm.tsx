@@ -5,13 +5,14 @@ import { useFormatAmount, useClickAway } from '@hooks';
 import CategoryBox from './CategoryBox';
 import { categories } from '../../../mocks/handlers/Category';
 import { theme } from '@styles';
+import type { CreateAccountForm } from '@api';
 
 interface AccountFormProps {
-  accountType: string;
+  onSubmit: () => void;
+  onChangeForm: React.Dispatch<React.SetStateAction<CreateAccountForm>>;
 }
 
-const AccountForm = ({ accountType }: AccountFormProps) => {
-  const [formValues, setFormValues] = useState({});
+const AccountForm = ({ onSubmit, onChangeForm }: AccountFormProps) => {
   const { originAmount, formattedAmount, setAmount } = useFormatAmount();
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -19,7 +20,7 @@ const AccountForm = ({ accountType }: AccountFormProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(accountType, formValues);
+    onSubmit();
   };
 
   const handleChange = (
@@ -27,7 +28,7 @@ const AccountForm = ({ accountType }: AccountFormProps) => {
     customValue?: string
   ) => {
     const { name, value } = e.target;
-    setFormValues((prevForm) => ({
+    onChangeForm((prevForm) => ({
       ...prevForm,
       [name]: customValue ?? value,
     }));
@@ -41,7 +42,7 @@ const AccountForm = ({ accountType }: AccountFormProps) => {
 
   const handleCategorySelect = (value: string) => {
     setSelectedCategory(value);
-    setFormValues((prevForm) => ({
+    onChangeForm((prevForm) => ({
       ...prevForm,
       userCategoryId: value,
     }));
