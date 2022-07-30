@@ -17,16 +17,16 @@ const RoundButton: React.FC<ButtonInterface> = ({
     <Wrapper>
       <ArrowUpCircle
         stroke={theme.$gray_dark}
-        width="2.5rem"
-        height="2.5rem"
+        width="4rem"
+        height="4rem"
         onClick={handleArrow}
         display={type === 'month' ? 'none' : 'block'}
       />
       <PlusCircle
         fill={theme.$primary}
         stroke={theme.$white}
-        width="3rem"
-        height="3rem"
+        width="4.5rem"
+        height="4.5rem"
         onClick={handlePlus}
       />
     </Wrapper>
@@ -36,7 +36,6 @@ const RoundButton: React.FC<ButtonInterface> = ({
 export default RoundButton;
 
 const Wrapper = styled.div`
-  width: 3rem;
   display: flex;
   flex-direction: column;
   position: absolute;
