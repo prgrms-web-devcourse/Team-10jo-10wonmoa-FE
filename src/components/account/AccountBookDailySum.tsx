@@ -10,18 +10,14 @@ interface AccountBookDailySumProps {
   dailySum: DailySum;
 }
 
-const AccountBookDailySum: React.FC<AccountBookDailySumProps> = ({
-  dailySum,
-}) => {
-  console.log(dailySum);
-
+const AccountBookDailySum: React.FC<AccountBookDailySumProps> = (props) => {
   return (
     <Container>
       <StrongText>19</StrongText>
       <FilledText>화요일</FilledText>
       <p>2022.07</p>
-      <p>30,000</p>
-      <p>10,000</p>
+      <p>{props.dailySum.dayIncome}</p>
+      <p>{props.dailySum.dayExpenditure}</p>
     </Container>
   );
 };
