@@ -7,7 +7,6 @@ interface WrapperInterface {
 }
 interface InputInterface {
   labelText?: string;
-  width?: number;
   type: string;
   name?: string;
   required?: boolean;
@@ -16,11 +15,11 @@ interface InputInterface {
   value?: string | number;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   autoComplete?: string;
+  isError?: boolean;
 }
 
 const Input = ({
   labelText,
-  width = 21,
   type,
   name,
   required = true,
@@ -29,6 +28,7 @@ const Input = ({
   value,
   onChange,
   autoComplete = 'off',
+  isError,
 }: InputInterface) => {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,9 +38,10 @@ const Input = ({
   );
 
   return (
-    <Wrapper width={width}>
-      <StyledLabel>{labelText}</StyledLabel>
+    <Wrapper>
+      {labelText ? <StyledLabel>{labelText}</StyledLabel> : ''}
       <StyledInput
+        labelText={labelText}
         type={type}
         name={name}
         required={required}
@@ -49,27 +50,32 @@ const Input = ({
         value={value}
         onChange={handleChange}
         autoComplete={autoComplete}
+        isError={isError}
       />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div<WrapperInterface>`
-  width: ${({ width }) => `${width}rem`};
-  text-align: center;
+  width: 20rem;
+  height: 3rem;
+  display: flex;
+  justify-content: space-between;
   color: ${theme.$gray_dark};
+  box-sizing: border-box;
 `;
 
 const StyledLabel = styled.label`
+  font-size: 1rem;
+  padding: 0.5rem 0;
   color: ${theme.$gray_dark};
-  margin-right: 0.8rem;
 `;
 
 const StyledInput = styled.input<InputInterface>`
-  width: 70%;
-  height: 2.5rem;
-  border: 0.1rem solid ${theme.$gray_medium};
-  padding: 1rem 1rem;
+  width: ${(props) => (props.labelText ? '80%' : '100%')};
+  height: 100%;
+  border: 0.1rem solid
+    ${(props) => (props.isError ? 'red' : theme.$gray_medium)};
   border-radius: 0.5rem;
   box-sizing: border-box;
 
@@ -77,7 +83,8 @@ const StyledInput = styled.input<InputInterface>`
     color: ${theme.$gray_medium};
   }
   &:focus {
-    border: 0.1rem solid black;
+    outline: none;
+    border: 0.1rem solid ${theme.$primary};
   }
 `;
 
