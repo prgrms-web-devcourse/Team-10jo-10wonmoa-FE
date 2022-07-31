@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import { theme } from '@styles';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
 import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
 import { Outlet } from 'react-router-dom';
@@ -31,10 +31,6 @@ const AccountBook = () => {
       title: '일일',
     },
     {
-      path: 'calendar',
-      title: '캘린더',
-    },
-    {
       path: 'monthly',
       title: '월간',
     },
@@ -44,10 +40,12 @@ const AccountBook = () => {
     {
       value: currencyFormatter(accountSum.monthIncome),
       title: '수입',
+      color: theme.$blue,
     },
     {
       value: currencyFormatter(accountSum.monthExpenditure),
       title: '지출',
+      color: theme.$red,
     },
     {
       value: currencyFormatter(accountSum.monthTotal),
@@ -71,5 +69,3 @@ const AccountBook = () => {
 };
 
 export default AccountBook;
-
-const Container = styled.div``;
