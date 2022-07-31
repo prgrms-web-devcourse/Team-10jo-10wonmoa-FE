@@ -45,7 +45,7 @@ const Container = styled.div`
   bottom: 0;
   background: #fff;
   width: 100%;
-  height: 90px;
+  height: 7rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
