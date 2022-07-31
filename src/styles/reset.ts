@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import theme from './theme';
 const reset = css`
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
   html,
   body,
   div,
@@ -87,7 +85,7 @@ const reset = css`
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
+    font-size: 10px;
     font: inherit;
     vertical-align: baseline;
     font-family: 'Noto Sans KR', sans-serif;

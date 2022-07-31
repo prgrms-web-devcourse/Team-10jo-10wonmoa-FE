@@ -7,37 +7,31 @@ interface AppLayoutInterface {
 }
 
 const AppLayout: React.FC<AppLayoutInterface> = ({ children }) => {
-  return (
-    <Wrapper>
-      <Layout className="app_layout">{children}</Layout>
-    </Wrapper>
-  );
+  return <Layout>{children}</Layout>;
 };
 
 export default AppLayout;
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${theme.$background};
-`;
 
 const Layout = styled.div`
   position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
-  box-sizing: border-box;
   align-items: center;
-  max-width: 375px;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  max-width: 40rem;
+  min-width: 20rem;
   min-height: 100vh;
   box-shadow: 0 0 2rem 0.1rem rgba(0, 0, 0, 0.3);
   background-color: ${theme.$white};
-  margin: auto;
-  @media screen and (max-width: 700px) {
-    max-width: 100vw;
+  margin: 0 auto;
+  -ms-overflow-style: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  @media screen and (max-width: 40rem) {
+    width: 100%;
   }
 `;
