@@ -32,9 +32,9 @@ const Button: React.FC<ButtonInterface> = ({
 export default Button;
 
 const StyledButton = styled.button<ButtonInterface>`
-  height: 25px;
+  height: 4rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   text-align: center;
   cursor: pointer;
   box-sizing: border-box;
@@ -72,6 +72,7 @@ const ButtonType = {
 const SizeType = {
   small: css`
     width: 3rem;
+    height: 3rem;
     font-size: 1rem;
   `,
   medium: css`
@@ -80,8 +81,6 @@ const SizeType = {
     text-overflow: ellipsis;
   `,
   large: css`
-    width: 80%;
-    /* position: absolute;
-    bottom: calc(env(safe-area-inset-bottom) + 1rem); */
+    width: 23rem;
   `,
 };
