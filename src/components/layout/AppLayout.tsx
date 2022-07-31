@@ -22,15 +22,12 @@ const Layout = styled.div`
   overflow-y: hidden;
   max-width: 40rem;
   min-width: 20rem;
-  min-height: 100vh;
+  height: 100vh;
   box-shadow: 0 0 2rem 0.1rem rgba(0, 0, 0, 0.3);
   background-color: ${theme.$white};
   margin: 0 auto;
   -ms-overflow-style: none;
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
   @media screen and (max-width: 40rem) {
     width: 100%;
   }
