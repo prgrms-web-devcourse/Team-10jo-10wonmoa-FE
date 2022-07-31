@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { theme } from '@styles';
 
 interface CheckBoxInterface {
-  id?: string;
+  id?: string | number;
   text?: string;
   isChecked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -15,13 +15,8 @@ const CheckBox: React.FC<CheckBoxInterface> = ({
   onChange,
 }) => {
   return (
-    <Wrapper>
-      <StyledInput
-        type="checkbox"
-        id={id}
-        checked={isChecked}
-        onChange={onChange}
-      />
+    <Wrapper key={id}>
+      <StyledInput type="checkbox" checked={isChecked} onChange={onChange} />
       <p>{text}</p>
     </Wrapper>
   );
