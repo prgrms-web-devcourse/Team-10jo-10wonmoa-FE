@@ -134,9 +134,3 @@ const CardArea = styled.div`
     background-color: lightgray;
   }
 `;
-
-const FixedButton = styled.div`
-  position: fixed;
-  bottom: 10rem;
-  right: 1rem;
-`;
