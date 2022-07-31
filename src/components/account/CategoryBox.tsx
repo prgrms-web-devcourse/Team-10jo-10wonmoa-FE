@@ -2,18 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
 import { Edit, X as CloseBtn } from 'react-feather';
-
-export type Category = {
-  id: string;
-  name: string;
-  categoryType: string;
-};
+import { Category } from '@models';
 
 interface CategoryBoxProps {
   CategoryList: Category[];
   categoryRef: React.RefObject<HTMLDivElement>;
   onClose: () => void;
-  onSelect: (value: string) => void;
+  onSelect: (category: Category) => void;
 }
 
 const CategoryBox = ({
@@ -37,10 +32,7 @@ const CategoryBox = ({
       </BoxHeader>
       <CategoryItems>
         {CategoryList.map((category) => (
-          <CategoryItem
-            key={category.id}
-            onClick={() => onSelect(category.name)}
-          >
+          <CategoryItem key={category.id} onClick={() => onSelect(category)}>
             {category.name}
           </CategoryItem>
         ))}

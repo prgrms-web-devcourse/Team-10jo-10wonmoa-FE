@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@components';
+import { CategoryBox } from '@components/account';
 import { useFormatAmount, useClickAway } from '@hooks';
-import CategoryBox, { Category } from './CategoryBox';
 import { theme } from '@styles';
-import type { CreateAccountForm } from '@api';
+import type { Category, CreateAccountForm } from '@models';
 
 interface AccountFormProps {
   onSubmit: () => void;
@@ -44,11 +44,11 @@ const AccountForm = ({
     handleChange(e, originAmount.current);
   };
 
-  const handleCategorySelect = (value: string) => {
-    setSelectedCategory(value);
+  const handleCategorySelect = (category: Category) => {
+    setSelectedCategory(category.name);
     onChangeForm((prevForm) => ({
       ...prevForm,
-      userCategoryId: value,
+      userCategoryId: category.id,
     }));
     setCategoryToggle(false);
   };

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import { Tabs, TopNavBar } from '@components';
 import type { TabItem } from '@components/Tabs';
-import AccountForm from './components/AccountForm';
-import { useMutation, useQuery } from 'react-query';
+import { AccountForm } from '@components/account';
 import { fetchGetCategory, fetchPostIncomes } from '@api';
-import type { CreateAccountForm } from '@api';
+import { CreateAccountForm } from '@models';
 
 const ACCOUNT_TYPE: TabItem[] = [
   {
