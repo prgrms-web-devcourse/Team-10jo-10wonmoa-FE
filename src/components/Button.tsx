@@ -32,7 +32,7 @@ const Button: React.FC<ButtonInterface> = ({
 export default Button;
 
 const StyledButton = styled.button<ButtonInterface>`
-  height: 4rem;
+  height: 3rem;
   border: none;
   border-radius: 0.5rem;
   text-align: center;
@@ -72,7 +72,6 @@ const ButtonType = {
 const SizeType = {
   small: css`
     width: 3rem;
-    height: 3rem;
     font-size: 1rem;
   `,
   medium: css`

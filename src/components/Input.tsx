@@ -58,7 +58,7 @@ const Input = ({
 
 const Wrapper = styled.div<WrapperInterface>`
   width: 23rem;
-  height: 4rem;
+  height: 3rem;
   display: flex;
   justify-content: space-between;
   color: ${theme.$gray_dark};
@@ -67,7 +67,7 @@ const Wrapper = styled.div<WrapperInterface>`
 
 const StyledLabel = styled.label`
   font-size: 1rem;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   color: ${theme.$gray_dark};
 `;
 
