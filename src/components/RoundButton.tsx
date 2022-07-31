@@ -3,32 +3,27 @@ import { ArrowUpCircle, PlusCircle } from 'react-feather';
 import styled from '@emotion/styled';
 
 interface ButtonInterface {
-  type?: string;
-  handleArrow?: (event: React.MouseEvent) => void;
-  handlePlus?: (event: React.MouseEvent) => void;
+  onClickArrow?: (event: React.MouseEvent) => void;
+  onClickPlus?: (event: React.MouseEvent) => void;
 }
 
-const RoundButton: React.FC<ButtonInterface> = ({
-  type = 'day',
-  handleArrow,
-  handlePlus,
-}) => {
+const RoundButton = ({ onClickArrow, onClickPlus }: ButtonInterface) => {
   return (
     <Wrapper>
       <ArrowUpCircle
         stroke={theme.$gray_dark}
         width="3rem"
         height="3rem"
-        onClick={handleArrow}
-        display={type === 'month' ? 'none' : 'block'}
+        onClick={onClickArrow}
       />
-      <PlusCircle
-        fill={theme.$primary}
-        stroke={theme.$white}
-        width="3.5rem"
-        height="3.5rem"
-        onClick={handlePlus}
-      />
+      <a onClick={onClickPlus}>
+        <PlusCircle
+          fill={theme.$primary}
+          stroke={theme.$white}
+          width="3.5rem"
+          height="3.5rem"
+        />
+      </a>
     </Wrapper>
   );
 };
