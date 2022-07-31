@@ -2,36 +2,31 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
 
-type TabItem = {
+export type TabItem = {
   value: string;
   title: string;
 };
 
-type TabClickHandler = (
-  e: React.MouseEvent<HTMLDivElement>,
-  item: TabItem
-) => void;
-
 interface TabsProps {
-  TabItems: TabItem[];
-  onClick: TabClickHandler;
+  tabItems: TabItem[];
+  onClick: (item: TabItem) => void;
 }
 
-const Tabs = ({ TabItems, onClick }: TabsProps) => {
-  const [selectedItem, setSelectedItem] = useState(TabItems[0].title);
+const Tabs = ({ tabItems, onClick }: TabsProps) => {
+  const [selectedItem, setSelectedItem] = useState(tabItems[0].title);
 
-  const handleClick: TabClickHandler = (e, item) => {
+  const handleClick = (item: TabItem) => {
     setSelectedItem(item.title);
-    onClick(e, item);
+    onClick(item);
   };
 
   return (
     <TabListContainer>
-      {TabItems.map((item) => (
+      {tabItems.map((item) => (
         <Tab
           key={item.title}
           className={item.title === selectedItem ? 'active' : ''}
-          onClick={(e) => handleClick(e, item)}
+          onClick={() => handleClick(item)}
         >
           {item.title}
         </Tab>

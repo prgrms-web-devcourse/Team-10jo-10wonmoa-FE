@@ -1,41 +1,75 @@
 import React, { useState } from 'react';
-import { Modal, Tabs, TopNavBar } from '@components';
-import AccountForm from './components/AccountForm';
+import { useMutation, useQuery } from 'react-query';
+import { Tabs, TopNavBar } from '@components';
+import type { TabItem } from '@components/Tabs';
+import { AccountForm } from '@components/account';
+import {
+  fetchGetCategory,
+  fetchPostExpenditures,
+  fetchPostIncomes,
+} from '@api';
+import { CreateAccountForm } from '@models';
 
-const ACCOUNT_TYPE = [
+const ACCOUNT_TYPE: TabItem[] = [
   {
-    value: 'incomes',
+    value: 'income',
     title: '수입',
   },
   {
-    value: 'expenditures',
+    value: 'expenditure',
     title: '지출',
   },
 ];
-const Account = () => {
-  const [visible, setVisible] = useState(false);
-  const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0].value);
 
-  const handleTabClick = (
-    e: React.MouseEvent<HTMLDivElement>,
-    item: { value: string; title: string }
-  ) => {
-    setAccountType(item.value);
+const Account = () => {
+  const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0]);
+  const [formValues, setFormValues] = useState<CreateAccountForm>({
+    amount: '',
+    userCategoryId: '',
+    registerDate: '',
+  });
+
+  const { data: categories } = useQuery(
+    ['categories', accountType.value],
+    () => fetchGetCategory(accountType.value),
+    {
+      enabled: !!accountType,
+    }
+  );
+
+  const createAccountMutation = useMutation(
+    'AddAccount',
+    (accountForm: CreateAccountForm) => {
+      return accountType.value === 'income'
+        ? fetchPostIncomes(accountForm)
+        : fetchPostExpenditures(accountForm);
+    },
+    {
+      onSuccess: (data, variable) => {
+        alert('success' + data.id);
+        console.log(data, variable);
+      },
+    }
+  );
+
+  const handleTabClick = (item: TabItem) => {
+    setAccountType(item);
+  };
+
+  const handleSubmit = () => {
+    console.log(formValues);
+    createAccountMutation.mutate(formValues);
   };
 
   return (
     <>
-      <TopNavBar />
-      <Modal
-        visible={visible}
-        onClose={() => setVisible(false)}
-        onSubmit={() => setVisible(false)}
-      >
-        모달을 띄우는데 성공했습니다.
-      </Modal>
-      <div onClick={() => setVisible(true)}>{accountType}</div>
-      <Tabs TabItems={ACCOUNT_TYPE} onClick={handleTabClick}></Tabs>
-      <AccountForm accountType={accountType} />
+      <TopNavBar title={accountType.title} isActiveGoBack />
+      <Tabs tabItems={ACCOUNT_TYPE} onClick={handleTabClick}></Tabs>
+      <AccountForm
+        onSubmit={handleSubmit}
+        onChangeForm={setFormValues}
+        categories={categories}
+      />
     </>
   );
 };

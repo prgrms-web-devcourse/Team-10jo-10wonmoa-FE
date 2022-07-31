@@ -34,12 +34,15 @@ let incomes: Income[] = [
 
 const incomesHandlers = [
   rest.post('/incomes', async (req, res, ctx) => {
-    incomes.push((await req.json()) as Income);
+    const data = await req.json();
+    data.id = incomes[incomes.length - 1].id + 1;
+
+    incomes.push(data as Income);
     return res(
       ctx.delay(100),
       ctx.status(200),
       ctx.json({
-        id: incomes[incomes.length - 1].id + 1,
+        id: data.id,
       })
     );
   }),
