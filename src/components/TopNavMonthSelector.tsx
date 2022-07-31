@@ -6,8 +6,8 @@ const TopNavMonthSelector: React.FC<MonthSelectorProps> = (props) => {
     <TopNavOutline>
       <MonthSelector
         date={props.date}
-        monthNextHandler={props.monthNextHandler}
-        monthPrevHandler={props.monthPrevHandler}
+        onChangePrevMonth={props.onChangePrevMonth}
+        onChangeNextMonth={props.onChangeNextMonth}
       />
     </TopNavOutline>
   );

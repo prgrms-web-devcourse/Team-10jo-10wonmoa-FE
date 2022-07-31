@@ -4,8 +4,8 @@ import { ChevronLeft, ChevronRight } from 'react-feather';
 
 export interface MonthSelectorProps {
   date: Date;
-  monthNextHandler: () => void;
-  monthPrevHandler: () => void;
+  onChangeNextMonth: () => void;
+  onChangePrevMonth: () => void;
 }
 
 const MonthSelector: React.FC<MonthSelectorProps> = (props) => {
@@ -18,11 +18,11 @@ const MonthSelector: React.FC<MonthSelectorProps> = (props) => {
 
   return (
     <StyledMonthSelector>
-      <a onClick={props.monthPrevHandler}>
+      <a onClick={props.onChangePrevMonth}>
         <ChevronLeft />
       </a>
       <DateText>{formattedToday}</DateText>
-      <a onClick={props.monthNextHandler}>
+      <a onClick={props.onChangeNextMonth}>
         <ChevronRight />
       </a>
     </StyledMonthSelector>
