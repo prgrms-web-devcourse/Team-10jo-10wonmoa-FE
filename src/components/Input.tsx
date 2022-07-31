@@ -74,7 +74,9 @@ const StyledLabel = styled.label`
 const StyledInput = styled.input<InputInterface>`
   width: ${(props) => (props.labelText ? '80%' : '100%')};
   height: 100%;
-  border: 0.1rem solid ${theme.$gray_medium};
+  //border: 0.1rem solid ${theme.$gray_medium};
+  border: 0.1rem solid
+    ${(props) => (props.isError ? 'red' : theme.$gray_medium)};
   border-radius: 0.5rem;
   box-sizing: border-box;
 
