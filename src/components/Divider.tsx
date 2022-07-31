@@ -1,38 +1,38 @@
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { theme } from '@styles';
 
-const Line = styled.hr`
+interface DividerInterface {
+  size?: number;
+  dividerType?: 'horizontal' | 'vertical';
+}
+
+const Divider: React.FC<DividerInterface> = ({
+  dividerType = 'horizontal',
+  size = 8,
+}) => {
+  return <Line dividerType={dividerType} size={size} />;
+};
+
+const Line = styled.hr<DividerInterface>`
   border: none;
   background-color: ${theme.$gray_medium};
+  ${(props) => props.dividerType && dividerType[props.dividerType]}
+`;
 
-  &.vertical {
+const dividerType = {
+  horizontal: css`
+    display: block;
+    width: 100%;
+    height: 1px;
+  `,
+  vertical: css`
     position: relative;
     top: -1px;
     display: inline-block;
     width: 1px;
     height: 13px;
     vertical-align: middle;
-  }
-
-  &.horizontal {
-    display: block;
-    width: 100%;
-    height: 1px;
-  }
-`;
-
-const Divider = ({ type = 'horizontal', size = 8, ...props }) => {
-  const dividerStyle = {
-    margin: type === 'vertical' ? `0 ${size}` : `${size} 0`,
-  };
-
-  return (
-    <Line
-      {...props}
-      className={type}
-      style={{ ...dividerStyle, ...props.style }}
-    />
-  );
+  `,
 };
-
 export default Divider;
