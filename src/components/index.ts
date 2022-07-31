@@ -13,6 +13,7 @@ import TopNavMonthSelector from './TopNavMonthSelector';
 import LoginLayout from './layout/LoginLayout';
 import BottomNavigation from './BottomNavigation';
 import TabsNavigation from './account/TabsNavigation';
+import RoundButton from './RoundButton';
 
 export {
   AppLayout,
@@ -22,6 +23,7 @@ export {
   CoinIcon,
   SubTitle,
   Button,
+  RoundButton,
   Input,
   MonthSelector,
   TopNavOutline,

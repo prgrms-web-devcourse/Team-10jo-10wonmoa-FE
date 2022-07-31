@@ -20,8 +20,7 @@ const Layout = styled.div`
   align-items: center;
   box-sizing: border-box;
   overflow-y: hidden;
-  max-width: 40rem;
-  min-width: 20rem;
+  width: 30rem;
   height: 100vh;
   box-shadow: 0 0 2rem 0.1rem rgba(0, 0, 0, 0.3);
   background-color: ${theme.$white};
