@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from '@emotion/styled';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
 import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
 import { Outlet } from 'react-router-dom';
@@ -6,8 +7,9 @@ import { useMonthSelector } from '@hooks';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
 
 const AccountBook = () => {
-  const { date, changePrevMonthHandler, changeNextMonthHandler } =
-    useMonthSelector(new Date());
+  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector(
+    new Date()
+  );
 
   /**
    * API 명세 임시 목업 데이터
@@ -57,8 +59,8 @@ const AccountBook = () => {
     <>
       <TopNavMonthSelector
         date={date}
-        onChangePrevMonth={changePrevMonthHandler}
-        onChangeNextMonth={changeNextMonthHandler}
+        onChangePrevMonth={handlePrevMonth}
+        onChangeNextMonth={handleNextMonth}
       />
       <TabsNavigation tabItems={ACCOUNT_BOOK_TAB_ITEMS} />
       <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />
@@ -69,3 +71,5 @@ const AccountBook = () => {
 };
 
 export default AccountBook;
+
+const Container = styled.div``;
