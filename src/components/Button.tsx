@@ -80,6 +80,6 @@ const SizeType = {
     text-overflow: ellipsis;
   `,
   large: css`
-    width: 23rem;
+    width: 20rem;
   `,
 };
