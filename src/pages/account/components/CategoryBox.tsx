@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { theme } from '@styles';
 import { Edit, X as CloseBtn } from 'react-feather';
 
-type Category = {
-  id: number;
+export type Category = {
+  id: string;
   name: string;
   categoryType: string;
 };

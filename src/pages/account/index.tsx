@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { Tabs, TopNavBar } from '@components';
 import type { TabItem } from '@components/Tabs';
 import AccountForm from './components/AccountForm';
-import { useMutation } from 'react-query';
-import { fetchPostIncomes } from '@api';
+import { useMutation, useQuery } from 'react-query';
+import { fetchGetCategory, fetchPostIncomes } from '@api';
 import type { CreateAccountForm } from '@api';
 
 const ACCOUNT_TYPE: TabItem[] = [
   {
-    value: 'incomes',
+    value: 'income',
     title: '수입',
   },
   {
-    value: 'expenditures',
+    value: 'expenditure',
     title: '지출',
   },
 ];
@@ -25,12 +25,27 @@ const Account = () => {
     registerDate: '',
   });
 
-  const mutation = useMutation((accountForm: CreateAccountForm) => {
-    return fetchPostIncomes(accountForm);
+  const { data: categories } = useQuery(
+    ['categories', accountType.value],
+    () => fetchGetCategory(accountType.value),
+    {
+      enabled: !!accountType,
+    }
+  );
+
+  const mutation = useMutation('addAccount', {
+    onMutate: (accountForm: CreateAccountForm) => {
+      return fetchPostIncomes(accountForm);
+    },
+    onSuccess: (data, variable, context) => {
+      alert(data);
+      console.log(variable, context);
+    },
   });
 
   const handleTabClick = (item: TabItem) => {
     setAccountType(item);
+    setFormValues((prevFormData) => ({ ...prevFormData, userCategoryId: '' }));
   };
 
   const handleSubmit = () => {
@@ -42,11 +57,11 @@ const Account = () => {
     <>
       <TopNavBar title={accountType.title} isActiveGoBack />
       <Tabs tabItems={ACCOUNT_TYPE} onClick={handleTabClick}></Tabs>
-      <>
-        {mutation.isLoading ? 'loading..' : mutation.isError ? 'error' : null}
-        {mutation.isSuccess ? 'success' : null}
-      </>
-      <AccountForm onSubmit={handleSubmit} onChangeForm={setFormValues} />
+      <AccountForm
+        onSubmit={handleSubmit}
+        onChangeForm={setFormValues}
+        categories={categories}
+      />
     </>
   );
 };

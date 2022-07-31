@@ -6,7 +6,7 @@ interface Category {
   categoryType: 'INCOME' | 'EXPENDITURE';
 }
 
-export const categories: Category[] = [
+const categories: Category[] = [
   {
     id: 1,
     name: '식비',
@@ -47,12 +47,47 @@ export const categories: Category[] = [
     name: '교통/차량',
     categoryType: 'EXPENDITURE',
   },
+  {
+    id: 9,
+    name: '월급',
+    categoryType: 'INCOME',
+  },
+  {
+    id: 10,
+    name: '부수입',
+    categoryType: 'INCOME',
+  },
+  {
+    id: 11,
+    name: '용돈',
+    categoryType: 'INCOME',
+  },
+  {
+    id: 12,
+    name: '상여',
+    categoryType: 'INCOME',
+  },
+  {
+    id: 13,
+    name: '금융소득',
+    categoryType: 'INCOME',
+  },
+  {
+    id: 14,
+    name: '기타',
+    categoryType: 'INCOME',
+  },
 ];
 
 const categoryHandlers = [
-  rest.get('/categories?kind=income', async (req, res, ctx) => {
-    // categories.push((await req.json()) as Category);
-    return res(ctx.delay(100), ctx.status(200), ctx.json(categories));
+  rest.get('/categories', async (req, res, ctx) => {
+    const kind = req.url.searchParams.get('kind');
+
+    const filteredData = categories.filter(
+      (category) => category.categoryType === kind?.toUpperCase()
+    );
+
+    return res(ctx.delay(100), ctx.status(200), ctx.json(filteredData));
   }),
 ];
 

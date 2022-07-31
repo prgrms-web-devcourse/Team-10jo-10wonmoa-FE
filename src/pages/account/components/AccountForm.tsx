@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@components';
 import { useFormatAmount, useClickAway } from '@hooks';
-import CategoryBox from './CategoryBox';
-import { categories } from '../../../mocks/handlers/Category';
+import CategoryBox, { Category } from './CategoryBox';
 import { theme } from '@styles';
 import type { CreateAccountForm } from '@api';
 
 interface AccountFormProps {
   onSubmit: () => void;
   onChangeForm: React.Dispatch<React.SetStateAction<CreateAccountForm>>;
+  categories: Category[];
 }
 
-const AccountForm = ({ onSubmit, onChangeForm }: AccountFormProps) => {
+const AccountForm = ({
+  onSubmit,
+  onChangeForm,
+  categories,
+}: AccountFormProps) => {
   const { originAmount, formattedAmount, setAmount } = useFormatAmount();
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
