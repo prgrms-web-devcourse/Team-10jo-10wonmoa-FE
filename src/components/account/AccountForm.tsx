@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@components';
 import { CategoryBox } from '@components/account';
@@ -21,6 +21,14 @@ const AccountForm = ({
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const categoryRef = useClickAway(() => setCategoryToggle(false));
+
+  useEffect(() => {
+    setSelectedCategory('');
+    onChangeForm((prevForm) => ({
+      ...prevForm,
+      userCategoryId: '',
+    }));
+  }, [categories]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

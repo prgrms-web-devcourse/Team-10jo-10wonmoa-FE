@@ -3,7 +3,11 @@ import { useMutation, useQuery } from 'react-query';
 import { Tabs, TopNavBar } from '@components';
 import type { TabItem } from '@components/Tabs';
 import { AccountForm } from '@components/account';
-import { fetchGetCategory, fetchPostIncomes } from '@api';
+import {
+  fetchGetCategory,
+  fetchPostExpenditures,
+  fetchPostIncomes,
+} from '@api';
 import { CreateAccountForm } from '@models';
 
 const ACCOUNT_TYPE: TabItem[] = [
@@ -33,24 +37,28 @@ const Account = () => {
     }
   );
 
-  const mutation = useMutation('addAccount', {
-    onMutate: (accountForm: CreateAccountForm) => {
-      return fetchPostIncomes(accountForm);
+  const createAccountMutation = useMutation(
+    'AddAccount',
+    (accountForm: CreateAccountForm) => {
+      return accountType.value === 'income'
+        ? fetchPostIncomes(accountForm)
+        : fetchPostExpenditures(accountForm);
     },
-    onSuccess: (data, variable, context) => {
-      alert(data);
-      console.log(variable, context);
-    },
-  });
+    {
+      onSuccess: (data, variable) => {
+        alert('success' + data.id);
+        console.log(data, variable);
+      },
+    }
+  );
 
   const handleTabClick = (item: TabItem) => {
     setAccountType(item);
-    setFormValues((prevFormData) => ({ ...prevFormData, userCategoryId: '' }));
   };
 
   const handleSubmit = () => {
     console.log(formValues);
-    mutation.mutate(formValues);
+    createAccountMutation.mutate(formValues);
   };
 
   return (
