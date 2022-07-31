@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Destination from './Destination';
-import { useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 
 const Tabs = {
   HOME: 'HOME',
@@ -8,39 +8,34 @@ const Tabs = {
   STATICS: 'STATICS',
 } as const;
 
-type selectedTab = typeof Tabs[keyof typeof Tabs];
-
 const BottomNavigation = () => {
-  const [selectedTab, setSelectedTab] = useState<selectedTab>(Tabs.HOME);
+  const location = useLocation();
 
   return (
     <Container>
-      <Destination
-        selected={selectedTab === Tabs.HOME ? true : false}
-        text={Tabs.HOME}
-        icon={Tabs.HOME}
-        onClick={() => {
-          setSelectedTab(Tabs.HOME);
-        }}
-      />
+      <Link to="/">
+        <Destination
+          selected={location.pathname === '/'}
+          text={Tabs.HOME}
+          icon={Tabs.HOME}
+        />
+      </Link>
 
-      <Destination
-        selected={selectedTab === Tabs.PROFILE ? true : false}
-        text={Tabs.PROFILE}
-        icon={Tabs.PROFILE}
-        onClick={() => {
-          setSelectedTab(Tabs.PROFILE);
-        }}
-      />
+      <Link to="/profile">
+        <Destination
+          selected={location.pathname === '/profile'}
+          text={Tabs.PROFILE}
+          icon={Tabs.PROFILE}
+        />
+      </Link>
 
-      <Destination
-        selected={selectedTab === Tabs.STATICS ? true : false}
-        text={Tabs.STATICS}
-        icon={Tabs.STATICS}
-        onClick={() => {
-          setSelectedTab(Tabs.STATICS);
-        }}
-      />
+      <Link to="/statistics">
+        <Destination
+          selected={location.pathname === '/statistics'}
+          text={Tabs.STATICS}
+          icon={Tabs.STATICS}
+        />
+      </Link>
     </Container>
   );
 };

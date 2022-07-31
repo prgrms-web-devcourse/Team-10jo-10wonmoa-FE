@@ -9,12 +9,11 @@ interface DestinationProps {
   selected: boolean;
   text: string;
   icon: 'HOME' | 'PROFILE' | 'STATICS';
-  onClick: () => void;
 }
 
-const Destination = ({ selected, text, icon, onClick }: DestinationProps) => {
+const Destination = ({ selected, text, icon }: DestinationProps) => {
   return (
-    <Container onClick={onClick} selected={selected}>
+    <Container selected={selected}>
       {icon === 'HOME' && <HomeIcon />}
       {icon === 'PROFILE' && <ProfileIcon />}
       {icon === 'STATICS' && <StaticsIcon />}
@@ -39,7 +38,9 @@ const Container = styled.div<DestinationStyle>`
   &:hover {
     cursor: pointer;
   }
+
   color: ${(props) => (props.selected ? theme.$primary : '')};
+
   svg {
     fill: ${(props) => (props.selected ? theme.$primary : '')};
   }
