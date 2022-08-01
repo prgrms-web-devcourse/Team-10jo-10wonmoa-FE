@@ -18,18 +18,18 @@ const timeReducer = (state: Date, action: ActionInterface) => {
 const UseMonthSelector = (initialDate: Date) => {
   const [date, dispatchMonth] = useReducer(timeReducer, initialDate);
 
-  const monthNextHandler = () => {
+  const handleNextMonth = () => {
     dispatchMonth({ type: 'NEXT', payload: date.getMonth() });
   };
 
-  const monthPrevHandler = () => {
+  const handlePrevMonth = () => {
     dispatchMonth({ type: 'PREV', payload: date.getMonth() });
   };
 
   return {
     date,
-    changePrevMonthHandler: monthPrevHandler,
-    changeNextMonthHandler: monthNextHandler,
+    handlePrevMonth,
+    handleNextMonth,
   };
 };
 

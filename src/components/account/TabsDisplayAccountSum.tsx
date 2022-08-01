@@ -5,6 +5,7 @@ import { theme } from '@styles';
 interface TabItem {
   value: string;
   title: string;
+  color?: string;
 }
 
 interface TabsProps {
@@ -16,8 +17,8 @@ const TabsDisplayAccountSum: React.FC<TabsProps> = ({ tabItems }) => {
     <TabListContainer>
       {tabItems.map((item) => (
         <Tab key={item.title}>
-          <p>{item.title}</p>
-          <p>{item.value}</p>
+          <P>{item.title}</P>
+          <P color={item.color}>{item.value}</P>
         </Tab>
       ))}
     </TabListContainer>
@@ -25,6 +26,13 @@ const TabsDisplayAccountSum: React.FC<TabsProps> = ({ tabItems }) => {
 };
 
 export default TabsDisplayAccountSum;
+
+const P = styled.p(
+  {
+    fontSize: '1rem',
+  },
+  (props) => ({ color: props.color })
+);
 
 const TabListContainer = styled.div`
   width: 100%;

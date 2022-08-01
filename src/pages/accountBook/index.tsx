@@ -1,4 +1,5 @@
 import React from 'react';
+import { theme } from '@styles';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
 import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
 import { Outlet } from 'react-router-dom';
@@ -6,8 +7,9 @@ import { useMonthSelector } from '@hooks';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
 
 const AccountBook = () => {
-  const { date, changePrevMonthHandler, changeNextMonthHandler } =
-    useMonthSelector(new Date());
+  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector(
+    new Date()
+  );
 
   /**
    * API 명세 임시 목업 데이터
@@ -29,10 +31,6 @@ const AccountBook = () => {
       title: '일일',
     },
     {
-      path: 'calendar',
-      title: '캘린더',
-    },
-    {
       path: 'monthly',
       title: '월간',
     },
@@ -42,10 +40,12 @@ const AccountBook = () => {
     {
       value: currencyFormatter(accountSum.monthIncome),
       title: '수입',
+      color: theme.$blue,
     },
     {
       value: currencyFormatter(accountSum.monthExpenditure),
       title: '지출',
+      color: theme.$red,
     },
     {
       value: currencyFormatter(accountSum.monthTotal),
@@ -57,8 +57,8 @@ const AccountBook = () => {
     <>
       <TopNavMonthSelector
         date={date}
-        onChangePrevMonth={changePrevMonthHandler}
-        onChangeNextMonth={changeNextMonthHandler}
+        onChangePrevMonth={handlePrevMonth}
+        onChangeNextMonth={handleNextMonth}
       />
       <TabsNavigation tabItems={ACCOUNT_BOOK_TAB_ITEMS} />
       <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />

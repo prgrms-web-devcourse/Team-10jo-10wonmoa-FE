@@ -6,43 +6,44 @@ interface AccountBookDailyItemProps {
   item: SingleAccount;
 }
 
+const colorType = {
+  INCOME: theme.$blue,
+  EXPENDITURE: theme.$red,
+};
+
 const AccountBookDailyItem: React.FC<AccountBookDailyItemProps> = (props) => {
   return (
     <Container>
-      <div className="description">{props.item.categoryName}</div>
+      <P color={theme.$gray_dark}>{props.item.categoryName}</P>
       <div>
-        <p>{props.item.content}</p>
-        <p className="description">오후 4:30</p>
+        <P color={theme.$black}>{props.item.content}</P>
+        <P color={theme.$gray_medium}>오후 4:30</P>
       </div>
-      <p className={props.item.type === 'INCOME' ? 'income' : 'expenditures'}>
-        {props.item.amount}
-      </p>
+      <P color={colorType[props.item.type]}>{props.item.amount}</P>
     </Container>
   );
 };
 
 export default AccountBookDailyItem;
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  align-items: center;
+const Container = styled.div(
+  {
+    display: 'grid',
+    gridTemplateColumns: '1fr 2fr 1fr',
+    minHeight: '4rem',
+    alignItems: 'center',
+    margin: '0 2rem',
+    '>p:nth-of-type(2)': {
+      textAlign: 'right',
+    },
+  },
+  (props) => ({ color: props.color })
+);
 
-  > * {
-    &:nth-child(3) {
-      text-align: right;
-    }
-  }
-
-  .description {
-    color: ${theme.$gray_dark};
-  }
-
-  .income {
-    color: ${theme.$red};
-  }
-
-  .expenditures {
-    color: ${theme.$blue};
-  }
-`;
+const P = styled.p(
+  {
+    fontSize: '1rem',
+    paddingTop: '1rem',
+  },
+  ({ color }) => ({ color, fontSize: '1rem' })
+);
