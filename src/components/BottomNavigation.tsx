@@ -43,8 +43,9 @@ const BottomNavigation = () => {
 const Container = styled.div`
   position: absolute;
   bottom: 0;
+  background: #fff;
   width: 100%;
-  height: 90px;
+  height: 7rem;
   display: flex;
   align-items: center;
   justify-content: space-around;

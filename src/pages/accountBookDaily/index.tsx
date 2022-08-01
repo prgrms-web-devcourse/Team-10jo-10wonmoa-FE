@@ -1,6 +1,8 @@
 import React from 'react';
-
+import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import { AccountBookDailyCard } from '@components/account';
+import { RoundButton } from '@components';
 
 const ACCOUNT_TYPE = {
   INCOME: 'INCOME',
@@ -17,6 +19,7 @@ export type SingleAccount = {
 };
 
 const AccountBookDaily: React.FC = () => {
+  const navigate = useNavigate();
   // API Response
   const data = {
     currentPage: 3,
@@ -37,6 +40,30 @@ const AccountBookDaily: React.FC = () => {
           },
           {
             id: '222',
+            type: ACCOUNT_TYPE.INCOME,
+            registerDate: '2022-07-20T22:11',
+            amount: 10000,
+            content: '오늘 얼마를 등록',
+            categoryName: '은행',
+          },
+          {
+            id: '333',
+            type: ACCOUNT_TYPE.INCOME,
+            registerDate: '2022-07-20T22:11',
+            amount: 10000,
+            content: '오늘 얼마를 등록',
+            categoryName: '은행',
+          },
+          {
+            id: '444',
+            type: ACCOUNT_TYPE.INCOME,
+            registerDate: '2022-07-20T22:11',
+            amount: 10000,
+            content: '오늘 얼마를 등록',
+            categoryName: '은행',
+          },
+          {
+            id: '555',
             type: ACCOUNT_TYPE.EXPENDITURE,
             registerDate: '2022-07-20T22:11',
             amount: 10000,
@@ -65,13 +92,45 @@ const AccountBookDaily: React.FC = () => {
 
   const { results } = data;
 
+  const handleNavigateCreateAccount = (event: React.MouseEvent) => {
+    event.preventDefault();
+    navigate('/account/create');
+  };
+
   return (
-    <>
+    <CardArea>
       {results.map((item, idx) => (
         <AccountBookDailyCard key={idx} items={item} />
       ))}
-    </>
+      <RoundButton onClickPlus={handleNavigateCreateAccount} />
+    </CardArea>
   );
 };
 
 export default AccountBookDaily;
+
+const CardArea = styled.div`
+  position: relative;
+  width: 100%;
+  flex: 1 1 0%;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  justify-content: center;
+  row-gap: 1rem;
+  margin-bottom: 7rem;
+  &:hover::-webkit-scrollbar {
+    height: 0.7rem;
+  }
+
+  &:hover::-webkit-scrollbar-track {
+    background-color: white;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    border-width: 0.3rem;
+    border-radius: 1.2rem;
+    background-color: lightgray;
+  }
+`;

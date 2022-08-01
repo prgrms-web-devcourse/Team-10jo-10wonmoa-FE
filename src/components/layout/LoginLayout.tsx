@@ -23,6 +23,7 @@ const LoginLayout: React.FC<LoginLayoutProps> = (props) => {
 export default LoginLayout;
 
 const Wrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
