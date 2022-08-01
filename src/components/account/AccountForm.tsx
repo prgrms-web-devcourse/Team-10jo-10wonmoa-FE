@@ -5,6 +5,10 @@ import { CategoryBox } from '@components/account';
 import { useFormatAmount, useClickAway } from '@hooks';
 import { theme } from '@styles';
 import type { Category, CreateAccountForm } from '@models';
+import { amountToNumberFormatter } from '@utils/formatter';
+
+const AMOUNT_MIN_LIMIT = 0;
+const AMOUNT_MAX_LIMIT = 1000000000000;
 
 interface AccountFormProps {
   onSubmit: () => void;
@@ -12,12 +16,20 @@ interface AccountFormProps {
   categories: Category[];
 }
 
+const initialForm = {
+  amount: '',
+  registerDate: '',
+  userCategoryId: '',
+  content: '',
+};
+
 const AccountForm = ({
   onSubmit,
   onChangeForm,
   categories,
 }: AccountFormProps) => {
-  const { originAmount, formattedAmount, setAmount } = useFormatAmount();
+  const { formattedAmount, setAmount } = useFormatAmount();
+  const [formErrors, setFormErrors] = useState(initialForm);
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const categoryRef = useClickAway(() => setCategoryToggle(false));
@@ -30,14 +42,32 @@ const AccountForm = ({
     }));
   }, [categories]);
 
+  const isValidAmount = () => {
+    const currentAmount = amountToNumberFormatter(formattedAmount);
+    return currentAmount > AMOUNT_MIN_LIMIT && currentAmount < AMOUNT_MAX_LIMIT;
+  };
+
+  const validateAccount = () => {
+    if (!isValidAmount) {
+      setFormErrors({
+        ...initialForm,
+        amount: '금액은 1원 ~ 1조 미만까지 등록 가능합니다.',
+      });
+
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    validateAccount();
     onSubmit();
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    customValue?: string
+    customValue?: string | number
   ) => {
     const { name, value } = e.target;
     onChangeForm((prevForm) => ({
@@ -49,7 +79,7 @@ const AccountForm = ({
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setAmount(value);
-    handleChange(e, originAmount.current);
+    handleChange(e, amountToNumberFormatter(value));
   };
 
   const handleCategorySelect = (category: Category) => {

@@ -67,7 +67,7 @@ const Account = () => {
       <AccountForm
         onSubmit={handleSubmit}
         onChangeForm={setFormValues}
-        categories={categories}
+        categories={categories?.categories}
       />
     </>
   );
