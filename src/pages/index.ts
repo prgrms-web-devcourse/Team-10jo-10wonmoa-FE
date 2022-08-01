@@ -5,7 +5,7 @@ import AccountBook from './accountBook';
 import AccountBookDaily from './accountBookDaily';
 import AccountBookCalendar from './accountBookCalendar';
 import AccountBookMonthly from './accountBookMonthly';
-import Statics from './statics';
+import Statistics from './statistic';
 import Budget from './budget';
 
 export {
@@ -16,6 +16,6 @@ export {
   AccountBookDaily,
   AccountBookCalendar,
   AccountBookMonthly,
-  Statics,
+  Statistics,
   Budget,
 };

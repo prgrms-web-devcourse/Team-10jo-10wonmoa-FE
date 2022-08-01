@@ -7,7 +7,7 @@ import {
   AccountBookDaily,
   AccountBookCalendar,
   AccountBookMonthly,
-  Statics,
+  Statistics,
   Budget,
 } from '@pages';
 
@@ -30,7 +30,7 @@ const AppRouter = () => {
           <Route path={`monthly`} element={<AccountBookMonthly />} />
         </Route>
 
-        <Route path="/statistics" element={<Statics />}></Route>
+        <Route path="/statistics" element={<Statistics />}></Route>
         <Route path="/budget" element={<Budget />}></Route>
       </Routes>
     </BrowserRouter>
