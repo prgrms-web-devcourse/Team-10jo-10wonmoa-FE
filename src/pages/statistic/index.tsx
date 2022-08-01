@@ -1,7 +1,12 @@
-import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import StatisticItem from '@components/statistic/StatisticItem';
+import { currencyFormatter } from '@utils/formatter/currencyFormatter';
+import { theme } from '@styles';
+import { BottomNavigation } from '@components';
 const Statistics = () => {
+  /**
+   * 임시 목업 데이터
+   * */
   const yearData = {
     year: 2022,
     incomes: [
@@ -69,19 +74,23 @@ const Statistics = () => {
   };
   const colorList = ['red', 'orange', 'yellowgreen', 'green'];
   // const { incomes, expenditures } = yearData;
+
   const { incomes, expenditures } = monthData;
   return (
-    <ListWrapper>
-      {expenditures.map((item, idx) => (
-        <StatisticItem
-          key={idx}
-          percent={item.percent}
-          name={item.name}
-          total={item.total}
-          color={colorList[idx]}
-        />
-      ))}
-    </ListWrapper>
+    <>
+      <ListWrapper>
+        {expenditures.map((item, idx) => (
+          <StatisticItem
+            key={idx}
+            percent={item.percent}
+            name={item.name}
+            total={currencyFormatter(item.total)}
+            color={colorList[idx]}
+          />
+        ))}
+      </ListWrapper>
+      <BottomNavigation />
+    </>
   );
 };
 
@@ -89,5 +98,5 @@ export default Statistics;
 
 const ListWrapper = styled.div`
   width: 100%;
-  margin-top: 2rem;
+  border-top: 2rem solid ${theme.$gray_light};
 `;

@@ -2,11 +2,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useTheme } from '@emotion/react';
 import { theme } from '@styles';
-
 interface StatisticItemProp {
   percent?: number;
   name?: string;
-  total?: number;
+  total?: number | string;
   color?: string;
 }
 
