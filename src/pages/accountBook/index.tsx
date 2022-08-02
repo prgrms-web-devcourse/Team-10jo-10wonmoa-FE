@@ -5,11 +5,29 @@ import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
 import { Outlet } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
+import { useQuery } from 'react-query';
+import axiosInstance from '../../api/core';
+
+interface DailyAccountSum {
+  email: string;
+  name?: string;
+  address?: string;
+  phone?: string;
+  token?: string;
+}
+
+// const getDailyAccountSum = async (url: string): Promise<DailyAccountSum> => {
+//   const response = await axiosInstance.get('');
+//   // return response;
+// };
 
 const AccountBook = () => {
-  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector(
-    new Date()
-  );
+  // const { data: accountSumData, isLoading: isAccountSumLoading } = useQuery(
+  //   ['accountSum'],
+  //   () => getDailyAccountSum
+  // );
+
+  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector();
 
   /**
    * API 명세 임시 목업 데이터

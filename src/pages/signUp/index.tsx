@@ -3,8 +3,13 @@ import SignUpForm from './components/SignUpForm';
 import { LoginLayout } from '@components';
 import { User } from '@models';
 
+import axiosInstance from 'axios';
+
 const SignUp = () => {
-  const submitHandler = (userData: User) => {
+  const submitHandler = async (userData: User) => {
+    const result = await axiosInstance.post('/users', userData);
+    console.log(result);
+
     // TODO: API 연결
     console.log(userData);
   };

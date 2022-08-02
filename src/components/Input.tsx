@@ -17,7 +17,6 @@ interface InputInterface {
   autoComplete?: string;
   isError?: boolean;
 }
-
 const Input = ({
   labelText,
   type,

@@ -6,7 +6,8 @@ type SignUpForm = {
   username: string;
 };
 
-const fetchPostSignUp = (signUpForm: SignUpForm) =>
+export const fetchPostLogin = (signUpForm: SignUpForm) =>
   axios.post('/users', { signUpForm });
 
-export default fetchPostSignUp;
+export const fetchPostSignUp = (signUpForm: SignUpForm) =>
+  axios.post('/users', { signUpForm });
