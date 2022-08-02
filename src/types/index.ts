@@ -6,3 +6,8 @@ export interface NewUser {
 }
 
 export type LoginUser = Pick<NewUser, 'email' | 'password'>;
+
+export type Token = {
+  accessToken: string;
+  refreshToken: string;
+};
