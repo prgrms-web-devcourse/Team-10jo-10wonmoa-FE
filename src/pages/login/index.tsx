@@ -1,22 +1,25 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { theme } from '@styles';
 import { GoogleLogin } from 'react-google-login';
 
 import LoginForm from './components/LoginForm';
 import { LoginLayout } from '@components';
 import { LoginUser } from '@types';
-
+import useAuth from '@hooks/auth/useAuth';
 const Login = () => {
+  const { logIn } = useAuth();
+  const navigate = useNavigate();
   const googleClientId = process.env.REACT_APP_CLIENT_ID || '';
 
   const onLoginSuccess = async (res: unknown) => {
     console.log(res);
   };
 
-  const submitHandler = async (loginData: LoginUser) => {
-    console.log(loginData);
+  const submitHandler = async (loginUser: LoginUser) => {
+    await logIn(loginUser);
+    await navigate('/account-book/daily');
   };
 
   return (

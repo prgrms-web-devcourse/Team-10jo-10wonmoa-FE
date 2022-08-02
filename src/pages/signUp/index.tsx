@@ -1,16 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import SignUpForm from './components/SignUpForm';
 import { LoginLayout } from '@components';
 import type { NewUser } from '@types';
-import axiosInstance from 'axios';
+import useAuth from '@hooks/auth/useAuth';
 
 const SignUp = () => {
-  const submitHandler = async (userData: NewUser) => {
-    const result = await axiosInstance.post('/users', userData);
-    console.log(result);
+  const navigate = useNavigate();
+  const { signUp } = useAuth();
 
-    // TODO: API 연결
-    console.log(userData);
+  const submitHandler = async (newUser: NewUser) => {
+    await signUp(newUser);
+    navigate('/login');
   };
 
   return (
