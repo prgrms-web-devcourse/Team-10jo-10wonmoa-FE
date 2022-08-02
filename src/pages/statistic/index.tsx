@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import StatisticItem from '@components/statistic/StatisticItem';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
