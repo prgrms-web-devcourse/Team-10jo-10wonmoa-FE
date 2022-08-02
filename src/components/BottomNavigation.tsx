@@ -3,8 +3,8 @@ import Destination from './Destination';
 import { useLocation, Link } from 'react-router-dom';
 
 const Tabs = {
-  HOME: 'HOME',
-  PROFILE: 'PROFILE',
+  ACCOUNT_BOOK: 'ACCOUNT_BOOK',
+  BUDGET: 'BUDGET',
   STATICS: 'STATICS',
 } as const;
 
@@ -13,27 +13,27 @@ const BottomNavigation = () => {
 
   return (
     <Container>
-      <Link to="/">
+      <Link to="/account-book">
         <Destination
-          selected={location.pathname === '/'}
-          text={Tabs.HOME}
-          icon={Tabs.HOME}
-        />
-      </Link>
-
-      <Link to="/profile">
-        <Destination
-          selected={location.pathname === '/profile'}
-          text={Tabs.PROFILE}
-          icon={Tabs.PROFILE}
+          selected={location.pathname === '/account-book'}
+          text={'가계부'}
+          icon={Tabs.ACCOUNT_BOOK}
         />
       </Link>
 
       <Link to="/statistics">
         <Destination
           selected={location.pathname === '/statistics'}
-          text={Tabs.STATICS}
+          text={'통계'}
           icon={Tabs.STATICS}
+        />
+      </Link>
+
+      <Link to="/budget">
+        <Destination
+          selected={location.pathname === '/budget'}
+          text={'예산'}
+          icon={Tabs.BUDGET}
         />
       </Link>
     </Container>
@@ -44,11 +44,12 @@ const Container = styled.div`
   position: absolute;
   bottom: 0;
   background: #fff;
+  padding: 0 30px;
   width: 100%;
   height: 7rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 export default BottomNavigation;

@@ -3,8 +3,11 @@ import styled from '@emotion/styled';
 import StatisticItem from '@components/statistic/StatisticItem';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
 import { theme } from '@styles';
-import { BottomNavigation } from '@components';
+import { BottomNavigation, DropDown, TopNavMonthSelector } from '@components';
+import { useMonthSelector } from '@hooks';
+
 const Statistics = () => {
+  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector();
   /**
    * 임시 목업 데이터
    * */
@@ -79,6 +82,12 @@ const Statistics = () => {
   const { expenditures } = monthData;
   return (
     <>
+      <TopNavMonthSelector
+        date={date}
+        onChangePrevMonth={handlePrevMonth}
+        onChangeNextMonth={handleNextMonth}
+      />
+      <DropDown />
       <ListWrapper>
         {expenditures.map((item, idx) => (
           <StatisticItem
