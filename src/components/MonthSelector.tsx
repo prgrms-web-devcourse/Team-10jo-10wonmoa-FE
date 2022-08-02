@@ -3,25 +3,18 @@ import styled from '@emotion/styled';
 import { ChevronLeft, ChevronRight } from 'react-feather';
 
 export interface MonthSelectorProps {
-  date: Date;
+  date: string;
   onChangeNextMonth: () => void;
   onChangePrevMonth: () => void;
 }
 
 const MonthSelector: React.FC<MonthSelectorProps> = (props) => {
-  const opts = {
-    month: 'numeric',
-    year: 'numeric',
-  } as const;
-
-  const formattedToday = Intl.DateTimeFormat('ko-KR', opts).format(props.date);
-
   return (
     <StyledMonthSelector>
       <a onClick={props.onChangePrevMonth}>
         <ChevronLeft />
       </a>
-      <DateText>{formattedToday}</DateText>
+      <DateText>{props.date}</DateText>
       <a onClick={props.onChangeNextMonth}>
         <ChevronRight />
       </a>
@@ -34,7 +27,7 @@ export default MonthSelector;
 const StyledMonthSelector = styled.div`
   display: flex;
   height: 100%;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `;
 

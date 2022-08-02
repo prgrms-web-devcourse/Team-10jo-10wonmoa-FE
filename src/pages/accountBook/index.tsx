@@ -7,9 +7,7 @@ import { useMonthSelector } from '@hooks';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
 
 const AccountBook = () => {
-  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector(
-    new Date()
-  );
+  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector();
 
   /**
    * API 명세 임시 목업 데이터

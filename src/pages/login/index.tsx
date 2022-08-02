@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { theme } from '@styles';
 import { GoogleLogin } from 'react-google-login';
 
@@ -9,18 +9,14 @@ import { LoginLayout } from '@components';
 import { User } from '@models';
 
 const Login = () => {
-  const navigate = useNavigate();
-
   const googleClientId = process.env.REACT_APP_CLIENT_ID || '';
 
-  const onLoginSuccess = (res: unknown) => {
+  const onLoginSuccess = async (res: unknown) => {
     console.log(res);
   };
 
-  const submitHandler = (loginData: User) => {
-    // TODO: API 연결
+  const submitHandler = async (loginData: User) => {
     console.log(loginData);
-    navigate('/account-book/daily');
   };
 
   return (
@@ -42,10 +38,6 @@ const Login = () => {
 };
 
 export default Login;
-
-/*
- * TODO: Base Componenet 추가 되면, Styled 코드 컨버팅 후 제거
- */
 
 const LoginDescription = styled.span`
   display: flex;

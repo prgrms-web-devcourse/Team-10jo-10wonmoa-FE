@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { AccountBookDailyCard } from '@components/account';
 import { RoundButton } from '@components';
+import instance from '../../api/core';
 
 const ACCOUNT_TYPE = {
   INCOME: 'INCOME',
@@ -11,7 +12,7 @@ const ACCOUNT_TYPE = {
 
 export type SingleAccount = {
   id: string;
-  type: 'INCOME' | 'EXPENDITURE';
+  type: typeof ACCOUNT_TYPE[keyof typeof ACCOUNT_TYPE];
   registerDate: string;
   amount: number;
   content: string;
@@ -20,6 +21,16 @@ export type SingleAccount = {
 
 const AccountBookDaily: React.FC = () => {
   const navigate = useNavigate();
+  console.log(process.env.REACT_APP_API_URL);
+
+  useEffect(() => {
+    const fetData = async () => {
+      const result = await instance.get('/account-book/2022-07-01');
+      console.log(result);
+    };
+    fetData();
+  }, []);
+
   // API Response
   const data = {
     currentPage: 3,
@@ -92,8 +103,9 @@ const AccountBookDaily: React.FC = () => {
 
   const { results } = data;
 
-  const handleNavigateCreateAccount = (event: React.MouseEvent) => {
+  const handleNavigateCreateAccount = async (event: React.MouseEvent) => {
     event.preventDefault();
+
     navigate('/account/create');
   };
 

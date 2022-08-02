@@ -1,33 +1,33 @@
 import { useReducer } from 'react';
+import dayjs from 'dayjs';
 
 type ActionType = 'NEXT' | 'PREV';
 interface ActionInterface {
   type: ActionType;
-  payload: number;
 }
 
-const timeReducer = (state: Date, action: ActionInterface) => {
+const timeReducer = (state: dayjs.Dayjs, action: ActionInterface) => {
   switch (action.type) {
     case 'NEXT':
-      return new Date(state.setMonth(action.payload + 1));
+      return state.add(1, 'M');
     case 'PREV':
-      return new Date(state.setMonth(action.payload - 1));
+      return state.subtract(1, 'M');
   }
 };
 
-const UseMonthSelector = (initialDate: Date) => {
+const UseMonthSelector = (initialDate = dayjs()) => {
   const [date, dispatchMonth] = useReducer(timeReducer, initialDate);
 
   const handleNextMonth = () => {
-    dispatchMonth({ type: 'NEXT', payload: date.getMonth() });
+    dispatchMonth({ type: 'NEXT' });
   };
 
   const handlePrevMonth = () => {
-    dispatchMonth({ type: 'PREV', payload: date.getMonth() });
+    dispatchMonth({ type: 'PREV' });
   };
 
   return {
-    date,
+    date: date.format('YYYY.MM'),
     handlePrevMonth,
     handleNextMonth,
   };
