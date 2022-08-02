@@ -1,7 +1,7 @@
 import React from 'react';
 import App from './App';
 import { createRoot } from 'react-dom/client';
-
+import { BrowserRouter } from 'react-router-dom';
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = createRoot(rootElement);
 
@@ -11,7 +11,9 @@ if (process.env.REACT_APP_MOCK_API) {
 }
 
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </BrowserRouter>
 );
