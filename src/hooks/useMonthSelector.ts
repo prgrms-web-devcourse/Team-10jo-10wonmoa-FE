@@ -15,7 +15,7 @@ const timeReducer = (state: dayjs.Dayjs, action: ActionInterface) => {
   }
 };
 
-const UseMonthSelector = (initialDate = dayjs()) => {
+const useMonthSelector = (initialDate = dayjs()) => {
   const [date, dispatchMonth] = useReducer(timeReducer, initialDate);
 
   const handleNextMonth = () => {
@@ -33,4 +33,4 @@ const UseMonthSelector = (initialDate = dayjs()) => {
   };
 };
 
-export default UseMonthSelector;
+export default useMonthSelector;
