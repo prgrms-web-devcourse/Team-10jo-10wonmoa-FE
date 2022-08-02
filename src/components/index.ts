@@ -14,11 +14,13 @@ import LoginLayout from './layout/LoginLayout';
 import BottomNavigation from './BottomNavigation';
 import TabsNavigation from './account/TabsNavigation';
 import RoundButton from './RoundButton';
+import DropDown from './DropDown';
 import Loading from './Loading';
 
 export {
   AppLayout,
   BackupLayer,
+  DropDown,
   Modal,
   Tabs,
   CoinIcon,
