@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { theme } from '@styles';
 import { GoogleLogin } from 'react-google-login';
 
@@ -9,16 +9,14 @@ import { LoginLayout } from '@components';
 import { User } from '@models';
 
 const Login = () => {
-  const navigate = useNavigate();
-
   const googleClientId = process.env.REACT_APP_CLIENT_ID || '';
 
   const onLoginSuccess = async (res: unknown) => {
-    console.log(process.env.REACT_APP_API_URL);
+    console.log(res);
   };
 
   const submitHandler = async (loginData: User) => {
-    console.log();
+    console.log(loginData);
   };
 
   return (
