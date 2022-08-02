@@ -5,9 +5,14 @@ const TOKENS = {
   REFRESH_TOKEN: 'refresh_token',
 } as const;
 
-export default class TokenStorage extends LocalStorage {
+class TokenStorage extends LocalStorage {
+  static instance: TokenStorage;
   constructor() {
     super();
+    if (TokenStorage.instance) {
+      return TokenStorage.instance;
+    }
+    TokenStorage.instance = this;
   }
 
   getAccessToken() {
@@ -39,3 +44,7 @@ export default class TokenStorage extends LocalStorage {
     this.removeRefreshToken();
   }
 }
+
+const tokenStorage = new TokenStorage();
+
+export default tokenStorage;
