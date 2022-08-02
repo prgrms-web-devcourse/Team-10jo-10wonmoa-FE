@@ -7,7 +7,7 @@ interface AppLayoutInterface {
 }
 
 const AppLayout: React.FC<AppLayoutInterface> = ({ children }) => {
-  return <Layout>{children}</Layout>;
+  return <Layout className="app_layout">{children}</Layout>;
 };
 
 export default AppLayout;
