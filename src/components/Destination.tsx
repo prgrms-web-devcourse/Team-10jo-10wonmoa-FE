@@ -1,6 +1,6 @@
 import React from 'react';
-import { ReactComponent as HomeIcon } from '@assets/Icon/Home.svg';
-import { ReactComponent as ProfileIcon } from '@assets/Icon/Profile.svg';
+import { ReactComponent as AccountBookIcon } from '@assets/Icon/AccountBook.svg';
+import { ReactComponent as BudgetIcon } from '@assets/Icon/Budget.svg';
 import { ReactComponent as StaticsIcon } from '@assets/Icon/Statics.svg';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
@@ -8,14 +8,14 @@ import { theme } from '@styles';
 interface DestinationProps {
   selected: boolean;
   text: string;
-  icon: 'HOME' | 'PROFILE' | 'STATICS';
+  icon: 'ACCOUNT_BOOK' | 'BUDGET' | 'STATICS';
 }
 
 const Destination = ({ selected, text, icon }: DestinationProps) => {
   return (
     <Container selected={selected}>
-      {icon === 'HOME' && <HomeIcon />}
-      {icon === 'PROFILE' && <ProfileIcon />}
+      {icon === 'ACCOUNT_BOOK' && <AccountBookIcon />}
+      {icon === 'BUDGET' && <BudgetIcon />}
       {icon === 'STATICS' && <StaticsIcon />}
       <DestinationText>{text}</DestinationText>
     </Container>
@@ -32,11 +32,13 @@ const Container = styled.div<DestinationStyle>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 5rem;
   align-items: center;
   border-radius: 6px;
   padding: 6px;
   &:hover {
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
   color: ${(props) => (props.selected ? theme.$primary : '')};
