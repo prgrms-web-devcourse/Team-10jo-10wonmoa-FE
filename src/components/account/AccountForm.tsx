@@ -47,8 +47,8 @@ const AccountForm = ({
     return currentAmount > AMOUNT_MIN_LIMIT && currentAmount < AMOUNT_MAX_LIMIT;
   };
 
-  const validateAccount = () => {
-    if (!isValidAmount) {
+  const isValidateAccount = () => {
+    if (!isValidAmount()) {
       setFormErrors({
         ...initialForm,
         amount: '금액은 1원 ~ 1조 미만까지 등록 가능합니다.',
@@ -61,8 +61,9 @@ const AccountForm = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    validateAccount();
-    onSubmit();
+    if (isValidateAccount()) {
+      onSubmit();
+    }
   };
 
   const handleChange = (
@@ -104,6 +105,7 @@ const AccountForm = ({
               value={formattedAmount}
               onChange={handleAmountChange}
             />
+            <ErrorMsgContent>{formErrors.amount}</ErrorMsgContent>
           </StyledInputContainer>
           <StyledInputContainer>
             날짜
@@ -186,4 +188,9 @@ const StyledInputContainer = styled.label`
       border-bottom: 0.1rem solid ${theme.$primary};
     }
   }
+`;
+
+const ErrorMsgContent = styled.p`
+  color: ${theme.$red};
+  text-align: center;
 `;

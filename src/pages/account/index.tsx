@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { Tabs, TopNavBar } from '@components';
 import type { TabItem } from '@components/Tabs';
 import { AccountForm } from '@components/account';
@@ -28,6 +29,7 @@ const Account = () => {
     userCategoryId: '',
     registerDate: '',
   });
+  const navigate = useNavigate();
 
   const { data: categories } = useQuery(
     ['categories', accountType.value],
@@ -45,11 +47,15 @@ const Account = () => {
         : fetchPostExpenditures(accountForm);
     },
     {
-      onSuccess: (data) => {
-        alert('success' + data.id);
+      onSuccess: (data, variable) => {
+        alert('success');
+        console.log(data, variable);
+        navigate('/account-book/daily', { replace: true });
       },
     }
   );
+
+  console.log(categories);
 
   const handleTabClick = (item: TabItem) => {
     setAccountType(item);
