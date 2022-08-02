@@ -3,15 +3,18 @@ import styled from '@emotion/styled';
 
 import { Button, Input } from '@components';
 import { useForm } from '@hooks';
-import { User } from '@models';
+import type { LoginUser } from '@types';
 
 interface LoginFormProps {
-  submitHandler: (data: User) => void;
+  submitHandler: (data: LoginUser) => void;
   buttonTitle: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = (props) => {
-  const { formValues, handleChange } = useForm(new User());
+  const { formValues, handleChange } = useForm<LoginUser>({
+    email: '',
+    password: '',
+  });
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

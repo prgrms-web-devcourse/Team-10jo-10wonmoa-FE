@@ -3,15 +3,20 @@ import styled from '@emotion/styled';
 
 import { Input, Button } from '@components';
 import { useForm } from '@hooks';
-import { User } from '@models';
+import { NewUser } from '@types';
 
 interface SignUpFormProps {
-  submitHandler: (data: User) => void;
+  submitHandler: (data: NewUser) => void;
   buttonTitle: string;
 }
 
 const SignUpForm: React.FC<SignUpFormProps> = (props) => {
-  const { formValues, handleChange } = useForm(new User());
+  const { formValues, handleChange } = useForm<NewUser>({
+    email: '',
+    username: '',
+    password: '',
+    passwordConfirm: '',
+  });
   const [errors, setErrors] = useState({ password: '', passwordConfirm: '' });
 
   const isValidPasswordLength =

@@ -1,12 +1,11 @@
 import React from 'react';
 import SignUpForm from './components/SignUpForm';
 import { LoginLayout } from '@components';
-import { User } from '@models';
-
+import type { NewUser } from '@types';
 import axiosInstance from 'axios';
 
 const SignUp = () => {
-  const submitHandler = async (userData: User) => {
+  const submitHandler = async (userData: NewUser) => {
     const result = await axiosInstance.post('/users', userData);
     console.log(result);
 

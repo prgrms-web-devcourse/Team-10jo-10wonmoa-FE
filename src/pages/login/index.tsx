@@ -6,7 +6,7 @@ import { GoogleLogin } from 'react-google-login';
 
 import LoginForm from './components/LoginForm';
 import { LoginLayout } from '@components';
-import { User } from '@models';
+import { LoginUser } from '@types';
 
 const Login = () => {
   const googleClientId = process.env.REACT_APP_CLIENT_ID || '';
@@ -15,7 +15,7 @@ const Login = () => {
     console.log(res);
   };
 
-  const submitHandler = async (loginData: User) => {
+  const submitHandler = async (loginData: LoginUser) => {
     console.log(loginData);
   };
 
