@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 import { Input, Button } from '@components';
@@ -17,38 +17,25 @@ const SignUpForm: React.FC<SignUpFormProps> = (props) => {
     password: '',
     passwordConfirm: '',
   });
-  const [errors, setErrors] = useState({ password: '', passwordConfirm: '' });
 
   const isValidPasswordLength =
-    formValues.password.length < 8 || formValues.password.length < 20;
-  const isConfirmedPassword =
-    formValues.password !== formValues.passwordConfirm;
+    formValues.password.length >= 8 && formValues.password.length < 20;
 
-  const validateSignUp = () => {
-    if (isValidPasswordLength) {
-      setErrors({
-        password: '비밀번호는 8~20자 사이만 가능합니다.',
-        passwordConfirm: '',
-      });
-    }
-    if (isConfirmedPassword) {
-      setErrors({
-        password: '',
-        passwordConfirm: '비밀번호가 일치하지 않습니다.',
-      });
-    }
-  };
+  const isConfirmedPassword =
+    formValues.password === formValues.passwordConfirm;
+
+  const isAllFilled = Object.values(formValues).every((v) => v);
+
+  const isValidValues = isValidPasswordLength && isConfirmedPassword;
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    validateSignUp();
-
-    // TODO: formValues(입력)에 대한 validation
     props.submitHandler(formValues);
   };
 
   return (
     <form onSubmit={submitHandler}>
+      {!!isValidPasswordLength.toString()}
       <Input
         type="email"
         name="email"
@@ -71,7 +58,9 @@ const SignUpForm: React.FC<SignUpFormProps> = (props) => {
         placeholder="비밀번호"
         required={true}
       />
-      {errors.password}
+      {formValues.password &&
+        !isValidPasswordLength &&
+        '비밀번호는 8~20자 사이만 가능합니다.'}
       <Input
         type="password"
         name="passwordConfirm"
@@ -79,9 +68,13 @@ const SignUpForm: React.FC<SignUpFormProps> = (props) => {
         placeholder="비밀번호 확인"
         required={true}
       />
-      {errors.passwordConfirm}
+      {formValues.passwordConfirm &&
+        !isConfirmedPassword &&
+        '비밀번호가 일치하지 않습니다.'}
       <ButtonArea>
-        <Button sizeType="large">{props.buttonTitle}</Button>
+        <Button sizeType="large" isDisabled={!isValidValues || !isAllFilled}>
+          {props.buttonTitle}
+        </Button>
       </ButtonArea>
     </form>
   );
