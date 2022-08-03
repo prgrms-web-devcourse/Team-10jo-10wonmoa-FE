@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import StatisticItem from '@components/statistic/StatisticItem';
-import { currencyFormatter } from '@utils/formatter/currencyFormatter';
+import { currencyFormatter } from '@utils/formatter';
 import { theme } from '@styles';
 import { BottomNavigation, DropDown, TopNavMonthSelector } from '@components';
 import { useMonthSelector } from '@hooks';
 
 const Statistics = () => {
   const {
-    date,
+    monthDate,
+    yearDate,
     handlePrevMonth,
     handleNextMonth,
     handleNextYear,
     handlePrevYear,
   } = useMonthSelector();
 
+  const [isMonth, setIsMonth] = useState(true);
   /**
    * 임시 목업 데이터
    * */
@@ -90,15 +92,29 @@ const Statistics = () => {
 
   return (
     <>
-      <TopNavMonthSelector
-        date={date}
-        onChangePrevMonth={handlePrevMonth}
-        onChangeNextMonth={handleNextMonth}
-      />
+      {isMonth ? (
+        <TopNavMonthSelector
+          date={monthDate}
+          onChangePrevMonth={handlePrevMonth}
+          onChangeNextMonth={handleNextMonth}
+        />
+      ) : (
+        <TopNavMonthSelector
+          date={yearDate}
+          onChangePrevMonth={handlePrevYear}
+          onChangeNextMonth={handleNextYear}
+        />
+      )}
+
       <DropDown />
       <div>
         <button>수입</button>
         <button>지출</button>
+      </div>
+      <div>
+        테스트용
+        <button onClick={() => setIsMonth(false)}>YEAR</button>
+        <button onClick={() => setIsMonth(true)}>MONTH</button>
       </div>
       <ListWrapper>
         {expenditures.map((item, idx) => (

@@ -40,7 +40,8 @@ const useMonthSelector = (initialDate = dayjs()) => {
   };
 
   return {
-    date: date.format('YYYY년 MM월'), // 여기 바꿈
+    monthDate: date.format('YYYY년 MM월'),
+    yearDate: date.format('YYYY년'),
     handlePrevMonth,
     handleNextMonth,
     handleNextYear,
