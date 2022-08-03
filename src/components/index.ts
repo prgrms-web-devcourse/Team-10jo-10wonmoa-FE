@@ -16,6 +16,7 @@ import TabsNavigation from './account/TabsNavigation';
 import DropDown from './DropDown';
 import Loading from './Loading';
 import GoTopButton from './GoTopButton';
+import Spinner from './Spinner';
 
 export {
   AppLayout,
@@ -36,4 +37,5 @@ export {
   TabsNavigation,
   Loading,
   GoTopButton,
+  Spinner,
 };
