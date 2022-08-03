@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { AccountBookDailySum, AccountBookDailyItem } from '@components/account';
-import type { SingleAccount } from '@pages/accountBookDaily';
+import type { SingleAccount } from '@hooks/account/useDailyAccount';
 
 interface SingleAccountProp {
   items: {
