@@ -1,10 +1,24 @@
 import axios from 'axios';
+import tokenStorage from '@utils/storage/TokenStorage';
+
+const getJWTHeader = (): Record<string, string> => {
+  return { Authorization: `Bearer ${tokenStorage.getAccessToken()}` };
+};
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
-    Authorization: '',
+    ...getJWTHeader(),
   },
+});
+
+instance.interceptors.request.use((config) => {
+  return {
+    ...config,
+    headers: {
+      ...getJWTHeader(),
+    },
+  };
 });
 
 instance.interceptors.response.use(
