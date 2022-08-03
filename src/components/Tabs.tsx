@@ -10,9 +10,10 @@ export type TabItem = {
 interface TabsProps {
   tabItems: TabItem[];
   onClick: (item: TabItem) => void;
+  children?: React.ReactNode;
 }
 
-const Tabs = ({ tabItems, onClick }: TabsProps) => {
+const Tabs = ({ tabItems, onClick, children }: TabsProps) => {
   const [selectedItem, setSelectedItem] = useState(tabItems[0].title);
 
   const handleClick = (item: TabItem) => {
@@ -21,17 +22,20 @@ const Tabs = ({ tabItems, onClick }: TabsProps) => {
   };
 
   return (
-    <TabListContainer>
-      {tabItems.map((item) => (
-        <Tab
-          key={item.title}
-          className={item.title === selectedItem ? 'active' : ''}
-          onClick={() => handleClick(item)}
-        >
-          {item.title}
-        </Tab>
-      ))}
-    </TabListContainer>
+    <>
+      <TabListContainer>
+        {tabItems.map((item) => (
+          <Tab
+            key={item.title}
+            className={item.title === selectedItem ? 'active' : ''}
+            onClick={() => handleClick(item)}
+          >
+            {item.title}
+          </Tab>
+        ))}
+      </TabListContainer>
+      {children}
+    </>
   );
 };
 
