@@ -11,10 +11,13 @@ interface TabsProps {
   tabItems: TabItem[];
   onClick: (item: TabItem) => void;
   children?: React.ReactNode;
+  initialItem?: TabItem;
 }
 
-const Tabs = ({ tabItems, onClick, children }: TabsProps) => {
-  const [selectedItem, setSelectedItem] = useState(tabItems[0].title);
+const Tabs = ({ tabItems, onClick, children, initialItem }: TabsProps) => {
+  const [selectedItem, setSelectedItem] = useState(
+    initialItem?.title ?? tabItems[0].title
+  );
 
   const handleClick = (item: TabItem) => {
     setSelectedItem(item.title);
