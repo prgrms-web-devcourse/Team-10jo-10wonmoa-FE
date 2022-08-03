@@ -3,33 +3,6 @@ import { useQuery } from 'react-query';
 import axiosInstance from '@api/core';
 import { queryKeys } from '@api/react-query/constant';
 
-const ACCOUNT_TYPE = {
-  INCOME: 'INCOME',
-  EXPENDITURE: 'EXPENDITURE',
-} as const;
-
-export type SingleAccount = {
-  id: string;
-  type: typeof ACCOUNT_TYPE[keyof typeof ACCOUNT_TYPE];
-  registerDate: string;
-  amount: number;
-  content: string;
-  categoryName: string;
-};
-
-interface DailyAccountBook {
-  currentPage: number;
-  nextPage: number;
-  results: DailyAccount[];
-}
-
-export interface DailyAccount {
-  dayDetails: SingleAccount[];
-  dayExpenditure: number;
-  dayIncome: number;
-  registerDate: string;
-}
-
 const pageParams = {
   page: 1,
   size: 10,

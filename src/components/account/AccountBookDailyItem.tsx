@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
-import { SingleAccount } from '@hooks/account/useDailyAccount';
 
 interface AccountBookDailyItemProps {
   item: SingleAccount;

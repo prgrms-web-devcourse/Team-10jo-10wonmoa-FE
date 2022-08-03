@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { AccountBookDailyCard, PlusButton } from '@components/account';
 import { GoTopButton, Spinner, CoinIcon } from '@components';
 import useDailyAccount from '@hooks/account/useDailyAccount';
-import type { DailyAccount } from '@hooks/account/useDailyAccount';
 
 const AccountBookDaily: React.FC = () => {
   const { dailyResult, isLoading } = useDailyAccount();
