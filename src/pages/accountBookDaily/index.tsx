@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { AccountBookDailyCard } from '@components/account';
-import { RoundButton } from '@components';
+import { AccountBookDailyCard, PlusButton } from '@components/account';
+import { GoTopButton } from '@components';
 import instance from '../../api/core';
 
 const ACCOUNT_TYPE = {
@@ -114,7 +114,8 @@ const AccountBookDaily: React.FC = () => {
       {results.map((item, idx) => (
         <AccountBookDailyCard key={idx} items={item} />
       ))}
-      <RoundButton onClickPlus={handleNavigateCreateAccount} />
+      <GoTopButton />
+      <PlusButton onClickPlus={handleNavigateCreateAccount} />
     </CardArea>
   );
 };

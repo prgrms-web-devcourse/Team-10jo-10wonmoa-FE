@@ -1,21 +1,14 @@
 import { theme } from '@styles';
-import { ArrowUpCircle, PlusCircle } from 'react-feather';
+import { PlusCircle } from 'react-feather';
 import styled from '@emotion/styled';
 
 interface ButtonInterface {
-  onClickArrow?: (event: React.MouseEvent) => void;
   onClickPlus?: (event: React.MouseEvent) => void;
 }
 
-const RoundButton = ({ onClickArrow, onClickPlus }: ButtonInterface) => {
+const PlusButton = ({ onClickPlus }: ButtonInterface) => {
   return (
     <Wrapper>
-      <ArrowUpCircle
-        stroke={theme.$gray_dark}
-        width="3rem"
-        height="3rem"
-        onClick={onClickArrow}
-      />
       <a onClick={onClickPlus}>
         <PlusCircle
           fill={theme.$primary}
@@ -28,7 +21,7 @@ const RoundButton = ({ onClickArrow, onClickPlus }: ButtonInterface) => {
   );
 };
 
-export default RoundButton;
+export default PlusButton;
 
 const Wrapper = styled.div`
   position: fixed;

@@ -5,6 +5,7 @@ import AccountBookDailyItem from './AccountBookDailyItem';
 import AccountBookDailyCard from './AccountBookDailyCard';
 import AccountForm from './AccountForm';
 import CategoryBox from './CategoryBox';
+import PlusButton from './PlusButton';
 
 export {
   TabsDisplayAccountSum,
@@ -14,4 +15,5 @@ export {
   AccountBookDailyCard,
   AccountForm,
   CategoryBox,
+  PlusButton,
 };
