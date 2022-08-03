@@ -3,8 +3,16 @@ import styled from '@emotion/styled';
 import StatisticItem from '@components/statistic/StatisticItem';
 import { currencyFormatter } from '@utils/formatter';
 import { theme } from '@styles';
-import { BottomNavigation, DropDown, TopNavMonthSelector } from '@components';
+import {
+  BottomNavigation,
+  DropDown,
+  TopNavMonthSelector,
+  Tabs,
+} from '@components';
 import { useMonthSelector } from '@hooks';
+
+import type { TabItem } from '@components/Tabs';
+import { STATISTICS_TABS } from '../../constants/Tabs';
 
 const Statistics = () => {
   const {
@@ -90,6 +98,12 @@ const Statistics = () => {
 
   const { expenditures } = monthData;
 
+  const [currentTab, setCurrentTab] = useState<TabItem>(STATISTICS_TABS[0]);
+
+  const handleTabClick = (clickedTab: TabItem) => {
+    setCurrentTab(clickedTab);
+  };
+
   return (
     <>
       {isMonth ? (
@@ -116,6 +130,18 @@ const Statistics = () => {
         <button onClick={() => setIsMonth(false)}>YEAR</button>
         <button onClick={() => setIsMonth(true)}>MONTH</button>
       </div>
+
+      <TabsWrapper>
+        <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
+          <ChartContainer>
+            <div>hello</div>
+            {/* TODO: 차트 컴포넌트 */}
+            {currentTab.title === '수입' && <div>수입</div>}
+            {currentTab.title === '지출' && <h1>지출</h1>}
+          </ChartContainer>
+        </Tabs>
+      </TabsWrapper>
+
       <ListWrapper>
         {expenditures.map((item, idx) => (
           <StatisticItem
@@ -136,5 +162,19 @@ export default Statistics;
 
 const ListWrapper = styled.div`
   width: 100%;
+  overflow-y: scroll;
   border-top: 2rem solid ${theme.$gray_light};
+`;
+
+const TabsWrapper = styled.div`
+  width: 100%;
+  height: 30rem;
+`;
+
+const ChartContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
