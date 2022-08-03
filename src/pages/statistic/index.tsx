@@ -7,7 +7,14 @@ import { BottomNavigation, DropDown, TopNavMonthSelector } from '@components';
 import { useMonthSelector } from '@hooks';
 
 const Statistics = () => {
-  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector();
+  const {
+    date,
+    handlePrevMonth,
+    handleNextMonth,
+    handleNextYear,
+    handlePrevYear,
+  } = useMonthSelector();
+
   /**
    * 임시 목업 데이터
    * */
@@ -80,6 +87,7 @@ const Statistics = () => {
   // const { incomes, expenditures } = yearData;
 
   const { expenditures } = monthData;
+
   return (
     <>
       <TopNavMonthSelector
@@ -88,6 +96,10 @@ const Statistics = () => {
         onChangeNextMonth={handleNextMonth}
       />
       <DropDown />
+      <div>
+        <button>수입</button>
+        <button>지출</button>
+      </div>
       <ListWrapper>
         {expenditures.map((item, idx) => (
           <StatisticItem
