@@ -7,7 +7,7 @@ import { useMonthSelector } from '@hooks';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
 
 const AccountBook = () => {
-  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector();
+  const { monthDate, handlePrevMonth, handleNextMonth } = useMonthSelector();
 
   /**
    * API 명세 임시 목업 데이터
@@ -54,7 +54,7 @@ const AccountBook = () => {
   return (
     <>
       <TopNavMonthSelector
-        date={date}
+        date={monthDate}
         onChangePrevMonth={handlePrevMonth}
         onChangeNextMonth={handleNextMonth}
       />
