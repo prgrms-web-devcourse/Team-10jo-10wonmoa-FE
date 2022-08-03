@@ -134,15 +134,31 @@ const Statistics = () => {
       <TabsWrapper>
         <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
           <ChartContainer>
-            <div>hello</div>
-            {/* TODO: 차트 컴포넌트 */}
-            {currentTab.title === '수입' && <div>수입</div>}
-            {currentTab.title === '지출' && <h1>지출</h1>}
+            {currentTab.title === '수입' && <div>수입차트</div>}
+            {currentTab.title === '지출' && <h1>지출차트</h1>}
           </ChartContainer>
         </Tabs>
       </TabsWrapper>
 
       <ListWrapper>
+        {expenditures.map((item, idx) => (
+          <StatisticItem
+            key={idx}
+            percent={item.percent}
+            name={item.name}
+            total={currencyFormatter(item.total)}
+            color={colorList[idx]}
+          />
+        ))}
+        {expenditures.map((item, idx) => (
+          <StatisticItem
+            key={idx}
+            percent={item.percent}
+            name={item.name}
+            total={currencyFormatter(item.total)}
+            color={colorList[idx]}
+          />
+        ))}
         {expenditures.map((item, idx) => (
           <StatisticItem
             key={idx}
@@ -162,13 +178,14 @@ export default Statistics;
 
 const ListWrapper = styled.div`
   width: 100%;
+  height: 40rem;
   overflow-y: scroll;
   border-top: 2rem solid ${theme.$gray_light};
 `;
 
 const TabsWrapper = styled.div`
   width: 100%;
-  height: 30rem;
+  height: rem;
 `;
 
 const ChartContainer = styled.div`
