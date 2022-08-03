@@ -22,7 +22,7 @@ const ACCOUNT_TYPE: TabItem[] = [
   },
 ];
 
-const Account = () => {
+const CreateAccount = () => {
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0]);
   const [formValues, setFormValues] = useState<CreateAccountForm>({
     amount: '',
@@ -55,8 +55,6 @@ const Account = () => {
     }
   );
 
-  console.log(categories);
-
   const handleTabClick = (item: TabItem) => {
     setAccountType(item);
   };
@@ -79,4 +77,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default CreateAccount;
