@@ -24,8 +24,6 @@ const BudgetItem: React.FC<BudgetItemProps> = ({
     );
   }
 
-  const isOverBudget = budget - expenditure < 0;
-
   return (
     <BudgetItemContainer>
       <BudgetLeftInnerContainer>
@@ -37,7 +35,7 @@ const BudgetItem: React.FC<BudgetItemProps> = ({
       <BudgetRightInnerContainer>
         <ProgressBar>
           <Percent>{percent}%</Percent>
-          <Progress percent={percent} isOverBudget />
+          <Progress percent={percent} isOverBudget={budget - expenditure < 0} />
         </ProgressBar>
         <ProgressBarBottom>
           <span>{currencyFormatter(expenditure)}</span>
