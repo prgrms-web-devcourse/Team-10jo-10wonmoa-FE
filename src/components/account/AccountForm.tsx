@@ -79,7 +79,7 @@ const AccountForm = ({
             날짜
             <input
               type="datetime-local"
-              name="registerDate"
+              name="registerTime"
               required
               onChange={handleChange}
             />
