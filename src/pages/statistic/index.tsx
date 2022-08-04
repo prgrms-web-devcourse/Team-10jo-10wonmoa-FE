@@ -185,7 +185,7 @@ const ListWrapper = styled.div`
 
 const TabsWrapper = styled.div`
   width: 100%;
-  height: rem;
+  height: 30rem;
 `;
 
 const ChartContainer = styled.div`
