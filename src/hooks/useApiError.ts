@@ -41,20 +41,22 @@ const useApiError = () => {
       }
 
       const httpStatus = error.response.status;
-      switch (true) {
-        // TODO: 커스텀 에러 핸들러 사용을 위한 코드. 타입설정 후 사용할예정
 
-        // case customHandlers && httpStatus in customHandlers:
-        //   customHandlers[httpStatus].default();
-        //   break;
+      // TODO: 커스텀 에러 핸들러 사용을 위한 코드. 타입설정 후 사용할예정
 
-        // TODO: 타입지정하여 any 없애기
-        case httpStatus in defaultHandlers:
-          (defaultHandlers as any)[httpStatus].default();
-          break;
-        default:
-          defaultHandlers.default();
+      if (httpStatus === 401) {
+        handle401();
+        return;
+      } else if (httpStatus === 403) {
+        handle403();
+        return;
+      } else if (httpStatus === 404) {
+        handle404();
+        return;
       }
+
+      defaultHandlers.default();
+      return;
     }
   };
   return { handleError };
