@@ -4,6 +4,7 @@ import { theme } from '@styles';
 import { dateFormatter } from '@utils/formatter/dateFormatter';
 import { useNavigate } from 'react-router-dom';
 import { currencyFormatter } from '@utils/formatter';
+
 const colorType = {
   INCOME: theme.$blue,
   EXPENDITURE: theme.$red,
@@ -12,8 +13,13 @@ const colorType = {
 const AccountBookDailyItem: React.FC<{ item: SingleAccount }> = (props) => {
   const navigate = useNavigate();
 
+  const itemType = props.item.type;
+  const accountUpdatePath = `/account/update/${itemType.toLowerCase()}/${
+    props.item.id
+  }`;
+
   return (
-    <Container onClick={() => navigate(`/account/update/${props.item.id}`)}>
+    <Container onClick={() => navigate(accountUpdatePath)}>
       <P color={theme.$gray_dark}>{props.item.categoryName}</P>
       <div>
         <P color={theme.$black}>{props.item.content}</P>
