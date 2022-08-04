@@ -1,27 +1,19 @@
-import { RefObject, useState } from 'react';
+import { RefObject } from 'react';
 import { theme } from '@styles';
 import { ArrowUpCircle } from 'react-feather';
 import styled from '@emotion/styled';
 
-const GoTopButton: React.FC<{ topRef?: RefObject<HTMLDivElement> }> = (
-  props
-) => {
-  const [visible, setVisible] = useState(false);
-
-  const toggleVisible = () => {
-    const scrolled = document.documentElement.scrollTop;
-    scrolled > 300 ? setVisible(true) : setVisible(false);
-  };
-
+const GoTopButton: React.FC<{
+  topRef?: RefObject<HTMLDivElement>;
+  isVisible: boolean;
+}> = (props) => {
   const scrollToTop = () => {
     if (!props.topRef || props.topRef.current === null) return;
     props.topRef?.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  window.addEventListener('scroll', toggleVisible);
-
   return (
-    <Wrapper visible={visible}>
+    <Wrapper visible={props.isVisible}>
       <a onClick={scrollToTop}>
         <ArrowUpCircle stroke={theme.$gray_dark} width="3rem" height="3rem" />
       </a>
@@ -40,5 +32,5 @@ const Wrapper = styled.div<{ visible: boolean }>`
   align-items: center;
   z-index: 10;
   cursor: pointer;
-  /* display: ${(props) => (props.visible ? 'inline' : 'none')}; */
+  display: ${(props) => (props.visible ? 'inline' : 'none')};
 `;

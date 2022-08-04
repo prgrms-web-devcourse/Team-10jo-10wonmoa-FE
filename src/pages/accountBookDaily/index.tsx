@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { AccountBookDailyCard, PlusButton } from '@components/account';
@@ -6,6 +6,7 @@ import { GoTopButton, Spinner, CoinIcon } from '@components';
 import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
 
 const AccountBookDaily: React.FC = () => {
+  const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -14,6 +15,15 @@ const AccountBookDaily: React.FC = () => {
 
   const handleNavigateCreateAccount = async () => {
     navigate('/account/create');
+  };
+
+  const handleScroll = (event: React.UIEvent<HTMLElement>) => {
+    const isScrolled = event.currentTarget.scrollTop > 500;
+    if (isScrolled) {
+      setVisible(true);
+      return;
+    }
+    setVisible(false);
   };
 
   if (!isLoading && dailyResult.results.length === 0) {
@@ -28,13 +38,13 @@ const AccountBookDaily: React.FC = () => {
   }
 
   return (
-    <CardArea>
+    <CardArea onScroll={handleScroll}>
       <div ref={topRef} />
       {results?.map((item: DailyAccount, idx: number) => (
         <AccountBookDailyCard key={idx} items={item} />
       ))}
       {isLoading && <Spinner />}
-      <GoTopButton topRef={topRef} />
+      <GoTopButton topRef={topRef} isVisible={visible} />
       <PlusButton onClickPlus={handleNavigateCreateAccount} />
     </CardArea>
   );
