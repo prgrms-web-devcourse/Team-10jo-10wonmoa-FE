@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AccountBookDailyCard, PlusButton } from '@components/account';
@@ -8,6 +8,7 @@ import { dateFormatter } from '@utils/formatter';
 const AccountBookDaily: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const topRef = useRef<HTMLDivElement>(null);
 
   const date = dateFormatter(
     searchParams.get('date') || new Date(),
@@ -34,11 +35,12 @@ const AccountBookDaily: React.FC = () => {
 
   return (
     <CardArea>
+      <div ref={topRef} />
       {results?.map((item: DailyAccount, idx: number) => (
         <AccountBookDailyCard key={idx} items={item} />
       ))}
       {isLoading && <Spinner />}
-      <GoTopButton />
+      <GoTopButton topRef={topRef} />
       <PlusButton onClickPlus={handleNavigateCreateAccount} />
     </CardArea>
   );

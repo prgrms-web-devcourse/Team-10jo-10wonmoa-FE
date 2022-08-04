@@ -1,21 +1,29 @@
+import { RefObject, useState } from 'react';
 import { theme } from '@styles';
 import { ArrowUpCircle } from 'react-feather';
 import styled from '@emotion/styled';
 
-interface ButtonInterface {
-  onClickArrow?: (event: React.MouseEvent) => void;
-}
+const GoTopButton: React.FC<{ topRef?: RefObject<HTMLDivElement> }> = (
+  props
+) => {
+  const [visible, setVisible] = useState(false);
 
-const GoTopButton = ({ onClickArrow }: ButtonInterface) => {
+  const toggleVisible = () => {
+    const scrolled = document.documentElement.scrollTop;
+    scrolled > 300 ? setVisible(true) : setVisible(false);
+  };
+
+  const scrollToTop = () => {
+    if (!props.topRef || props.topRef.current === null) return;
+    props.topRef?.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  window.addEventListener('scroll', toggleVisible);
+
   return (
-    <Wrapper>
-      <a onClick={onClickArrow}>
-        <ArrowUpCircle
-          stroke={theme.$gray_dark}
-          width="3rem"
-          height="3rem"
-          onClick={onClickArrow}
-        />
+    <Wrapper visible={visible}>
+      <a onClick={scrollToTop}>
+        <ArrowUpCircle stroke={theme.$gray_dark} width="3rem" height="3rem" />
       </a>
     </Wrapper>
   );
@@ -23,7 +31,7 @@ const GoTopButton = ({ onClickArrow }: ButtonInterface) => {
 
 export default GoTopButton;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ visible: boolean }>`
   position: fixed;
   bottom: 11rem;
   left: calc(50% + 9.2rem);
@@ -32,4 +40,5 @@ const Wrapper = styled.div`
   align-items: center;
   z-index: 10;
   cursor: pointer;
+  /* display: ${(props) => (props.visible ? 'inline' : 'none')}; */
 `;
