@@ -13,11 +13,11 @@ import { CreateAccountForm } from '@models';
 
 const ACCOUNT_TYPE: TabItem[] = [
   {
-    value: 'income',
+    value: 'INCOME',
     title: '수입',
   },
   {
-    value: 'expenditure',
+    value: 'EXPENDITURE',
     title: '지출',
   },
 ];
@@ -42,7 +42,7 @@ const CreateAccount = () => {
   const createAccountMutation = useMutation(
     'AddAccount',
     (accountForm: CreateAccountForm) => {
-      return accountType.value === 'income'
+      return accountType.value === 'INCOME'
         ? fetchPostIncomes(accountForm)
         : fetchPostExpenditures(accountForm);
     },

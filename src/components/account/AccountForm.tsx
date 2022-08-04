@@ -7,14 +7,16 @@ import { theme } from '@styles';
 import type { Category, CreateAccountForm } from '@models';
 import { amountToNumberFormatter } from '@utils/formatter';
 
-const AMOUNT_MIN_LIMIT = 0;
-const AMOUNT_MAX_LIMIT = 1000000000000;
-
 interface AccountFormProps {
   onSubmit: () => void;
   onChangeForm: React.Dispatch<React.SetStateAction<CreateAccountForm>>;
   categories: Category[];
+  defaultValue?: Record<string, string>;
+  onDelete?: () => void;
 }
+
+const AMOUNT_MIN_LIMIT = 0;
+const AMOUNT_MAX_LIMIT = 1000000000000;
 
 const initialForm = {
   amount: '',
@@ -27,6 +29,8 @@ const AccountForm = ({
   onSubmit,
   onChangeForm,
   categories,
+  defaultValue,
+  onDelete,
 }: AccountFormProps) => {
   const { formattedAmount, setAmount } = useFormatAmount();
   const [formErrors, setFormErrors] = useState(initialForm);
@@ -102,7 +106,7 @@ const AccountForm = ({
               type="text"
               name="amount"
               required
-              value={formattedAmount}
+              value={defaultValue?.amount ?? formattedAmount}
               onChange={handleAmountChange}
             />
             <ErrorMsgContent>{formErrors.amount}</ErrorMsgContent>
@@ -113,6 +117,7 @@ const AccountForm = ({
               type="datetime-local"
               name="registerDate"
               required
+              value={defaultValue?.registerDate}
               onChange={handleChange}
             />
           </StyledInputContainer>
@@ -123,7 +128,7 @@ const AccountForm = ({
               name="userCategoryId"
               readOnly
               required
-              value={selectedCategory}
+              value={selectedCategory ?? defaultValue?.categoryName}
               onClick={() => setCategoryToggle(true)}
             />
           </StyledInputContainer>
@@ -132,9 +137,16 @@ const AccountForm = ({
             <input type="text" name="content" onChange={handleChange} />
           </StyledInputContainer>
         </InputContainer>
-        <Button buttonType="primary" sizeType="large">
-          등록
-        </Button>
+        <ButtonContainer>
+          {onDelete && (
+            <Button buttonType="red" sizeType="large" onClick={onDelete}>
+              삭제
+            </Button>
+          )}
+          <Button buttonType="primary" sizeType="large">
+            등록
+          </Button>
+        </ButtonContainer>
       </StyledForm>
       {categoryToggle && (
         <CategoryBox
@@ -158,11 +170,6 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-
-  & > button {
-    position: relative;
-    margin-top: auto;
-  }
 `;
 
 const InputContainer = styled.div`
@@ -187,6 +194,17 @@ const StyledInputContainer = styled.label`
     &:focus {
       border-bottom: 0.1rem solid ${theme.$primary};
     }
+  }
+`;
+
+const ButtonContainer = styled.div`
+  position: relative;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+
+  & > button {
+    margin-top: 1rem;
   }
 `;
 

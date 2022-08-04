@@ -9,29 +9,32 @@ const fetchPostExpenditures = (createAccountForm: CreateAccountForm) =>
     .post('/expenditures', createAccountForm)
     .then((response) => response.data);
 
-const fetchGetIncomes = (id: string) =>
+const fetchGetIncomes = (id: string | undefined) =>
   axios.get(`/incomes/${id}`).then((response) => response.data);
 
-const fetchGetExpenditures = (id: string) =>
+const fetchGetExpenditures = (id: string | undefined) =>
   axios.get(`/expenditures/${id}`).then((response) => response.data);
 
-const fetchUpdateIncomes = (id: string, createAccountForm: CreateAccountForm) =>
+const fetchUpdateIncomes = (
+  id: string | undefined,
+  createAccountForm: CreateAccountForm
+) =>
   axios
     .put(`/incomes/${id}`, createAccountForm)
     .then((response) => response.data);
 
 const fetchUpdateExpenditures = (
-  id: string,
+  id: string | undefined,
   createAccountForm: CreateAccountForm
 ) =>
   axios
     .put(`/expenditures/${id}`, createAccountForm)
     .then((response) => response.data);
 
-const fetchDeleteIncomes = (id: string) =>
+const fetchDeleteIncomes = (id: string | undefined) =>
   axios.delete(`/incomes/${id}`).then((response) => response.data);
 
-const fetchDeleteExpenditures = (id: string) =>
+const fetchDeleteExpenditures = (id: string | undefined) =>
   axios.delete(`/expenditures/${id}`).then((response) => response.data);
 
 const fetchGetCategory = (kind: string) => {

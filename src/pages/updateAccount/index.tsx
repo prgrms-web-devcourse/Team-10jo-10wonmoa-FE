@@ -8,46 +8,44 @@ import {
   fetchGetCategory,
   fetchGetIncomes,
   fetchGetExpenditures,
-  fetchPostExpenditures,
-  fetchPostIncomes,
+  fetchUpdateExpenditures,
+  fetchUpdateIncomes,
+  fetchDeleteIncomes,
+  fetchDeleteExpenditures,
 } from '@api';
 import { CreateAccountForm } from '@models';
 
 const ACCOUNT_TYPE: TabItem[] = [
   {
-    value: 'income',
+    value: 'INCOME',
     title: '수입',
   },
   {
-    value: 'expenditure',
+    value: 'EXPENDITURE',
     title: '지출',
   },
 ];
 
 const UpdateAccount = () => {
-  const { accountId } = useParams();
+  const { accountId } = useParams<{ accountId: string }>();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const [accountType, setAccountType] = useState(
-    ACCOUNT_TYPE.filter((type) => pathname.includes(type.value))[0]
+    ACCOUNT_TYPE.filter((type) =>
+      pathname.includes(type.value.toLowerCase())
+    )[0]
   );
+
   const [formValues, setFormValues] = useState<CreateAccountForm>({
     amount: '',
     userCategoryId: '',
     registerDate: '',
   });
 
-  const { data: categories } = useQuery(
-    ['categories', accountType.value],
-    () => fetchGetCategory(accountType.value),
-    {
-      enabled: !!accountType,
-    }
-  );
-
   useEffect(() => {
     if (accountId === undefined) {
+      alert('잘못된 접근입니다');
       return;
     }
 
@@ -58,30 +56,39 @@ const UpdateAccount = () => {
     }
   }, [accountId]);
 
-  const { data } = useQuery(
+  const { data: categories } = useQuery(
+    ['categories', accountType.value],
+    () => fetchGetCategory(accountType.value),
+    {
+      enabled: !!accountType,
+    }
+  );
+
+  const { data: accountDetailInfo } = useQuery(
     ['getAccount', accountId],
     () => {
-      if (accountId === undefined) {
-        return;
-      }
-
-      return accountType.value === 'income'
+      return accountType.value === 'INCOME'
         ? fetchGetIncomes(accountId)
         : fetchGetExpenditures(accountId);
     },
     {
+      onSuccess: (data) => {
+        console.log(data);
+      },
       enabled: !!accountId,
     }
   );
 
-  console.log(data);
+  useEffect(() => {
+    setFormValues(accountDetailInfo);
+  }, [accountDetailInfo]);
 
-  const createAccountMutation = useMutation(
-    'AddAccount',
+  const updateAccountMutation = useMutation(
+    ['updateAccount', accountId],
     (accountForm: CreateAccountForm) => {
-      return accountType.value === 'income'
-        ? fetchPostIncomes(accountForm)
-        : fetchPostExpenditures(accountForm);
+      return accountType.value === 'INCOME'
+        ? fetchUpdateIncomes(accountId, accountForm)
+        : fetchUpdateExpenditures(accountId, accountForm);
     },
     {
       onSuccess: (data, variable) => {
@@ -92,13 +99,34 @@ const UpdateAccount = () => {
     }
   );
 
+  const deleteAccountMutation = useMutation(
+    ['deleteAccount', accountId],
+    () => {
+      return accountType.value === 'INCOME'
+        ? fetchDeleteIncomes(accountId)
+        : fetchDeleteExpenditures(accountId);
+    },
+    {
+      onSuccess: (data, variable) => {
+        alert('success');
+        console.log(data, variable);
+        // navigate('/account-book/daily', { replace: true });
+      },
+    }
+  );
+
   const handleTabClick = (item: TabItem) => {
     setAccountType(item);
   };
 
   const handleSubmit = () => {
     console.log(formValues);
-    createAccountMutation.mutate(formValues);
+    // updateAccountMutation.mutate(formValues);
+  };
+
+  const handleDelete = () => {
+    console.log('delete');
+    deleteAccountMutation.mutate();
   };
 
   return (
@@ -113,6 +141,8 @@ const UpdateAccount = () => {
         onSubmit={handleSubmit}
         onChangeForm={setFormValues}
         categories={categories?.categories}
+        defaultValue={formValues}
+        onDelete={handleDelete}
       />
     </>
   );
