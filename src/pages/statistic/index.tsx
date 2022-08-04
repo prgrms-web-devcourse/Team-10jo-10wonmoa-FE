@@ -5,7 +5,7 @@ import { currencyFormatter } from '@utils/formatter';
 import { theme } from '@styles';
 import { BottomNavigation, DropDown, TopNavMonthSelector } from '@components';
 import { useMonthSelector } from '@hooks';
-
+import PieChart from '@components/statistic/PieChart';
 const Statistics = () => {
   const {
     monthDate,
@@ -116,6 +116,7 @@ const Statistics = () => {
         <button onClick={() => setIsMonth(false)}>YEAR</button>
         <button onClick={() => setIsMonth(true)}>MONTH</button>
       </div>
+      <PieChart data={expenditures} innerRadius={0} outerRadius={100} />
       <ListWrapper>
         {expenditures.map((item, idx) => (
           <StatisticItem
@@ -136,5 +137,4 @@ export default Statistics;
 
 const ListWrapper = styled.div`
   width: 100%;
-  border-top: 2rem solid ${theme.$gray_light};
 `;
