@@ -1,21 +1,15 @@
 import React, { useRef } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AccountBookDailyCard, PlusButton } from '@components/account';
 import { GoTopButton, Spinner, CoinIcon } from '@components';
 import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
-import { dateFormatter } from '@utils/formatter';
+
 const AccountBookDaily: React.FC = () => {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const topRef = useRef<HTMLDivElement>(null);
 
-  const date = dateFormatter(
-    searchParams.get('date') || new Date(),
-    'YEAR_DAY_DASH'
-  );
-
-  const { data: dailyResult, isLoading } = useAccountBookDaily(date);
+  const { data: dailyResult, isLoading } = useAccountBookDaily();
   const { results } = dailyResult;
 
   const handleNavigateCreateAccount = async () => {

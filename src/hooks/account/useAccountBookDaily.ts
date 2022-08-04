@@ -1,7 +1,9 @@
 import { AxiosResponse } from 'axios';
+import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import axiosInstance from '@api/core';
 import { queryKeys } from '@api/react-query/constant';
+import { dateFormatter } from '@utils/formatter';
 
 const pageParams = {
   page: 1,
@@ -18,7 +20,13 @@ const fetchAccountBook = async (date: string): Promise<DailyAccountBook> => {
   return data;
 };
 
-const useAccountBookDaily = (date: string) => {
+const useAccountBookDaily = () => {
+  const [searchParams] = useSearchParams();
+  const date = dateFormatter(
+    searchParams.get('date') || new Date(),
+    'YEAR_DAY_DASH'
+  );
+
   const fallback = {
     currentPage: 1,
     nextPage: null,
