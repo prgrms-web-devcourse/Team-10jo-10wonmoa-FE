@@ -1,6 +1,6 @@
 export type CreateAccountForm = {
   registerDate: string;
-  amount: string;
-  userCategoryId: string;
+  amount: number;
+  userCategoryId: number;
   content?: string;
 };

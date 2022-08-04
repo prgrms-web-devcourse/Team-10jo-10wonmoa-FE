@@ -38,8 +38,8 @@ const UpdateAccount = () => {
   );
 
   const [formValues, setFormValues] = useState<CreateAccountForm>({
-    amount: '',
-    userCategoryId: '',
+    amount: 0,
+    userCategoryId: 0,
     registerDate: '',
   });
 
@@ -73,15 +73,19 @@ const UpdateAccount = () => {
     },
     {
       onSuccess: (data) => {
+        const { amount, content, registerDate, userCategoryId } = data;
+
+        setFormValues({
+          amount,
+          content,
+          registerDate,
+          userCategoryId,
+        });
         console.log(data);
       },
       enabled: !!accountId,
     }
   );
-
-  useEffect(() => {
-    setFormValues(accountDetailInfo);
-  }, [accountDetailInfo]);
 
   const updateAccountMutation = useMutation(
     ['updateAccount', accountId],
@@ -141,7 +145,7 @@ const UpdateAccount = () => {
         onSubmit={handleSubmit}
         onChangeForm={setFormValues}
         categories={categories?.categories}
-        defaultValue={formValues}
+        formValues={formValues}
         onDelete={handleDelete}
       />
     </>

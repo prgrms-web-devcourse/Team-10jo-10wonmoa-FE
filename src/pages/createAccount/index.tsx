@@ -25,8 +25,8 @@ const ACCOUNT_TYPE: TabItem[] = [
 const CreateAccount = () => {
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0]);
   const [formValues, setFormValues] = useState<CreateAccountForm>({
-    amount: '',
-    userCategoryId: '',
+    amount: 0,
+    userCategoryId: 0,
     registerDate: '',
   });
   const navigate = useNavigate();
