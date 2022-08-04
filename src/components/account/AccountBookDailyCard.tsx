@@ -2,25 +2,16 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { AccountBookDailySum, AccountBookDailyItem } from '@components/account';
 
-interface SingleAccountProp {
-  items: {
-    registerDate: string;
-    dayIncome: number;
-    dayExpenditure: number;
-    dayDetails: SingleAccount[];
-  };
-}
-
-const AccountBookDailyCard: React.FC<SingleAccountProp> = (props) => {
-  const dailySum = {
-    registerDate: props.items.registerDate.toString(),
-    dayIncome: props.items.dayIncome,
-    dayExpenditure: props.items.dayExpenditure,
-  };
-
+const AccountBookDailyCard: React.FC<{
+  items: DailyAccount;
+}> = (props) => {
   return (
     <Container>
-      <AccountBookDailySum dailySum={dailySum} />
+      <AccountBookDailySum
+        dayIncome={props.items.incomeSum}
+        dayExpenditure={props.items.expenditureSum}
+        registerDate={props.items.registerDate}
+      />
       {props.items.dayDetails.map((item) => (
         <AccountBookDailyItem key={item.id} item={item} />
       ))}

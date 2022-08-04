@@ -4,7 +4,7 @@ import { BottomNavigation, TopNavMonthSelector } from '@components';
 import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
 import { Outlet } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
-import { currencyFormatter } from '@utils/formatter/currencyFormatter';
+import { currencyFormatter, dateFormatter } from '@utils/formatter';
 import useAccountBookSum from '@hooks/account/useAccountBookSum';
 
 const AccountBook = () => {
@@ -42,7 +42,7 @@ const AccountBook = () => {
   return (
     <>
       <TopNavMonthSelector
-        date={date}
+        date={dateFormatter(date.toString(), 'YEAR_DAY_DASH')}
         onChangePrevMonth={handlePrevMonth}
         onChangeNextMonth={handleNextMonth}
       />

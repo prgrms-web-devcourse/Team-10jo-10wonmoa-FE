@@ -1,25 +1,29 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
-
-interface AccountBookDailyItemProps {
-  item: SingleAccount;
-}
-
+import { dateFormatter } from '@utils/formatter/dateFormatter';
+import { useNavigate } from 'react-router-dom';
+import { currencyFormatter } from '@utils/formatter';
 const colorType = {
   INCOME: theme.$blue,
   EXPENDITURE: theme.$red,
 };
 
-const AccountBookDailyItem: React.FC<AccountBookDailyItemProps> = (props) => {
+const AccountBookDailyItem: React.FC<{ item: SingleAccount }> = (props) => {
+  const navigate = useNavigate();
+
   return (
-    <Container>
+    <Container onClick={() => navigate(`/account/update/${props.item.id}`)}>
       <P color={theme.$gray_dark}>{props.item.categoryName}</P>
       <div>
         <P color={theme.$black}>{props.item.content}</P>
-        <P color={theme.$gray_medium}>오후 4:30</P>
+        <P color={theme.$gray_medium}>
+          {dateFormatter(props.item.registerTime, 'HOUR_MINUTE')}
+        </P>
       </div>
-      <P color={colorType[props.item.type]}>{props.item.amount}</P>
+      <P color={colorType[props.item.type]}>
+        {currencyFormatter(props.item.amount)}
+      </P>
     </Container>
   );
 };
