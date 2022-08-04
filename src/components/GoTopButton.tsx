@@ -4,7 +4,7 @@ import { ArrowUpCircle } from 'react-feather';
 import styled from '@emotion/styled';
 
 const GoTopButton: React.FC<{
-  topRef?: RefObject<HTMLDivElement>;
+  topRef: RefObject<HTMLDivElement>;
   isVisible: boolean;
 }> = (props) => {
   const scrollToTop = () => {
