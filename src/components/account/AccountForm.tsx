@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@components';
 import { CategoryBox } from '@components/account';
-import { useFormatAmount, useClickAway } from '@hooks';
+import { useClickAway } from '@hooks';
 import { theme } from '@styles';
 import type { Category, CreateAccountForm } from '@models';
-import { amountToNumberFormatter } from '@utils/formatter';
+import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
 
 interface AccountFormProps {
   onSubmit: () => void;
   onChangeForm: React.Dispatch<React.SetStateAction<CreateAccountForm>>;
   categories: Category[];
-  defaultValue?: Record<string, string>;
+  formValues?: CreateAccountForm;
   onDelete?: () => void;
 }
 
 const AMOUNT_MIN_LIMIT = 0;
 const AMOUNT_MAX_LIMIT = 1000000000000;
 
-const initialForm = {
+const initialErrorForm = {
   amount: '',
   registerDate: '',
   userCategoryId: '',
@@ -29,38 +29,83 @@ const AccountForm = ({
   onSubmit,
   onChangeForm,
   categories,
-  defaultValue,
+  formValues = {
+    amount: 0,
+    registerDate: '',
+    userCategoryId: 0,
+    content: '',
+  },
   onDelete,
 }: AccountFormProps) => {
-  const { formattedAmount, setAmount } = useFormatAmount();
-  const [formErrors, setFormErrors] = useState(initialForm);
+  const [formErrors, setFormErrors] = useState(initialErrorForm);
   const [categoryToggle, setCategoryToggle] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
   const categoryRef = useClickAway(() => setCategoryToggle(false));
 
   useEffect(() => {
-    setSelectedCategory('');
     onChangeForm((prevForm) => ({
       ...prevForm,
-      userCategoryId: '',
+      userCategoryId: 0,
     }));
   }, [categories]);
 
   const isValidAmount = () => {
-    const currentAmount = amountToNumberFormatter(formattedAmount);
-    return currentAmount > AMOUNT_MIN_LIMIT && currentAmount < AMOUNT_MAX_LIMIT;
+    return (
+      formValues.amount > AMOUNT_MIN_LIMIT &&
+      formValues.amount < AMOUNT_MAX_LIMIT
+    );
+  };
+
+  const isValidCategory = () => {
+    return formValues.userCategoryId !== 0;
+  };
+
+  const isValidContent = () => {
+    return formValues.content === undefined || formValues.content.length <= 50;
   };
 
   const isValidateAccount = () => {
     if (!isValidAmount()) {
       setFormErrors({
-        ...initialForm,
+        ...initialErrorForm,
         amount: '금액은 1원 ~ 1조 미만까지 등록 가능합니다.',
       });
 
       return false;
     }
+
+    if (!isValidCategory()) {
+      setFormErrors({
+        ...initialErrorForm,
+        userCategoryId: '카테고리 선택은 필수입니다',
+      });
+
+      return false;
+    }
+
+    if (!isValidContent()) {
+      setFormErrors({
+        ...initialErrorForm,
+        content: '내용은 50자 이하만 가능합니다',
+      });
+
+      return false;
+    }
+
     return true;
+  };
+
+  const getCategoryName = () => {
+    if (!categories) {
+      return '';
+    }
+
+    const selectedCategory = categories.filter(
+      (category) => category.id === formValues.userCategoryId
+    )[0];
+
+    console.log(selectedCategory);
+
+    return '';
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -83,12 +128,10 @@ const AccountForm = ({
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setAmount(value);
     handleChange(e, amountToNumberFormatter(value));
   };
 
   const handleCategorySelect = (category: Category) => {
-    setSelectedCategory(category.name);
     onChangeForm((prevForm) => ({
       ...prevForm,
       userCategoryId: category.id,
@@ -106,10 +149,10 @@ const AccountForm = ({
               type="text"
               name="amount"
               required
-              value={defaultValue?.amount ?? formattedAmount}
+              value={currencyFormatter(formValues.amount)}
               onChange={handleAmountChange}
             />
-            <ErrorMsgContent>{formErrors.amount}</ErrorMsgContent>
+            <ErrorMessageContent>{formErrors.amount}</ErrorMessageContent>
           </StyledInputContainer>
           <StyledInputContainer>
             날짜
@@ -117,7 +160,7 @@ const AccountForm = ({
               type="datetime-local"
               name="registerDate"
               required
-              value={defaultValue?.registerDate}
+              value={formValues.registerDate}
               onChange={handleChange}
             />
           </StyledInputContainer>
@@ -128,13 +171,17 @@ const AccountForm = ({
               name="userCategoryId"
               readOnly
               required
-              value={selectedCategory ?? defaultValue?.categoryName}
+              value={getCategoryName()}
               onClick={() => setCategoryToggle(true)}
             />
+            <ErrorMessageContent>
+              {formErrors.userCategoryId}
+            </ErrorMessageContent>
           </StyledInputContainer>
           <StyledInputContainer>
             내용
             <input type="text" name="content" onChange={handleChange} />
+            <ErrorMessageContent>{formErrors.content}</ErrorMessageContent>
           </StyledInputContainer>
         </InputContainer>
         <ButtonContainer>
@@ -208,7 +255,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const ErrorMsgContent = styled.p`
+const ErrorMessageContent = styled.p`
   color: ${theme.$red};
   text-align: center;
 `;
