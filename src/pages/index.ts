@@ -7,6 +7,7 @@ import AccountBookCalendar from './accountBookCalendar';
 import AccountBookMonthly from './accountBookMonthly';
 import Statistics from './statistic';
 import Budget from './budget';
+import NotFound from './notFound';
 
 export {
   Login,
@@ -18,4 +19,5 @@ export {
   AccountBookMonthly,
   Statistics,
   Budget,
+  NotFound,
 };
