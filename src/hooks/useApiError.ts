@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-// TODO: type
-const useApiError = (customHandlers?: any) => {
+const useApiError = () => {
   const navigate = useNavigate();
 
   const handle401 = () => {
@@ -43,10 +42,13 @@ const useApiError = (customHandlers?: any) => {
 
       const httpStatus = error.response.status;
       switch (true) {
-        case customHandlers && httpStatus in customHandlers:
-          customHandlers[httpStatus].default();
-          break;
-        // TODO: type
+        // TODO: 커스텀 에러 핸들러 사용을 위한 코드. 타입설정 후 사용할예정
+
+        // case customHandlers && httpStatus in customHandlers:
+        //   customHandlers[httpStatus].default();
+        //   break;
+
+        // TODO: 타입지정하여 any 없애기
         case httpStatus in defaultHandlers:
           (defaultHandlers as any)[httpStatus].default();
           break;

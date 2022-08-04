@@ -2,7 +2,7 @@ import React from 'react';
 import { Global, ThemeProvider } from '@emotion/react';
 import { theme, reset } from '@styles';
 import { AppLayout, Loading } from '@components';
-import { QueryClientProvider, QueryClient } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import { queryClient } from '@api/react-query/queryClient';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import AppRouter from '@router';
