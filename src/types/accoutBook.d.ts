@@ -6,21 +6,31 @@ const ACCOUNT_TYPE = {
 declare type SingleAccount = {
   id: string;
   type: typeof ACCOUNT_TYPE[keyof typeof ACCOUNT_TYPE];
-  registerDate: string;
+  registerTime: string;
   amount: number;
   content: string;
   categoryName: string;
 };
 
-declare interface DailyAccountBook {
+declare type DailyAccountBook = {
   currentPage: number;
   nextPage: number;
   results: DailyAccount[];
-}
+};
 
-declare interface DailyAccount {
-  dayDetails: SingleAccount[];
-  dayExpenditure: number;
-  dayIncome: number;
+type DailySum = {
   registerDate: string;
-}
+  dayIncome: number;
+  dayExpenditure: number;
+};
+
+declare type DailyAccount = AccountBookSum & {
+  registerDate: string;
+  dayDetails: SingleAccount[];
+};
+
+declare type AccountBookSum = {
+  incomeSum: number;
+  expenditureSum: number;
+  totalSum: number;
+};
