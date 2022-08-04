@@ -6,10 +6,12 @@ import { QueryClientProvider } from 'react-query';
 import { queryClient } from '@api/react-query/queryClient';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import AppRouter from '@router';
+import useApiError from '@hooks/useApiError';
 
 const App = () => {
+  const { handleError } = useApiError();
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient(handleError)}>
       <ThemeProvider theme={theme}>
         <Global styles={reset} />
         <AppLayout>
