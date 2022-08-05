@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
 import styled from '@emotion/styled';
-import { select } from 'd3-selection';
 
 interface Data {
   name: string;
@@ -25,8 +24,8 @@ interface PieProp {
 
 const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
   const positionCenter = createArc.centroid(data);
-  const positionName = [positionCenter[0] + 0, positionCenter[1] - 7];
-  const positionPercent = [positionCenter[0] + 0, positionCenter[1] + 14];
+  const positionName = [positionCenter[0] + 0, positionCenter[1] - 8];
+  const positionPercent = [positionCenter[0] + 0, positionCenter[1] + 15];
 
   return (
     <g key={index}>
@@ -40,7 +39,7 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
         transform={`translate(${positionName})`}
         textAnchor="middle"
         fill="black"
-        fontSize="14"
+        fontSize="16"
       >
         {data.data.name}
       </text>
@@ -57,8 +56,8 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
 };
 
 const PieChart: React.FC<PieProp> = ({
-  innerRadius,
-  outerRadius,
+  innerRadius = 0,
+  outerRadius = 150,
   data,
   colorList,
 }) => {
@@ -88,6 +87,6 @@ const PieChart: React.FC<PieProp> = ({
 export default PieChart;
 
 const SVG = styled.svg`
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
 `;

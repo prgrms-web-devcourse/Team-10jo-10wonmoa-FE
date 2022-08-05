@@ -11,10 +11,10 @@ import {
 } from '@components';
 import { useMonthSelector } from '@hooks';
 import PieChart from '@components/statistic/PieChart';
-
 import type { TabItem } from '@components/Tabs';
 import { STATISTICS_TABS } from '../../constants/Tabs';
 import { monthData } from './DummyData';
+import * as d3 from 'd3';
 const Statistics = () => {
   const {
     monthDate,
@@ -27,7 +27,7 @@ const Statistics = () => {
 
   const [isMonth, setIsMonth] = useState(true);
 
-  const colorList = ['red', 'orange', 'yellowgreen', 'green'];
+  const colorList = d3.schemeSet2;
   const { incomes, expenditures } = monthData;
 
   const [currentTab, setCurrentTab] = useState<TabItem>(STATISTICS_TABS[0]);
@@ -66,20 +66,10 @@ const Statistics = () => {
         <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
           <ChartContainer>
             {currentTab.title === '수입' && (
-              <PieChart
-                data={incomes}
-                innerRadius={0}
-                outerRadius={100}
-                colorList={colorList}
-              />
+              <PieChart data={incomes} colorList={colorList} />
             )}
             {currentTab.title === '지출' && (
-              <PieChart
-                data={expenditures}
-                innerRadius={0}
-                outerRadius={100}
-                colorList={colorList}
-              />
+              <PieChart data={expenditures} colorList={colorList} />
             )}
           </ChartContainer>
         </Tabs>
@@ -134,12 +124,11 @@ const ListWrapper = styled.div`
 
 const TabsWrapper = styled.div`
   width: 100%;
-  height: 30rem;
 `;
 
 const ChartContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 30rem;
   display: flex;
   align-items: center;
   justify-content: center;
