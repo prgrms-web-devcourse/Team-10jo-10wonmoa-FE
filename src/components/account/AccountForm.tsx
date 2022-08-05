@@ -4,7 +4,7 @@ import { Button } from '@components';
 import { CategoryBox } from '@components/account';
 import { useClickAway } from '@hooks';
 import { theme } from '@styles';
-import type { Category, CreateAccountForm } from '@models';
+import type { Category, CreateAccountForm } from '@types';
 import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
 
 interface AccountFormProps {

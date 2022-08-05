@@ -1,5 +1,5 @@
 import axios from '@api/core';
-import { CreateAccountForm } from '@models';
+import type { CreateAccountForm } from '@types';
 
 const fetchPostIncomes = (createAccountForm: CreateAccountForm) =>
   axios.post('/incomes', createAccountForm).then((response) => response.data);

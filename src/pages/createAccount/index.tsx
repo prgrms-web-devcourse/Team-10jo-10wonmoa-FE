@@ -9,7 +9,7 @@ import {
   fetchPostExpenditures,
   fetchPostIncomes,
 } from '@api';
-import { CreateAccountForm } from '@models';
+import type { CreateAccountForm } from '@types';
 
 const ACCOUNT_TYPE: TabItem[] = [
   {

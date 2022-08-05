@@ -15,3 +15,17 @@ export type Token = {
 export type TabItem = { value: string; title: string };
 export type Tabs = Array<TabItem>;
 export type ErrorHandler = (error: unknown) => void;
+export type CategoryType = 'income' | 'expenditure';
+
+export type Category = {
+  id: number;
+  name: string;
+  categoryType: CategoryType;
+};
+
+export interface CreateAccountForm {
+  registerDate: string;
+  amount: number;
+  userCategoryId: number;
+  content?: string;
+}

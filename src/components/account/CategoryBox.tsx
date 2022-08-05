@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
 import { Edit, X as CloseBtn } from 'react-feather';
-import { Category } from '@models';
+import type { Category } from '@types';
 
 interface CategoryBoxProps {
   CategoryList: Category[];
