@@ -1,31 +1,11 @@
 import * as d3 from 'd3';
-import React, { useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { select, selectAll } from 'd3-selection';
 
 interface Data {
   name: string;
   percent: number;
   total: number;
 }
-
-const data = [
-  {
-    name: '식비',
-    percent: 50,
-    total: 50000,
-  },
-  {
-    name: '패션/미용',
-    percent: 30,
-    total: 30000,
-  },
-  {
-    name: '교육',
-    percent: 20,
-    total: 20000,
-  },
-];
 
 interface ArcProp {
   data?: any;
@@ -39,10 +19,10 @@ interface PieProp {
   innerRadius?: any;
   outerRadius?: any;
   data?: any;
+  colorList?: any;
 }
 
 const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
-  // const colors = ['red', 'orange', 'yellowgreen', 'green'];
   return (
     <g key={index} className="arc">
       <path className="arc" d={createArc(data)} fill={colors(index)} />
@@ -58,14 +38,19 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
   );
 };
 
-const PieChart: React.FC<PieProp> = ({ innerRadius, outerRadius, data }) => {
+const PieChart: React.FC<PieProp> = ({
+  innerRadius,
+  outerRadius,
+  data,
+  colorList,
+}) => {
   const createPie = d3
     .pie<Data>()
     .value((d) => d.percent)
     .sort(null);
 
   const createArc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-  const colors = d3.scaleOrdinal(['red', 'orange', 'yellowgreen', 'green']);
+  const colors = d3.scaleOrdinal(colorList);
   const format = d3.format('.2f');
   const pieData = createPie(data);
 
