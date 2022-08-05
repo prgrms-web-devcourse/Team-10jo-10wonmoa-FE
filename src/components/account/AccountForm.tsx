@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@components';
 import { CategoryBox } from '@components/account';
 import { useClickAway } from '@hooks';
-import { theme } from '@styles';
-import type { Category, CreateAccountForm } from '@types';
+import type { Category, AccountDetailResponse } from '@types';
 import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
 
 interface AccountFormProps {
   onSubmit: () => void;
-  onChangeForm: React.Dispatch<React.SetStateAction<CreateAccountForm>>;
+  onChangeForm: React.Dispatch<React.SetStateAction<AccountDetailResponse>>;
   categories: Category[];
-  formValues?: CreateAccountForm;
+  formValues: AccountDetailResponse;
   onDelete?: () => void;
 }
 
 const AMOUNT_MIN_LIMIT = 0;
 const AMOUNT_MAX_LIMIT = 1000000000000;
 
-const initialErrorForm = {
+const initialErrorForm: Record<string, string> = {
   amount: '',
   registerDate: '',
   userCategoryId: '',
@@ -29,24 +28,12 @@ const AccountForm = ({
   onSubmit,
   onChangeForm,
   categories,
-  formValues = {
-    amount: 0,
-    registerDate: '',
-    userCategoryId: 0,
-    content: '',
-  },
+  formValues,
   onDelete,
 }: AccountFormProps) => {
   const [formErrors, setFormErrors] = useState(initialErrorForm);
   const [categoryToggle, setCategoryToggle] = useState(false);
   const categoryRef = useClickAway(() => setCategoryToggle(false));
-
-  useEffect(() => {
-    onChangeForm((prevForm) => ({
-      ...prevForm,
-      userCategoryId: 0,
-    }));
-  }, [categories]);
 
   const isValidAmount = () => {
     return (
@@ -60,7 +47,7 @@ const AccountForm = ({
   };
 
   const isValidContent = () => {
-    return formValues.content === undefined || formValues.content.length <= 50;
+    return formValues.content == null || formValues.content.length <= 50;
   };
 
   const isValidateAccount = () => {
@@ -94,20 +81,6 @@ const AccountForm = ({
     return true;
   };
 
-  const getCategoryName = () => {
-    if (!categories) {
-      return '';
-    }
-
-    const selectedCategory = categories.filter(
-      (category) => category.id === formValues.userCategoryId
-    )[0];
-
-    console.log(selectedCategory);
-
-    return '';
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValidateAccount()) {
@@ -120,6 +93,14 @@ const AccountForm = ({
     customValue?: string | number
   ) => {
     const { name, value } = e.target;
+
+    if (name in formErrors && formErrors[name].length !== 0) {
+      setFormErrors((prevError) => ({
+        ...prevError,
+        [name]: '',
+      }));
+    }
+
     onChangeForm((prevForm) => ({
       ...prevForm,
       [name]: customValue ?? value,
@@ -135,6 +116,7 @@ const AccountForm = ({
     onChangeForm((prevForm) => ({
       ...prevForm,
       userCategoryId: category.id,
+      categoryName: category.name,
     }));
     setCategoryToggle(false);
   };
@@ -171,7 +153,7 @@ const AccountForm = ({
               name="userCategoryId"
               readOnly
               required
-              value={getCategoryName()}
+              value={formValues.categoryName}
               onClick={() => setCategoryToggle(true)}
             />
             <ErrorMessageContent>
@@ -180,7 +162,12 @@ const AccountForm = ({
           </StyledInputContainer>
           <StyledInputContainer>
             내용
-            <input type="text" name="content" onChange={handleChange} />
+            <input
+              type="text"
+              name="content"
+              value={formValues.content ?? ''}
+              onChange={handleChange}
+            />
             <ErrorMessageContent>{formErrors.content}</ErrorMessageContent>
           </StyledInputContainer>
         </InputContainer>
@@ -227,7 +214,7 @@ const InputContainer = styled.div`
 `;
 
 const StyledInputContainer = styled.label`
-  color: ${theme.$gray_dark};
+  color: ${(props) => props.theme.$gray_dark};
   & > input {
     width: 20rem;
     height: 2.5rem;
@@ -239,7 +226,7 @@ const StyledInputContainer = styled.label`
     padding: 0.5rem;
     font-size: 1.1rem;
     &:focus {
-      border-bottom: 0.1rem solid ${theme.$primary};
+      border-bottom: 0.1rem solid ${(props) => props.theme.$primary};
     }
   }
 `;
@@ -256,6 +243,6 @@ const ButtonContainer = styled.div`
 `;
 
 const ErrorMessageContent = styled.p`
-  color: ${theme.$red};
+  color: ${(props) => props.theme.$red};
   text-align: center;
 `;

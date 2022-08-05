@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Tabs, TopNavBar } from '@components';
-import type { TabItem } from '@components/Tabs';
 import { AccountForm } from '@components/account';
 import {
   fetchGetCategory,
@@ -13,7 +12,11 @@ import {
   fetchDeleteIncomes,
   fetchDeleteExpenditures,
 } from '@api';
-import type { CreateAccountForm } from '@types';
+import type {
+  TabItem,
+  CreateAccountRequest,
+  AccountDetailResponse,
+} from '@types';
 
 const ACCOUNT_TYPE: TabItem[] = [
   {
@@ -29,23 +32,25 @@ const ACCOUNT_TYPE: TabItem[] = [
 const UpdateAccount = () => {
   const { accountId } = useParams<{ accountId: string }>();
   const { pathname } = useLocation();
+  const originAccountType = ACCOUNT_TYPE.filter((type) =>
+    pathname.includes(type.value.toLowerCase())
+  )[0];
   const navigate = useNavigate();
 
-  const [accountType, setAccountType] = useState(
-    ACCOUNT_TYPE.filter((type) =>
-      pathname.includes(type.value.toLowerCase())
-    )[0]
-  );
+  const [accountType, setAccountType] = useState(originAccountType);
 
-  const [formValues, setFormValues] = useState<CreateAccountForm>({
+  const [formValues, setFormValues] = useState<AccountDetailResponse>({
     amount: 0,
     userCategoryId: 0,
     registerDate: '',
+    content: '',
+    categoryName: '',
   });
 
   useEffect(() => {
     if (accountId === undefined) {
       alert('잘못된 접근입니다');
+      navigate('/account-book/daily', { replace: true });
       return;
     }
 
@@ -64,24 +69,16 @@ const UpdateAccount = () => {
     }
   );
 
-  const { data: accountDetailInfo } = useQuery(
+  useQuery(
     ['getAccount', accountId],
     () => {
-      return accountType.value === 'INCOME'
+      return originAccountType.value === 'INCOME'
         ? fetchGetIncomes(accountId)
         : fetchGetExpenditures(accountId);
     },
     {
       onSuccess: (data) => {
-        const { amount, content, registerDate, userCategoryId } = data;
-
-        setFormValues({
-          amount,
-          content,
-          registerDate,
-          userCategoryId,
-        });
-        console.log(data);
+        setFormValues(data);
       },
       enabled: !!accountId,
     }
@@ -89,15 +86,14 @@ const UpdateAccount = () => {
 
   const updateAccountMutation = useMutation(
     ['updateAccount', accountId],
-    (accountForm: CreateAccountForm) => {
-      return accountType.value === 'INCOME'
+    (accountForm: CreateAccountRequest) => {
+      return originAccountType.value === 'INCOME'
         ? fetchUpdateIncomes(accountId, accountForm)
         : fetchUpdateExpenditures(accountId, accountForm);
     },
     {
-      onSuccess: (data, variable) => {
-        alert('success');
-        console.log(data, variable);
+      onSuccess: () => {
+        alert('수정 성공');
         navigate('/account-book/daily', { replace: true });
       },
     }
@@ -111,25 +107,33 @@ const UpdateAccount = () => {
         : fetchDeleteExpenditures(accountId);
     },
     {
-      onSuccess: (data, variable) => {
-        alert('success');
-        console.log(data, variable);
-        // navigate('/account-book/daily', { replace: true });
+      onSuccess: () => {
+        alert('삭제 성공');
+        navigate('/account-book/daily', { replace: true });
       },
     }
   );
 
   const handleTabClick = (item: TabItem) => {
     setAccountType(item);
+    setFormValues((prevForm) => ({
+      ...prevForm,
+      userCategoryId: 0,
+      categoryName: '',
+    }));
   };
 
   const handleSubmit = () => {
-    console.log(formValues);
-    // updateAccountMutation.mutate(formValues);
+    const { userCategoryId, content, amount, registerDate } = formValues;
+    updateAccountMutation.mutate({
+      userCategoryId,
+      content,
+      amount,
+      registerDate,
+    });
   };
 
   const handleDelete = () => {
-    console.log('delete');
     deleteAccountMutation.mutate();
   };
 

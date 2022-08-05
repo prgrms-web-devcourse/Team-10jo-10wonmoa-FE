@@ -1,12 +1,14 @@
 import axios from '@api/core';
-import type { CreateAccountForm } from '@types';
+import type { CreateAccountRequest } from '@types';
 
-const fetchPostIncomes = (createAccountForm: CreateAccountForm) =>
-  axios.post('/incomes', createAccountForm).then((response) => response.data);
-
-const fetchPostExpenditures = (createAccountForm: CreateAccountForm) =>
+const fetchPostIncomes = (createAccountRequest: CreateAccountRequest) =>
   axios
-    .post('/expenditures', createAccountForm)
+    .post('/incomes', createAccountRequest)
+    .then((response) => response.data);
+
+const fetchPostExpenditures = (createAccountRequest: CreateAccountRequest) =>
+  axios
+    .post('/expenditures', createAccountRequest)
     .then((response) => response.data);
 
 const fetchGetIncomes = (id: string | undefined) =>
@@ -17,18 +19,18 @@ const fetchGetExpenditures = (id: string | undefined) =>
 
 const fetchUpdateIncomes = (
   id: string | undefined,
-  createAccountForm: CreateAccountForm
+  createAccountRequest: CreateAccountRequest
 ) =>
   axios
-    .put(`/incomes/${id}`, createAccountForm)
+    .put(`/incomes/${id}`, createAccountRequest)
     .then((response) => response.data);
 
 const fetchUpdateExpenditures = (
   id: string | undefined,
-  createAccountForm: CreateAccountForm
+  createAccountRequest: CreateAccountRequest
 ) =>
   axios
-    .put(`/expenditures/${id}`, createAccountForm)
+    .put(`/expenditures/${id}`, createAccountRequest)
     .then((response) => response.data);
 
 const fetchDeleteIncomes = (id: string | undefined) =>

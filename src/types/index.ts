@@ -23,9 +23,13 @@ export type Category = {
   categoryType: CategoryType;
 };
 
-export interface CreateAccountForm {
+export interface CreateAccountRequest {
   registerDate: string;
   amount: number;
   userCategoryId: number;
   content?: string;
+}
+
+export interface AccountDetailResponse extends CreateAccountRequest {
+  categoryName: string;
 }

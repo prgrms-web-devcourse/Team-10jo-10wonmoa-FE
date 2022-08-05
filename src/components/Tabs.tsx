@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { theme } from '@styles';
-
-export type TabItem = {
-  value: string;
-  title: string;
-};
+import type { TabItem } from '@types';
 
 interface TabsProps {
   tabItems: TabItem[];
@@ -56,13 +51,13 @@ const Tab = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border-bottom: 1px solid ${theme.$gray_dark};
-  color: ${theme.$gray_dark};
-  background-color: ${theme.$white};
+  border-bottom: 1px solid ${(props) => props.theme.$gray_dark};
+  color: ${(props) => props.theme.$gray_dark};
+  background-color: ${(props) => props.theme.$white};
 
   &.active {
-    background-color: ${theme.$secondary};
-    border-bottom: 1px solid ${theme.$primary};
-    color: ${theme.$primary};
+    background-color: ${(props) => props.theme.$secondary};
+    border-bottom: 1px solid ${(props) => props.theme.$primary};
+    color: ${(props) => props.theme.$primary};
   }
 `;
