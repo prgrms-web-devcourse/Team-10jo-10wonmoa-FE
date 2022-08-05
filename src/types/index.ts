@@ -11,3 +11,6 @@ export type Token = {
   accessToken: string;
   refreshToken: string;
 };
+
+export type TabItem = { value: string; title: string };
+export type Tabs = Array<TabItem>;
