@@ -128,7 +128,7 @@ const YearMonthWrapper = styled.div`
 
 const ListWrapper = styled.div`
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   border-top: 2rem solid ${theme.$gray_light};
 `;
 

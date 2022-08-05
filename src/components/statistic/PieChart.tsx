@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import styled from '@emotion/styled';
+import { select } from 'd3-selection';
 
 interface Data {
   name: string;
@@ -9,7 +10,7 @@ interface Data {
 
 interface ArcProp {
   data?: any;
-  index?: number;
+  index?: any;
   createArc?: any;
   colors?: any;
   format?: any;
@@ -23,16 +24,33 @@ interface PieProp {
 }
 
 const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
+  const positionCenter = createArc.centroid(data);
+  const positionName = [positionCenter[0] + 0, positionCenter[1] - 7];
+  const positionPercent = [positionCenter[0] + 0, positionCenter[1] + 14];
+
   return (
-    <g key={index} className="arc">
-      <path className="arc" d={createArc(data)} fill={colors(index)} />
+    <g key={index}>
+      <path
+        d={createArc(data)}
+        fill={colors(index)}
+        stroke="white"
+        strokeWidth={4}
+      />
       <text
-        transform={`translate(${createArc.centroid(data)})`}
+        transform={`translate(${positionName})`}
+        textAnchor="middle"
+        fill="black"
+        fontSize="14"
+      >
+        {data.data.name}
+      </text>
+      <text
+        transform={`translate(${positionPercent})`}
         textAnchor="middle"
         fill="white"
-        fontSize="10"
+        fontSize="12"
       >
-        {format(data.value)}
+        {format(data.value)}%
       </text>
     </g>
   );
@@ -44,14 +62,10 @@ const PieChart: React.FC<PieProp> = ({
   data,
   colorList,
 }) => {
-  const createPie = d3
-    .pie<Data>()
-    .value((d) => d.percent)
-    .sort(null);
-
+  const createPie = d3.pie<Data>().value((d) => d.percent);
   const createArc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
   const colors = d3.scaleOrdinal(colorList);
-  const format = d3.format('.2f');
+  const format = d3.format('.1f');
   const pieData = createPie(data);
 
   return (
@@ -74,7 +88,6 @@ const PieChart: React.FC<PieProp> = ({
 export default PieChart;
 
 const SVG = styled.svg`
-  width: 100%;
-  height: 25rem;
-  padding: 5rem 7.7rem;
+  width: 200px;
+  height: 200px;
 `;
