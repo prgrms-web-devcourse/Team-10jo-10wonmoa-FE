@@ -14,3 +14,4 @@ export type Token = {
 
 export type TabItem = { value: string; title: string };
 export type Tabs = Array<TabItem>;
+export type ErrorHandler = (error: unknown) => void;
