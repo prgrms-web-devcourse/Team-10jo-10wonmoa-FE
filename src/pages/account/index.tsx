@@ -45,9 +45,8 @@ const Account = () => {
         : fetchPostExpenditures(accountForm);
     },
     {
-      onSuccess: (data, variable) => {
+      onSuccess: (data) => {
         alert('success' + data.id);
-        console.log(data, variable);
       },
     }
   );

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { theme } from '@styles';
 
 interface TabItem {
-  value: string;
+  value: string | number;
   title: string;
   color?: string;
 }
