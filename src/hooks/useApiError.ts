@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-// TODO: type
-const useApiError = (handlers?: any) => {
+const useApiError = () => {
   const navigate = useNavigate();
 
   const handle401 = () => {
@@ -18,10 +17,10 @@ const useApiError = (handlers?: any) => {
   };
 
   const defaultHandler = () => {
-    window.location.href = '/';
+    navigate('/404');
   };
 
-  const errorHandlers = {
+  const defaultHandlers = {
     default: defaultHandler,
     401: {
       default: handle401,
@@ -38,23 +37,26 @@ const useApiError = (handlers?: any) => {
     if (error instanceof AxiosError) {
       // response가 오지 않는 경우 404 페이지로 리다이렉팅
       if (!error.response) {
-        handle404();
         return;
       }
 
       const httpStatus = error.response.status;
 
-      switch (true) {
-        case handlers && handlers[httpStatus]:
-          handlers[httpStatus].default();
-          break;
-        // TODO: type
-        case (errorHandlers as any)[httpStatus]:
-          (errorHandlers as any)[httpStatus].default();
-          break;
-        default:
-          errorHandlers.default();
+      // TODO: 커스텀 에러 핸들러 사용을 위한 코드. 타입설정 후 사용할예정
+
+      if (httpStatus === 401) {
+        handle401();
+        return;
+      } else if (httpStatus === 403) {
+        handle403();
+        return;
+      } else if (httpStatus === 404) {
+        handle404();
+        return;
       }
+
+      defaultHandlers.default();
+      return;
     }
   };
   return { handleError };
