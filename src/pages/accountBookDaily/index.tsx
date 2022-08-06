@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { AccountBookDailyCard, PlusButton } from '@components/account';
@@ -8,14 +8,40 @@ import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
 const AccountBookDaily: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
-  const topRef = useRef<HTMLDivElement>(null);
 
-  const { data: dailyResult, isLoading } = useAccountBookDaily();
-  const { results } = dailyResult;
+  const topRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const loadingRef = useRef<HTMLDivElement>(null);
+
+  const {
+    data: dailyResult,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+  } = useAccountBookDaily();
 
   const handleNavigateCreateAccount = async () => {
     navigate('/account/create');
   };
+
+  const createObserver = useCallback(() => {
+    const options = {
+      root: cardRef.current,
+      rootMargin: '0px',
+      threshold: 0.5,
+    };
+
+    const observer = new IntersectionObserver(() => {
+      fetchNextPage();
+    }, options);
+
+    if (loadingRef.current === null) return;
+    observer.observe(loadingRef.current);
+  }, []);
+
+  useEffect(() => {
+    createObserver();
+  }, []);
 
   const handleScroll = (event: React.UIEvent<HTMLElement>) => {
     const isScrolled = event.currentTarget.scrollTop > 500;
@@ -26,7 +52,7 @@ const AccountBookDaily: React.FC = () => {
     setVisible(false);
   };
 
-  if (!isLoading && dailyResult.results.length === 0) {
+  if (!isLoading && dailyResult?.pages.length === 0) {
     return (
       <>
         <p>👇 클릭해서 가계부를 등록해보세요!</p>
@@ -38,12 +64,14 @@ const AccountBookDaily: React.FC = () => {
   }
 
   return (
-    <CardArea onScroll={handleScroll}>
+    <CardArea onScroll={handleScroll} ref={cardRef}>
       <div ref={topRef} />
-      {results?.map((item: DailyAccount, idx: number) => (
-        <AccountBookDailyCard key={idx} items={item} />
-      ))}
-      {isLoading && <Spinner />}
+      {dailyResult?.pages.map((page: DailyAccountBook) => {
+        return page.results.map((item: DailyAccount, idx: number) => (
+          <AccountBookDailyCard key={idx} items={item} />
+        ));
+      })}
+      <div ref={loadingRef}>{hasNextPage && <Spinner />}</div>
       <GoTopButton topRef={topRef} isVisible={visible} />
       <PlusButton onClickPlus={handleNavigateCreateAccount} />
     </CardArea>
