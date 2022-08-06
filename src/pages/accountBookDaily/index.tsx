@@ -24,7 +24,25 @@ const AccountBookDaily: React.FC = () => {
     navigate('/account/create');
   };
 
-  const createObserver = useCallback(() => {
+  const createTopObserver = useCallback(() => {
+    const options = {
+      threshold: 1,
+    };
+
+    const observer = new IntersectionObserver(
+      (entires: IntersectionObserverEntry[]) => {
+        entires.forEach((entry: IntersectionObserverEntry) =>
+          entry.isIntersecting ? setVisible(false) : setVisible(true)
+        );
+      },
+      options
+    );
+
+    if (topRef.current === null) return;
+    observer.observe(topRef.current);
+  }, []);
+
+  const createBottomObserver = useCallback(() => {
     const options = {
       root: cardRef.current,
       rootMargin: '0px',
@@ -40,17 +58,9 @@ const AccountBookDaily: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    createObserver();
+    createBottomObserver();
+    createTopObserver();
   }, []);
-
-  const handleScroll = (event: React.UIEvent<HTMLElement>) => {
-    const isScrolled = event.currentTarget.scrollTop > 500;
-    if (isScrolled) {
-      setVisible(true);
-      return;
-    }
-    setVisible(false);
-  };
 
   if (!isLoading && dailyResult?.pages.length === 0) {
     return (
@@ -64,7 +74,7 @@ const AccountBookDaily: React.FC = () => {
   }
 
   return (
-    <CardArea onScroll={handleScroll} ref={cardRef}>
+    <CardArea>
       <div ref={topRef} />
       {dailyResult?.pages.map((page: DailyAccountBook) => {
         return page.results.map((item: DailyAccount, idx: number) => (
