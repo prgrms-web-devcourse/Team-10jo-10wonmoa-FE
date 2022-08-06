@@ -16,6 +16,7 @@ interface AccountFormProps {
 
 const AMOUNT_MIN_LIMIT = 0;
 const AMOUNT_MAX_LIMIT = 1000000000000;
+const CONTENT_MAX_LIMIT = 50;
 
 const initialErrorForm: Record<string, string> = {
   amount: '',
@@ -47,7 +48,10 @@ const AccountForm = ({
   };
 
   const isValidContent = () => {
-    return formValues.content == null || formValues.content.length <= 50;
+    return (
+      formValues.content == null ||
+      formValues.content.length <= CONTENT_MAX_LIMIT
+    );
   };
 
   const isValidateAccount = () => {
