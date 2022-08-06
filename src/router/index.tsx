@@ -2,7 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import {
   Login,
   SignUp,
-  Account,
+  CreateAccount,
+  UpdateAccount,
   AccountBook,
   AccountBookDaily,
   AccountBookCalendar,
@@ -20,8 +21,12 @@ const AppRouter = () => {
       <Route path="/signUp" element={<SignUp />} />
 
       <Route path="/account">
-        <Route path={`create`} element={<Account />} />
-        <Route path={`update/:id`} />
+        <Route path={`create`} element={<CreateAccount />} />
+        <Route path={'update/income/:accountId'} element={<UpdateAccount />} />
+        <Route
+          path={'update/expenditure/:accountId'}
+          element={<UpdateAccount />}
+        />
       </Route>
 
       <Route path="/account-book" element={<AccountBook />}>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
 import { Edit, X as CloseBtn } from 'react-feather';
-import { Category } from '@models';
+import type { Category } from '@types';
 
 interface CategoryBoxProps {
   CategoryList: Category[];
@@ -31,11 +31,12 @@ const CategoryBox = ({
         </BoxHeaderBtnContainer>
       </BoxHeader>
       <CategoryItems>
-        {CategoryList.map((category) => (
-          <CategoryItem key={category.id} onClick={() => onSelect(category)}>
-            {category.name}
-          </CategoryItem>
-        ))}
+        {CategoryList &&
+          CategoryList.map((category) => (
+            <CategoryItem key={category.id} onClick={() => onSelect(category)}>
+              {category.name}
+            </CategoryItem>
+          ))}
       </CategoryItems>
     </CategoryContainer>
   );
@@ -47,10 +48,11 @@ const CategoryContainer = styled.div`
   position: fixed;
   bottom: 0;
   border: 1px solid ${theme.$gray_dark};
-  width: 100%;
+  width: inherit;
   max-width: inherit;
+  height: 50%;
   box-sizing: border-box;
-  background-color: ${theme.$white};
+  background-color: ${theme.$gray_light};
 `;
 
 const BoxHeader = styled.div`
