@@ -91,17 +91,4 @@ const CardArea = styled.div`
   justify-content: center;
   row-gap: 1rem;
   margin-bottom: 7rem;
-  &:hover::-webkit-scrollbar {
-    height: 0.7rem;
-  }
-
-  &:hover::-webkit-scrollbar-track {
-    background-color: white;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    border-width: 0.3rem;
-    border-radius: 1.2rem;
-    background-color: lightgray;
-  }
 `;
