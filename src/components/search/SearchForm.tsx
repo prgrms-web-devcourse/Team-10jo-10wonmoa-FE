@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { ChevronDown, ChevronUp } from 'react-feather';
+import { ChevronDown, ChevronUp, Search } from 'react-feather';
 
 const SearchForm = () => {
   const [searchOptionToggle, setSearchOptionToggle] = useState(false);
@@ -14,6 +14,7 @@ const SearchForm = () => {
       <SearchFormContainer>
         <SearchInputContainer>
           <label htmlFor="searchForm-searchInput">검색</label>
+          <Search size={20} />
           <StyledInput id="searchForm-searchInput" type="search" />
         </SearchInputContainer>
         {searchOptionToggle && (
@@ -76,14 +77,20 @@ const SearchInputContainer = styled.div`
     justify-content: center;
   }
 
+  & > svg {
+    position: absolute;
+    transform: translate(0.4rem, 0.4rem);
+  }
+
   & > input {
     background-color: ${(props) => props.theme.$gray_accent};
     border-radius: 0.5rem;
     border-bottom: 0;
     margin: 0;
-    padding: 0.5rem 0.8rem;
+    padding: 0.5rem 0.8rem 0.5rem 2.5rem;
     height: 2.4rem;
     font-size: 1.2rem;
+    text-align: left;
     &:focus {
       border-bottom: 0;
     }
@@ -106,6 +113,7 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   margin: 0 0.5rem;
   border-bottom: 0.1rem solid #afb1b6;
+  text-align: center;
   &:focus {
     border-bottom: 0.1rem solid ${(props) => props.theme.$primary};
   }
@@ -116,6 +124,7 @@ const SearchOptionToggleContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  background-color: ${(props) => props.theme.$white};
 
   & > button {
     background-color: transparent;
