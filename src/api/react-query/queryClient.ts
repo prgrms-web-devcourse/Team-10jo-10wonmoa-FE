@@ -1,7 +1,7 @@
 import { QueryClient } from 'react-query';
-import type { handleError } from '@types';
+import type { HandleError } from '@types';
 
-export const queryClient = (handleError: handleError) =>
+export const queryClient = (handleError: HandleError) =>
   new QueryClient({
     /**
      * @description
