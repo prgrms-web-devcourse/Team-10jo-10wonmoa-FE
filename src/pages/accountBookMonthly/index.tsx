@@ -9,9 +9,7 @@ const AccountBookMonthly = () => {
   const isExist = data.length > 0;
 
   if (!isExist) {
-    <>
-      <p>등록 된 데이터가 없습니다.</p>
-    </>;
+    return <p>등록 된 데이터가 없습니다.</p>;
   }
 
   return (
