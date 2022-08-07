@@ -6,6 +6,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
 import { currencyFormatter } from '@utils/formatter';
 import { useAccountBookSum } from '@hooks/account';
+import type { DateSelectorProps } from '@components/DateSelector';
 
 const AccountBook = () => {
   const {
@@ -36,21 +37,19 @@ const AccountBook = () => {
   const isDaily = path == 'daily';
   const sumResult = isDaily ? monthSumResult : yearSumResult;
 
-  const dateSelectorHandlers: Record<
-    AccountBookPathTypes,
-    { date: string; onChangePev: () => void; onChangeNext: () => void }
-  > = {
-    daily: {
-      date: monthDate,
-      onChangePev: handlePrevMonth,
-      onChangeNext: handleNextMonth,
-    },
-    monthly: {
-      date: yearDate,
-      onChangePev: handlePrevYear,
-      onChangeNext: handleNextYear,
-    },
-  };
+  const dateSelectorHandlers: Record<AccountBookPathTypes, DateSelectorProps> =
+    {
+      daily: {
+        date: monthDate,
+        onChangePev: handlePrevMonth,
+        onChangeNext: handleNextMonth,
+      },
+      monthly: {
+        date: yearDate,
+        onChangePev: handlePrevYear,
+        onChangeNext: handleNextYear,
+      },
+    };
 
   const ACCOUNT_BOOK_TAB_ITEMS = [
     {
@@ -84,8 +83,8 @@ const AccountBook = () => {
     <>
       <TopNavMonthSelector
         date={dateSelectorHandlers[path].date}
-        onChangePrevMonth={dateSelectorHandlers[path].onChangePev}
-        onChangeNextMonth={dateSelectorHandlers[path].onChangeNext}
+        onChangePev={dateSelectorHandlers[path].onChangePev}
+        onChangeNext={dateSelectorHandlers[path].onChangeNext}
       />
       <TabsNavigation tabItems={ACCOUNT_BOOK_TAB_ITEMS} />
       <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />
