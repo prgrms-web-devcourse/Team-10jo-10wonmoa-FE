@@ -6,5 +6,6 @@ export const queryKeys = {
       year: 'year',
     },
     daily: 'accountBook-daily',
+    monthly: 'accountBook-monthly',
   },
 } as const;
