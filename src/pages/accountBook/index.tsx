@@ -4,16 +4,53 @@ import { BottomNavigation, TopNavMonthSelector } from '@components';
 import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
-import { currencyFormatter, dateFormatter } from '@utils/formatter';
+import { currencyFormatter } from '@utils/formatter';
 import { useAccountBookSum } from '@hooks/account';
 
 const AccountBook = () => {
-  const { date, handlePrevMonth, handleNextMonth } = useMonthSelector();
+  const {
+    monthDate,
+    yearDate,
+    handlePrevMonth,
+    handleNextMonth,
+    handleNextYear,
+    handlePrevYear,
+  } = useMonthSelector();
   const { monthSumResult, yearSumResult } = useAccountBookSum();
 
   const { pathname } = useLocation();
   const [, , path] = pathname.split('/');
-  const sumResult = path == 'monthly' ? yearSumResult : monthSumResult;
+
+  type AccountBookPathTypes = 'daily' | 'monthly';
+
+  const isAccountBookPath = (path: string): path is AccountBookPathTypes => {
+    if (path === 'daily') return true;
+    if (path === 'monthly') return true;
+    return false;
+  };
+
+  if (!isAccountBookPath(path)) {
+    throw new Error('정상적이지 않은 경로로 접근했습니다.');
+  }
+
+  const isDaily = path == 'daily';
+  const sumResult = isDaily ? monthSumResult : yearSumResult;
+
+  const dateSelectorHandlers: Record<
+    AccountBookPathTypes,
+    { date: string; onChangePev: () => void; onChangeNext: () => void }
+  > = {
+    daily: {
+      date: monthDate,
+      onChangePev: handlePrevMonth,
+      onChangeNext: handleNextMonth,
+    },
+    monthly: {
+      date: yearDate,
+      onChangePev: handlePrevYear,
+      onChangeNext: handleNextYear,
+    },
+  };
 
   const ACCOUNT_BOOK_TAB_ITEMS = [
     {
@@ -46,9 +83,9 @@ const AccountBook = () => {
   return (
     <>
       <TopNavMonthSelector
-        date={dateFormatter(date.toString(), 'YEAR_DAY_DASH')}
-        onChangePrevMonth={handlePrevMonth}
-        onChangeNextMonth={handleNextMonth}
+        date={dateSelectorHandlers[path].date}
+        onChangePrevMonth={dateSelectorHandlers[path].onChangePev}
+        onChangeNextMonth={dateSelectorHandlers[path].onChangeNext}
       />
       <TabsNavigation tabItems={ACCOUNT_BOOK_TAB_ITEMS} />
       <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />
