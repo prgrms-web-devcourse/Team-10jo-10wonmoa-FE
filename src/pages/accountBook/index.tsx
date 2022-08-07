@@ -2,14 +2,18 @@ import React from 'react';
 import { theme } from '@styles';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
 import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
 import { currencyFormatter, dateFormatter } from '@utils/formatter';
-import useAccountBookSum from '@hooks/account/useAccountBookSum';
+import { useAccountBookSum } from '@hooks/account';
 
 const AccountBook = () => {
   const { date, handlePrevMonth, handleNextMonth } = useMonthSelector();
-  const { data: monthSumResult } = useAccountBookSum();
+  const { monthSumResult, yearSumResult } = useAccountBookSum();
+
+  const { pathname } = useLocation();
+  const [, , path] = pathname.split('/');
+  const sumResult = path == 'monthly' ? yearSumResult : monthSumResult;
 
   const ACCOUNT_BOOK_TAB_ITEMS = [
     {
@@ -24,17 +28,17 @@ const AccountBook = () => {
 
   const ACCOUNT_TYPE = [
     {
-      value: currencyFormatter(monthSumResult.incomeSum),
+      value: currencyFormatter(sumResult.incomeSum),
       title: '수입',
       color: theme.$blue,
     },
     {
-      value: currencyFormatter(monthSumResult.expenditureSum),
+      value: currencyFormatter(sumResult.expenditureSum),
       title: '지출',
       color: theme.$red,
     },
     {
-      value: currencyFormatter(monthSumResult.totalSum),
+      value: currencyFormatter(sumResult.totalSum),
       title: '합계',
     },
   ];
