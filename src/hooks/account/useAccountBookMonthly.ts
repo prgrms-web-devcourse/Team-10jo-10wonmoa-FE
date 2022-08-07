@@ -20,8 +20,9 @@ const useAccountBookMonthly = () => {
   );
 
   const fallback: MonthlyAccount[] = [];
-  const { data = fallback } = useQuery([queryKeys.accountBook.monthly], () =>
-    fetchAccountMonthly(date)
+  const { data = fallback } = useQuery(
+    [queryKeys.accountBook.monthly, date],
+    () => fetchAccountMonthly(date)
   );
 
   return {
