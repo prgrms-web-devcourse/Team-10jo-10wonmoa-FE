@@ -34,3 +34,10 @@ declare type AccountBookSum = {
   expenditureSum: number;
   totalSum: number;
 };
+
+declare type MonthlyAccount = {
+  incomeSum: number;
+  expenditureSum: number;
+  totalSum: number;
+  month: number;
+};
