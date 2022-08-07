@@ -11,7 +11,6 @@ const fetchAccountBookMonthSum = async (
   const { data }: AxiosResponse<AccountBookSum> = await axiosInstance.get(
     `/account-book/sum/${date}-01`
   );
-  console.log(data);
   return data;
 };
 

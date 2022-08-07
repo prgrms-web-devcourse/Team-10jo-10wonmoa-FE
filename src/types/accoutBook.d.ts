@@ -14,7 +14,7 @@ declare type SingleAccount = {
 
 declare type DailyAccountBook = {
   currentPage: number;
-  nextPage: number;
+  nextPage: number | null;
   results: DailyAccount[];
 };
 
