@@ -7,19 +7,36 @@ interface Data {
   total: number;
 }
 
+interface ArcData {
+  data: Data;
+  endAngle: number;
+  index: number;
+  padAngle: number;
+  startAngle: number;
+  value: number;
+}
+
 interface ArcProp {
-  data?: any;
-  index?: any;
+  data?: ArcData;
+  index?: number;
   createArc?: any;
   colors?: any;
   format?: any;
 }
 
+interface PieData {
+  data: Data;
+  index: number;
+  value: number;
+  startAngle: number;
+  endAngle: number;
+}
 interface PieProp {
-  innerRadius?: any;
-  outerRadius?: any;
+  innerRadius?: number;
+  outerRadius?: number;
+  //data?: PieData[];
   data?: any;
-  colorList?: any;
+  colorList?: readonly string[];
 }
 
 const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
@@ -41,7 +58,7 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
         fill="black"
         fontSize="16"
       >
-        {data.data.name}
+        {data ? data.data.name : null}
       </text>
       <text
         transform={`translate(${positionPercent})`}
@@ -49,7 +66,7 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
         fill="white"
         fontSize="12"
       >
-        {format(data.value)}%
+        {data ? format(data.value) : null}%
       </text>
     </g>
   );
@@ -61,7 +78,7 @@ const PieChart: React.FC<PieProp> = ({
   data,
   colorList,
 }) => {
-  const createPie = d3.pie<Data>().value((d) => d.percent);
+  const createPie = d3.pie<Data>().value((d: Data): number => d.percent);
   const createArc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
   const colors = d3.scaleOrdinal(colorList);
   const format = d3.format('.1f');
