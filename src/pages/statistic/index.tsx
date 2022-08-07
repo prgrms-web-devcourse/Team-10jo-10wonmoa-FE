@@ -11,7 +11,8 @@ import {
 } from '@components';
 import { useMonthSelector } from '@hooks';
 import PieChart from '@components/statistic/PieChart';
-import type { TabItem } from '@components/Tabs';
+
+import type { TabItem } from '@types';
 import { STATISTICS_TABS } from '../../constants/Tabs';
 import { monthData } from './DummyData';
 import * as d3 from 'd3';
