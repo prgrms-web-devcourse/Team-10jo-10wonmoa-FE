@@ -73,14 +73,16 @@ const AccountBookDaily: React.FC = () => {
     );
   }
 
+  const dailyAccounts = dailyResult?.pages
+    .map((page: DailyAccountBook) => page.results)
+    .flat();
+
   return (
     <CardArea>
       <div ref={topRef} />
-      {dailyResult?.pages.map((page: DailyAccountBook) => {
-        return page.results.map((item: DailyAccount, idx: number) => (
-          <AccountBookDailyCard key={idx} items={item} />
-        ));
-      })}
+      {dailyAccounts?.map((item: DailyAccount, idx: number) => (
+        <AccountBookDailyCard key={idx} items={item} />
+      ))}
       <div ref={loadingRef}>{hasNextPage && <Spinner />}</div>
       <GoTopButton topRef={topRef} isVisible={visible} />
       <PlusButton onClickPlus={handleNavigateCreateAccount} />
