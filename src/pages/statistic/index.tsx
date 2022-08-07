@@ -11,7 +11,7 @@ import {
 } from '@components';
 import { useMonthSelector } from '@hooks';
 
-import type { TabItem } from '@components/Tabs';
+import type { TabItem } from '@types';
 import { STATISTICS_TABS } from '../../constants/Tabs';
 
 const Statistics = () => {

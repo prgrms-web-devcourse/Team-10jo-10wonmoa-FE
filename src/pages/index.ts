@@ -1,6 +1,7 @@
 import Login from './login';
 import SignUp from './signUp';
-import Account from './account';
+import CreateAccount from './createAccount';
+import UpdateAccount from './updateAccount';
 import AccountBook from './accountBook';
 import AccountBookDaily from './accountBookDaily';
 import AccountBookCalendar from './accountBookCalendar';
@@ -12,7 +13,8 @@ import NotFound from './notFound';
 export {
   Login,
   SignUp,
-  Account,
+  CreateAccount,
+  UpdateAccount,
   AccountBook,
   AccountBookDaily,
   AccountBookCalendar,
