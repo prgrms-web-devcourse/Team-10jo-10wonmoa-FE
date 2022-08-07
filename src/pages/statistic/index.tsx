@@ -36,7 +36,6 @@ const Statistics = () => {
   const handleTabClick = (clickedTab: TabItem) => {
     setCurrentTab(clickedTab);
   };
-
   return (
     <>
       <YearMonthWrapper>
@@ -54,14 +53,8 @@ const Statistics = () => {
           />
         )}
 
-        <DropDown />
+        <DropDown setIsMonth={setIsMonth} />
       </YearMonthWrapper>
-
-      <div>
-        테스트용
-        <button onClick={() => setIsMonth(false)}>YEAR</button>
-        <button onClick={() => setIsMonth(true)}>MONTH</button>
-      </div>
 
       <TabsWrapper>
         <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
