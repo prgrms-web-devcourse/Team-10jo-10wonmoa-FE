@@ -34,7 +34,7 @@ const AccountBook = () => {
     throw new Error('정상적이지 않은 경로로 접근했습니다.');
   }
 
-  const isDaily = path == 'daily';
+  const isDaily = path === 'daily';
   const sumResult = isDaily ? monthSumResult : yearSumResult;
 
   const dateSelectorHandlers: Record<AccountBookPathTypes, DateSelectorProps> =
