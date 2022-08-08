@@ -1,3 +1,4 @@
 import SearchForm from './SearchForm';
+import SearchResultAccountItem from './SearchResultAccountItem';
 
-export { SearchForm };
+export { SearchForm, SearchResultAccountItem };
