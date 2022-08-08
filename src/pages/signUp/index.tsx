@@ -1,17 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import SignUpForm from './components/SignUpForm';
 import { LoginLayout } from '@components';
 import type { NewUser } from '@types';
-import useAuth from '@hooks/auth/useAuth';
+import useSignUp from '@hooks/auth/useSignUp';
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const sigUp = useSignUp();
 
   const submitHandler = async (newUser: NewUser) => {
-    await signUp(newUser);
-    navigate('/login');
+    sigUp(newUser);
   };
 
   return (
