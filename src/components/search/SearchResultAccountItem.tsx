@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
 import { useNavigate } from 'react-router-dom';
-import { currencyFormatter } from '@utils/formatter';
+import { currencyFormatter, dateFormatter } from '@utils/formatter';
 
 const colorType = {
   INCOME: theme.$blue,
@@ -21,7 +21,7 @@ const SearchResultAccountItem = ({ item }: SearchResultAccountItemProps) => {
 
   return (
     <AccountItemContainer onClick={() => navigate(accountUpdatePath)}>
-      <div>{item.registerTime}</div>
+      <div>{dateFormatter(item.registerTime, 'YEAR_MONTH_DAY_DASH')}</div>
       <AccountItemContentDiv>
         <p>{item.categoryName}</p>
         <p>{item.content}</p>

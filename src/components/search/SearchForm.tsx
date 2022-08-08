@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { ChevronDown, ChevronUp, Search } from 'react-feather';
 
-const SearchForm = () => {
+interface SearchFormProps {
+  onSubmit: (e: React.FormEvent<HTMLButtonElement>) => void;
+}
+
+const SearchForm = ({ onSubmit }: SearchFormProps) => {
   const [searchOptionToggle, setSearchOptionToggle] = useState(false);
 
   const handleToggleButton = () => {
@@ -15,7 +19,14 @@ const SearchForm = () => {
         <SearchInputContainer>
           <label htmlFor="searchForm-searchInput">검색</label>
           <Search size={20} />
-          <StyledInput id="searchForm-searchInput" type="search" />
+          <StyledInput
+            id="searchForm-searchInput"
+            type="search"
+            name="content"
+          />
+          <button type="submit" onClick={onSubmit}>
+            <Search size={20} />
+          </button>
         </SearchInputContainer>
         {searchOptionToggle && (
           <>
@@ -66,6 +77,8 @@ const SearchFormContainer = styled.form`
 `;
 
 const SearchInputContainer = styled.div`
+  display: flex;
+
   & > label {
     position: absolute;
     width: 1px;
@@ -84,7 +97,8 @@ const SearchInputContainer = styled.div`
 
   & > input {
     background-color: ${(props) => props.theme.$gray_accent};
-    border-radius: 0.5rem;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
     border-bottom: 0;
     margin: 0;
     padding: 0.5rem 0.8rem 0.5rem 2.5rem;
@@ -94,6 +108,20 @@ const SearchInputContainer = styled.div`
     &:focus {
       border-bottom: 0;
     }
+  }
+
+  & > button {
+    background-color: ${(props) => props.theme.$primary};
+    border: 0;
+    color: ${(props) => props.theme.$white};
+    cursor: pointer;
+    width: 4rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
 `;
 

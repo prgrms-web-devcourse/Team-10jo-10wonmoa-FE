@@ -49,6 +49,9 @@ const fetchGetCategory = (kind: string) => {
     .then((response) => response.data);
 };
 
+const fetchGetSearchResult = () =>
+  axios.get('/account-book/search').then((response) => response.data);
+
 export {
   fetchPostIncomes,
   fetchPostExpenditures,
@@ -59,4 +62,5 @@ export {
   fetchDeleteIncomes,
   fetchDeleteExpenditures,
   fetchGetCategory,
+  fetchGetSearchResult,
 };
