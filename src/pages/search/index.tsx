@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { TopNavBar } from '@components';
 import { SearchForm, SearchResultAccountItem } from '@components/search';
@@ -7,19 +7,25 @@ import { currencyFormatter } from '@utils/formatter';
 import { theme } from '@styles';
 import { fetchGetSearchResult } from '@api';
 import { useQuery } from 'react-query';
+import { CreateSearchRequest } from '@types';
 
 const Search = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const [searchParams, setSearchParams] = useState<string | null>(null);
+
+  const handleSubmit = (
+    e: React.FormEvent<HTMLButtonElement>,
+    formValues: CreateSearchRequest
+  ) => {
     e.preventDefault();
-    refetch();
-    console.log('submit');
+    console.log(formValues);
+    setSearchParams('');
   };
 
-  const { data: searchResult, refetch } = useQuery(
-    'search',
-    fetchGetSearchResult,
+  const { data: searchResult } = useQuery(
+    ['search', searchParams],
+    () => fetchGetSearchResult(searchParams),
     {
-      enabled: false,
+      enabled: searchParams !== null,
       onSuccess: (data) => {
         console.log(data);
       },
@@ -54,7 +60,7 @@ const Search = () => {
           <>
             <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />
             <SearchResultAccountList>
-              {searchResult.results.map((item: SingleAccount) => (
+              {searchResult.results?.map((item: SingleAccount) => (
                 <SearchResultAccountItem item={item} key={item.id} />
               ))}
             </SearchResultAccountList>

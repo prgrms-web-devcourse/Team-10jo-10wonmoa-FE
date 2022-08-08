@@ -1,16 +1,51 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { ChevronDown, ChevronUp, Search } from 'react-feather';
+import { CreateSearchRequest } from '@types';
+import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
 
 interface SearchFormProps {
-  onSubmit: (e: React.FormEvent<HTMLButtonElement>) => void;
+  onSubmit: (
+    e: React.FormEvent<HTMLButtonElement>,
+    formValues: CreateSearchRequest
+  ) => void;
 }
+
+const initialFormValue = {
+  content: '',
+  categories: [],
+  categoryNames: '',
+  minprice: 0,
+  maxprice: 0,
+};
 
 const SearchForm = ({ onSubmit }: SearchFormProps) => {
   const [searchOptionToggle, setSearchOptionToggle] = useState(false);
+  const [formValues, setFormValues] = useState(initialFormValue);
+
+  const amountFormatter = (amount: number) => {
+    return amount === 0 ? '' : currencyFormatter(amount);
+  };
 
   const handleToggleButton = () => {
     setSearchOptionToggle((prevState) => !prevState);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    customValue?: string | number
+  ) => {
+    const { name, value } = e.target;
+
+    setFormValues((prevForm) => ({
+      ...prevForm,
+      [name]: customValue ?? value,
+    }));
+  };
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    handleChange(e, amountToNumberFormatter(value));
   };
 
   return (
@@ -23,8 +58,10 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
             id="searchForm-searchInput"
             type="search"
             name="content"
+            value={formValues.content}
+            onChange={handleChange}
           />
-          <button type="submit" onClick={onSubmit}>
+          <button type="submit" onClick={(e) => onSubmit(e, formValues)}>
             <Search size={20} />
           </button>
         </SearchInputContainer>
@@ -32,22 +69,31 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
           <>
             <StyledInputContainer>
               분류
-              <StyledInput type="text" name="userCategoryId" readOnly />
+              <StyledInput
+                type="text"
+                name="categories"
+                value={formValues.categoryNames}
+                readOnly
+              />
             </StyledInputContainer>
             <StyledInputContainer>
               금액
               <StyledInput
                 type="text"
-                name="minAmount"
+                name="minprice"
                 placeholder="최소"
                 title="최소 금액"
+                value={amountFormatter(formValues.minprice)}
+                onChange={handleAmountChange}
               />
               ~
               <StyledInput
                 type="text"
-                name="maxAmount"
+                name="maxprice"
                 placeholder="최대"
                 title="최대 금액"
+                value={amountFormatter(formValues.maxprice)}
+                onChange={handleAmountChange}
               />
             </StyledInputContainer>
           </>

@@ -49,8 +49,13 @@ const fetchGetCategory = (kind: string) => {
     .then((response) => response.data);
 };
 
-const fetchGetSearchResult = () =>
-  axios.get('/account-book/search').then((response) => response.data);
+const fetchGetSearchResult = (searchParams: string | null) => {
+  console.log(searchParams);
+  const searchResultURL = `/account-book/search${
+    searchParams ? '?' + searchParams : ''
+  }`;
+  return axios.get(searchResultURL).then((response) => response.data);
+};
 
 export {
   fetchPostIncomes,
