@@ -1,55 +1,68 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Calendar from '@toast-ui/react-calendar';
-import ToastUICalendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 const AccountBookCalendar = () => {
   const calendars = [
     {
       id: 'cal1',
       name: 'My Calendar',
-      color: '#ffffff',
-      bgColor: '#9e5fff',
-      dragBgColor: '#9e5fff',
-      borderColor: '#9e5fff',
+      backgroundColor: '#fff',
+      dragBgColor: '#fff',
+      borderColor: '#fff',
     },
     {
       id: 'cal2',
-      color: '#FE2E2E',
       name: 'Another Calendar',
-      backgroundColor: '#8181F7',
+      backgroundColor: '#fff',
+      dragBgColor: '#fff',
+      borderColor: '#fff',
     },
   ];
   const initialEvents = [
     {
       id: '1',
       calendarId: 'cal1',
-      title: 'Income',
-      category: 'Income',
-      isAllDay: true,
-      start: '2022-08-08',
-      isVisible: true,
-      //end: '2022-08-08T13:30',
-    },
-    {
-      id: '1',
-      calendarId: 'cal1',
-      title: 'Expend',
-      body: 'Expend',
-      category: 'Expend',
-      isAllDay: true,
+      title: '200,000',
+      category: 'milestone',
       isVisible: true,
       start: '2022-08-08',
-      //end: '2022-08-08T13:30',
+      end: '2022-08-08',
     },
     {
       id: '2',
+      calendarId: 'cal1',
+      title: '100,000',
+      category: 'task',
+      isVisible: true,
+      start: '2022-08-08',
+      end: '2022-08-08',
+    },
+    {
+      id: '3',
+      calendarId: 'cal1',
+      title: '100,000',
+      category: 'allday',
+      isVisible: true,
+      start: '2022-08-08',
+      end: '2022-08-08T13:30',
+    },
+    {
+      id: '4',
       calendarId: 'cal2',
-      title: 'Expenditures',
-      body: 'Expenditures',
-      category: 'Expenditures',
-      start: '2022-08-28T15:00:00',
-      end: '2022-08-29T15:30:00',
+      title: '1,000',
+      category: 'milestone',
+      start: '2022-08-28',
+      end: '2022-08-28',
+      isVisible: true,
+    },
+    {
+      id: '5',
+      calendarId: 'cal2',
+      title: '2,000',
+      category: 'allday',
+      start: '2022-08-28',
+      end: '2022-08-28',
       isVisible: true,
     },
   ];
@@ -76,19 +89,38 @@ const AccountBookCalendar = () => {
       },
     ],
   };
+  const onAfterRenderEvent = (event: any) => {
+    console.log(event);
+  };
+  const template = {
+    /* 수입 */
+    allday(event: any) {
+      return `<p style="color: blue; font-size: 2px;">${event.title}</p>`;
+    },
+    /* 지출 */
+    milestone(event: any) {
+      return `<p style="color: red; font-size: 2px;">${event.title}</p>`;
+    },
+    /* 합계 */
+    task(event: any) {
+      return `<p style="color: black; font-size: 2px;">${event.title}</p>`;
+    },
+  };
   return (
     <CalendarWrapper>
       <Calendar
-        height="500px"
+        height="650px"
         view="month"
         month={{
-          isAlways6Weeks: true,
+          isAlways6Weeks: false,
           visibleEventCount: 3,
           dayNames: ['일', '월', '화', '수', '목', '금', '토'],
         }}
         calendars={calendars}
         events={initialEvents}
         useDetailPopup={true}
+        onAfterRenderEvent={onAfterRenderEvent}
+        template={template}
       />
     </CalendarWrapper>
   );
