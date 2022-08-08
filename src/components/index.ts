@@ -7,6 +7,7 @@ import Tabs from './Tabs';
 import Button from './Button';
 import Input from './Input';
 import MonthSelector from './MonthSelector';
+import DateSelector from './DateSelector';
 import TopNavOutline from './TopNavOutline';
 import TopNavBar from './TopNavBar';
 import TopNavMonthSelector from './TopNavMonthSelector';
@@ -29,6 +30,7 @@ export {
   Button,
   Input,
   MonthSelector,
+  DateSelector,
   TopNavOutline,
   TopNavBar,
   TopNavMonthSelector,
