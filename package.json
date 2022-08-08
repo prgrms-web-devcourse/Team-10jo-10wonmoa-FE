@@ -22,7 +22,6 @@
     "dayjs": "^1.11.4",
     "dotenv": "^16.0.1",
     "react": "^18.2.0",
-    "react-calendar": "^3.7.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-google-login": "^5.2.2",
