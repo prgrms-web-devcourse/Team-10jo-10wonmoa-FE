@@ -22,11 +22,12 @@ const AccountBook = () => {
   const { pathname } = useLocation();
   const [, , path] = pathname.split('/');
 
-  type AccountBookPathTypes = 'daily' | 'monthly';
+  type AccountBookPathTypes = 'daily' | 'monthly' | 'calendar';
 
   const isAccountBookPath = (path: string): path is AccountBookPathTypes => {
     if (path === 'daily') return true;
     if (path === 'monthly') return true;
+    if (path === 'calendar') return true;
     return false;
   };
 
@@ -48,6 +49,11 @@ const AccountBook = () => {
         date: yearDate,
         onChangePev: handlePrevYear,
         onChangeNext: handleNextYear,
+      },
+      calendar: {
+        date: monthDate,
+        onChangePev: handlePrevMonth,
+        onChangeNext: handleNextMonth,
       },
     };
 
