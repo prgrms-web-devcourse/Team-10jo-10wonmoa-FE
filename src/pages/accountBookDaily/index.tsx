@@ -73,9 +73,9 @@ const AccountBookDaily: React.FC = () => {
     );
   }
 
-  const dailyAccounts = dailyResult?.pages
-    .map((page: DailyAccountBook) => page.results)
-    .flat();
+  const dailyAccounts = dailyResult?.pages.flatMap(
+    (page: DailyAccountBook) => page.results
+  );
 
   return (
     <CardArea>
