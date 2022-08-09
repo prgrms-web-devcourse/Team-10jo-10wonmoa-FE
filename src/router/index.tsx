@@ -2,13 +2,15 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import {
   Login,
   SignUp,
-  Account,
+  CreateAccount,
+  UpdateAccount,
   AccountBook,
   AccountBookDaily,
   AccountBookCalendar,
   AccountBookMonthly,
   Statistics,
   Budget,
+  NotFound,
 } from '@pages';
 
 const AppRouter = () => {
@@ -19,8 +21,12 @@ const AppRouter = () => {
       <Route path="/signUp" element={<SignUp />} />
 
       <Route path="/account">
-        <Route path={`create`} element={<Account />} />
-        <Route path={`update/:id`} />
+        <Route path={`create`} element={<CreateAccount />} />
+        <Route path={'update/income/:accountId'} element={<UpdateAccount />} />
+        <Route
+          path={'update/expenditure/:accountId'}
+          element={<UpdateAccount />}
+        />
       </Route>
 
       <Route path="/account-book" element={<AccountBook />}>
@@ -31,6 +37,9 @@ const AppRouter = () => {
 
       <Route path="/statistics" element={<Statistics />}></Route>
       <Route path="/budget" element={<Budget />}></Route>
+
+      <Route path="/404" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

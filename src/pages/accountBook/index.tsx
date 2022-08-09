@@ -2,26 +2,54 @@ import React from 'react';
 import { theme } from '@styles';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
 import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
-import { currencyFormatter } from '@utils/formatter/currencyFormatter';
+import { currencyFormatter } from '@utils/formatter';
+import { useAccountBookSum } from '@hooks/account';
+import type { DateSelectorProps } from '@components/DateSelector';
 
 const AccountBook = () => {
-  const { monthDate, handlePrevMonth, handleNextMonth } = useMonthSelector();
+  const {
+    monthDate,
+    yearDate,
+    handlePrevMonth,
+    handleNextMonth,
+    handleNextYear,
+    handlePrevYear,
+  } = useMonthSelector();
+  const { monthSumResult, yearSumResult } = useAccountBookSum();
 
-  /**
-   * API 명세 임시 목업 데이터
-   * - Axios 세팅 후 연결
-   * */
-  const data = {
-    results: {
-      monthIncome: 60000,
-      monthExpenditure: 20000,
-      monthTotal: 40000,
-    },
+  const { pathname } = useLocation();
+  const [, , path] = pathname.split('/');
+
+  type AccountBookPathTypes = 'daily' | 'monthly';
+
+  const isAccountBookPath = (path: string): path is AccountBookPathTypes => {
+    if (path === 'daily') return true;
+    if (path === 'monthly') return true;
+    return false;
   };
 
-  const { results: accountSum } = data;
+  if (!isAccountBookPath(path)) {
+    throw new Error('정상적이지 않은 경로로 접근했습니다.');
+  }
+
+  const isDaily = path === 'daily';
+  const sumResult = isDaily ? monthSumResult : yearSumResult;
+
+  const dateSelectorHandlers: Record<AccountBookPathTypes, DateSelectorProps> =
+    {
+      daily: {
+        date: monthDate,
+        onChangePev: handlePrevMonth,
+        onChangeNext: handleNextMonth,
+      },
+      monthly: {
+        date: yearDate,
+        onChangePev: handlePrevYear,
+        onChangeNext: handleNextYear,
+      },
+    };
 
   const ACCOUNT_BOOK_TAB_ITEMS = [
     {
@@ -36,17 +64,17 @@ const AccountBook = () => {
 
   const ACCOUNT_TYPE = [
     {
-      value: currencyFormatter(accountSum.monthIncome),
+      value: currencyFormatter(sumResult.incomeSum),
       title: '수입',
       color: theme.$blue,
     },
     {
-      value: currencyFormatter(accountSum.monthExpenditure),
+      value: currencyFormatter(sumResult.expenditureSum),
       title: '지출',
       color: theme.$red,
     },
     {
-      value: currencyFormatter(accountSum.monthTotal),
+      value: currencyFormatter(sumResult.totalSum),
       title: '합계',
     },
   ];
@@ -54,9 +82,9 @@ const AccountBook = () => {
   return (
     <>
       <TopNavMonthSelector
-        date={monthDate}
-        onChangePrevMonth={handlePrevMonth}
-        onChangeNextMonth={handleNextMonth}
+        date={dateSelectorHandlers[path].date}
+        onChangePev={dateSelectorHandlers[path].onChangePev}
+        onChangeNext={dateSelectorHandlers[path].onChangeNext}
       />
       <TabsNavigation tabItems={ACCOUNT_BOOK_TAB_ITEMS} />
       <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />

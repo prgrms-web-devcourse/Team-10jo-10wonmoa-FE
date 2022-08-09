@@ -1,45 +1,110 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@components';
 import { CategoryBox } from '@components/account';
-import { useFormatAmount, useClickAway } from '@hooks';
-import { theme } from '@styles';
-import type { Category, CreateAccountForm } from '@models';
+import { useClickAway } from '@hooks';
+import type { Category, AccountDetailResponse } from '@types';
+import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
 
 interface AccountFormProps {
   onSubmit: () => void;
-  onChangeForm: React.Dispatch<React.SetStateAction<CreateAccountForm>>;
+  onChangeForm: React.Dispatch<React.SetStateAction<AccountDetailResponse>>;
   categories: Category[];
+  formValues: AccountDetailResponse;
+  onDelete?: () => void;
 }
+
+const AMOUNT_MIN_LIMIT = 0;
+const AMOUNT_MAX_LIMIT = 1000000000000;
+const CONTENT_MAX_LIMIT = 50;
+
+const initialErrorForm: Record<string, string> = {
+  amount: '',
+  registerDate: '',
+  userCategoryId: '',
+  content: '',
+};
 
 const AccountForm = ({
   onSubmit,
   onChangeForm,
   categories,
+  formValues,
+  onDelete,
 }: AccountFormProps) => {
-  const { originAmount, formattedAmount, setAmount } = useFormatAmount();
+  const [formErrors, setFormErrors] = useState(initialErrorForm);
   const [categoryToggle, setCategoryToggle] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
   const categoryRef = useClickAway(() => setCategoryToggle(false));
 
-  useEffect(() => {
-    setSelectedCategory('');
-    onChangeForm((prevForm) => ({
-      ...prevForm,
-      userCategoryId: '',
-    }));
-  }, [categories]);
+  const isValidAmount = () => {
+    return (
+      formValues.amount > AMOUNT_MIN_LIMIT &&
+      formValues.amount < AMOUNT_MAX_LIMIT
+    );
+  };
+
+  const isValidCategory = () => {
+    return formValues.userCategoryId !== 0;
+  };
+
+  const isValidContent = () => {
+    return (
+      formValues.content == null ||
+      formValues.content.length <= CONTENT_MAX_LIMIT
+    );
+  };
+
+  const isValidateAccount = () => {
+    if (!isValidAmount()) {
+      setFormErrors({
+        ...initialErrorForm,
+        amount: '금액은 1원 ~ 1조 미만까지 등록 가능합니다.',
+      });
+
+      return false;
+    }
+
+    if (!isValidCategory()) {
+      setFormErrors({
+        ...initialErrorForm,
+        userCategoryId: '카테고리 선택은 필수입니다',
+      });
+
+      return false;
+    }
+
+    if (!isValidContent()) {
+      setFormErrors({
+        ...initialErrorForm,
+        content: '내용은 50자 이하만 가능합니다',
+      });
+
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit();
+    if (isValidateAccount()) {
+      onSubmit();
+    }
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    customValue?: string
+    customValue?: string | number
   ) => {
     const { name, value } = e.target;
+
+    if (name in formErrors && formErrors[name].length !== 0) {
+      setFormErrors((prevError) => ({
+        ...prevError,
+        [name]: '',
+      }));
+    }
+
     onChangeForm((prevForm) => ({
       ...prevForm,
       [name]: customValue ?? value,
@@ -48,15 +113,14 @@ const AccountForm = ({
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setAmount(value);
-    handleChange(e, originAmount.current);
+    handleChange(e, amountToNumberFormatter(value));
   };
 
   const handleCategorySelect = (category: Category) => {
-    setSelectedCategory(category.name);
     onChangeForm((prevForm) => ({
       ...prevForm,
       userCategoryId: category.id,
+      categoryName: category.name,
     }));
     setCategoryToggle(false);
   };
@@ -71,9 +135,10 @@ const AccountForm = ({
               type="text"
               name="amount"
               required
-              value={formattedAmount}
+              value={currencyFormatter(formValues.amount)}
               onChange={handleAmountChange}
             />
+            <ErrorMessageContent>{formErrors.amount}</ErrorMessageContent>
           </StyledInputContainer>
           <StyledInputContainer>
             날짜
@@ -81,6 +146,7 @@ const AccountForm = ({
               type="datetime-local"
               name="registerDate"
               required
+              value={formValues.registerDate}
               onChange={handleChange}
             />
           </StyledInputContainer>
@@ -91,18 +157,34 @@ const AccountForm = ({
               name="userCategoryId"
               readOnly
               required
-              value={selectedCategory}
+              value={formValues.categoryName}
               onClick={() => setCategoryToggle(true)}
             />
+            <ErrorMessageContent>
+              {formErrors.userCategoryId}
+            </ErrorMessageContent>
           </StyledInputContainer>
           <StyledInputContainer>
             내용
-            <input type="text" name="content" onChange={handleChange} />
+            <input
+              type="text"
+              name="content"
+              value={formValues.content ?? ''}
+              onChange={handleChange}
+            />
+            <ErrorMessageContent>{formErrors.content}</ErrorMessageContent>
           </StyledInputContainer>
         </InputContainer>
-        <Button buttonType="primary" sizeType="large">
-          등록
-        </Button>
+        <ButtonContainer>
+          {onDelete && (
+            <Button buttonType="red" sizeType="large" onClick={onDelete}>
+              삭제
+            </Button>
+          )}
+          <Button buttonType="primary" sizeType="large">
+            등록
+          </Button>
+        </ButtonContainer>
       </StyledForm>
       {categoryToggle && (
         <CategoryBox
@@ -126,11 +208,6 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-
-  & > button {
-    position: relative;
-    margin-top: auto;
-  }
 `;
 
 const InputContainer = styled.div`
@@ -141,7 +218,7 @@ const InputContainer = styled.div`
 `;
 
 const StyledInputContainer = styled.label`
-  color: ${theme.$gray_dark};
+  color: ${(props) => props.theme.$gray_dark};
   & > input {
     width: 20rem;
     height: 2.5rem;
@@ -153,7 +230,23 @@ const StyledInputContainer = styled.label`
     padding: 0.5rem;
     font-size: 1.1rem;
     &:focus {
-      border-bottom: 0.1rem solid ${theme.$primary};
+      border-bottom: 0.1rem solid ${(props) => props.theme.$primary};
     }
   }
+`;
+
+const ButtonContainer = styled.div`
+  position: relative;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+
+  & > button {
+    margin-top: 1rem;
+  }
+`;
+
+const ErrorMessageContent = styled.p`
+  color: ${(props) => props.theme.$red};
+  text-align: center;
 `;

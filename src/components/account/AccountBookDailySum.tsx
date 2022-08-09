@@ -1,24 +1,16 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
+import { dateFormatter, currencyFormatter } from '@utils/formatter';
 
-type DailySum = {
-  registerDate: string;
-  dayIncome: number;
-  dayExpenditure: number;
-};
-interface AccountBookDailySumProps {
-  dailySum: DailySum;
-}
-
-const AccountBookDailySum: React.FC<AccountBookDailySumProps> = (props) => {
+const AccountBookDailySum: React.FC<DailySum> = (props) => {
   return (
     <Container>
-      <StrongText>19</StrongText>
-      <FilledText>화요일</FilledText>
-      <p>2022.07</p>
-      <P color={theme.$blue}>{props.dailySum.dayIncome}</P>
-      <P color={theme.$red}>{props.dailySum.dayExpenditure}</P>
+      <StrongText>{dateFormatter(props.registerDate, 'DAY')}</StrongText>
+      <FilledText>{dateFormatter(props.registerDate, 'WEEKDAY')}</FilledText>
+      <p>{dateFormatter(props.registerDate, 'YEAR_MONTH_DAY_DASH')}</p>
+      <P color={theme.$blue}>{currencyFormatter(props.dayIncome)}</P>
+      <P color={theme.$red}>{currencyFormatter(props.dayExpenditure)}</P>
     </Container>
   );
 };

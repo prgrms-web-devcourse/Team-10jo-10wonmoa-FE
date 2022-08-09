@@ -1,13 +1,13 @@
-import { TopNavOutline, MonthSelector } from '@components';
-import type { MonthSelectorProps } from '@components/MonthSelector';
+import { TopNavOutline, DateSelector } from '@components';
+import type { DateSelectorProps } from '@components/DateSelector';
 
-const TopNavMonthSelector: React.FC<MonthSelectorProps> = (props) => {
+const TopNavMonthSelector: React.FC<DateSelectorProps> = (props) => {
   return (
     <TopNavOutline>
-      <MonthSelector
+      <DateSelector
         date={props.date}
-        onChangePrevMonth={props.onChangePrevMonth}
-        onChangeNextMonth={props.onChangeNextMonth}
+        onChangePev={props.onChangePev}
+        onChangeNext={props.onChangeNext}
       />
     </TopNavOutline>
   );

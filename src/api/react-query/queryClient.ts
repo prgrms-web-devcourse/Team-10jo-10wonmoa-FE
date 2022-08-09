@@ -1,7 +1,7 @@
 import { QueryClient } from 'react-query';
-import type { handleError } from '@types';
+import type { ErrorHandler } from '@types';
 
-export const queryClient = (handleError: handleError) =>
+export const queryClient = (handleError: ErrorHandler) =>
   new QueryClient({
     /**
      * @description
@@ -18,6 +18,7 @@ export const queryClient = (handleError: handleError) =>
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
+        retry: 0,
       },
       mutations: {
         onError: handleError,
