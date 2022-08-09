@@ -52,7 +52,6 @@ const Statistics = () => {
             onChangeNextMonth={handleNextYear}
           />
         )}
-
         <DropDown setIsMonth={setIsMonth} />
       </YearMonthWrapper>
 

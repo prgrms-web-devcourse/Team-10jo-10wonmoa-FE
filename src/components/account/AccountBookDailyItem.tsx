@@ -40,6 +40,8 @@ const Container = styled.div(
   {
     display: 'grid',
     gridTemplateColumns: '1fr 2fr 1fr',
+    paddingBottom: '1rem',
+    borderBottom: '1px solid gray',
     minHeight: '4rem',
     alignItems: 'center',
     margin: '0 2rem',

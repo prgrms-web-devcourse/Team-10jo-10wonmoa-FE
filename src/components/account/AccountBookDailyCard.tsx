@@ -23,7 +23,7 @@ export default AccountBookDailyCard;
 
 const Container = styled.div`
   width: 100%;
-  padding: 1rem 0 2rem 1rem;
   box-shadow: 0px 8px 13px rgba(185, 89, 0, 0.15);
   border-radius: 5px;
+  padding-bottom: 2.4rem;
 `;
