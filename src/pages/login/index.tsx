@@ -1,54 +1,45 @@
 import React from 'react';
-import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { theme } from '@styles';
-import { GoogleLogin } from 'react-google-login';
+import styled from '@emotion/styled';
+import { TopNavBar, CoinIcon, Divider } from '@components';
 import LoginForm from './components/LoginForm';
-import { LoginLayout } from '@components';
+import { Title, SubTitle, TitleSection } from '@components/auth';
 import { LoginUser } from '@types';
 import useLogin from '@hooks/auth/useLogin';
 
 const Login = () => {
   const login = useLogin();
-  const googleClientId = process.env.REACT_APP_CLIENT_ID || '';
-
-  const onLoginSuccess = async (res: unknown) => {
-    console.log(res);
-  };
 
   const submitHandler = (loginUser: LoginUser) => {
+    console.log('login');
     login(loginUser);
   };
 
   return (
-    <LoginLayout title="로그인" isActiveGoBack={true}>
-      <LoginForm submitHandler={submitHandler} buttonTitle="로그인하기" />
-      <GoogleLogin
-        clientId={googleClientId}
-        buttonText="Google로 로그인하기"
-        onSuccess={(res) => onLoginSuccess(res)}
-        onFailure={(res) => console.log(res)}
-      />
-
-      <LoginDescription>
-        <p>오늘 처음이신가요?</p>
-        <Link to={'/signUp'}>회원가입하기</Link>
-      </LoginDescription>
-    </LoginLayout>
+    <>
+      <TopNavBar />
+      <CoinIcon />
+      <TitleSection>
+        <Title text="로그인" />
+        <SubTitle text="편리하게 돈을 관리해보세요." />
+      </TitleSection>
+      <LoginForm submitHandler={submitHandler} />
+      <Divider size={20} />
+      <SignUpLink>
+        오늘 처음이신가요? <Link to={'/signUp'}>회원가입하기</Link>
+      </SignUpLink>
+    </>
   );
 };
 
 export default Login;
 
-const LoginDescription = styled.span`
+const SignUpLink = styled.div`
   display: flex;
-  width: 100%;
-  align-items: center;
   justify-content: center;
-  gap: 2rem;
-  > * {
-    &:nth-child(2) {
-      color: ${theme.$primary};
-    }
+  gap: 1rem;
+  > a {
+    color: ${(props) => props.theme.$primary};
+    font-weight: 600;
   }
 `;

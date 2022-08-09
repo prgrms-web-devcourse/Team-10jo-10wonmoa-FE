@@ -1,6 +1,7 @@
 import React from 'react';
 import SignUpForm from './components/SignUpForm';
-import { LoginLayout } from '@components';
+import { TopNavBar, CoinIcon } from '@components';
+import { Title, TitleSection } from '@components/auth';
 import type { NewUser } from '@types';
 import useSignUp from '@hooks/auth/useSignUp';
 
@@ -12,9 +13,14 @@ const SignUp = () => {
   };
 
   return (
-    <LoginLayout title="회원가입" isActiveGoBack={true}>
-      <SignUpForm submitHandler={submitHandler} buttonTitle="회원가입하기" />
-    </LoginLayout>
+    <>
+      <TopNavBar isActiveGoBack={true} />
+      <CoinIcon />
+      <TitleSection>
+        <Title text="회원가입" />
+      </TitleSection>
+      <SignUpForm submitHandler={submitHandler} />
+    </>
   );
 };
 

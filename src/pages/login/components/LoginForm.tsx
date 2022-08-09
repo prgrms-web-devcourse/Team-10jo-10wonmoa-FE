@@ -1,13 +1,12 @@
 import React from 'react';
-import styled from '@emotion/styled';
 
 import { Button, Input } from '@components';
+import { AuthFormWrapper } from '@components/auth';
 import { useForm } from '@hooks';
 import type { LoginUser } from '@types';
 
 interface LoginFormProps {
   submitHandler: (data: LoginUser) => void;
-  buttonTitle: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = (props) => {
@@ -22,7 +21,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <AuthFormWrapper onSubmit={submitHandler}>
       <Input
         type="email"
         name="email"
@@ -38,17 +37,9 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
         placeholder="비밀번호"
         required={true}
       />
-      <ButtonArea>
-        <Button sizeType="large">{props.buttonTitle}</Button>
-      </ButtonArea>
-    </form>
+      <Button sizeType="large">로그인하기</Button>
+    </AuthFormWrapper>
   );
 };
 
 export default LoginForm;
-
-export const ButtonArea = styled.div`
-  position: absolute;
-  width: 100%;
-  bottom: calc(env(safe-area-inset-bottom) + 1rem);
-`;
