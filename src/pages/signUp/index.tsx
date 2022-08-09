@@ -5,10 +5,10 @@ import type { NewUser } from '@types';
 import useSignUp from '@hooks/auth/useSignUp';
 
 const SignUp = () => {
-  const sigUp = useSignUp();
+  const signUp = useSignUp();
 
   const submitHandler = async (newUser: NewUser) => {
-    sigUp(newUser);
+    signUp(newUser);
   };
 
   return (
