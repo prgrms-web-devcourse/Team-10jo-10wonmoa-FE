@@ -39,6 +39,7 @@ const AppRouter = () => {
       <Route path="/budget" element={<Budget />}></Route>
 
       <Route path="/404" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
