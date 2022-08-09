@@ -33,3 +33,7 @@ export interface CreateAccountRequest {
 export interface AccountDetailResponse extends CreateAccountRequest {
   categoryName: string;
 }
+
+export type ErrorMessageBody = {
+  errorMessage: string;
+};
