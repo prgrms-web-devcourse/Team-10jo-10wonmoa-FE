@@ -42,14 +42,14 @@ const Statistics = () => {
         {isMonth ? (
           <TopNavMonthSelector
             date={monthDate}
-            onChangePrevMonth={handlePrevMonth}
-            onChangeNextMonth={handleNextMonth}
+            onChangePev={handlePrevMonth}
+            onChangeNext={handleNextMonth}
           />
         ) : (
           <TopNavMonthSelector
             date={yearDate}
-            onChangePrevMonth={handlePrevYear}
-            onChangeNextMonth={handleNextYear}
+            onChangePev={handlePrevYear}
+            onChangeNext={handleNextYear}
           />
         )}
 

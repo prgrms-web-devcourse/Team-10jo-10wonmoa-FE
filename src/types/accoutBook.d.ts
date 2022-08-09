@@ -14,7 +14,7 @@ declare type SingleAccount = {
 
 declare type DailyAccountBook = {
   currentPage: number;
-  nextPage: number;
+  nextPage: number | null;
   results: DailyAccount[];
 };
 
@@ -33,4 +33,11 @@ declare type AccountBookSum = {
   incomeSum: number;
   expenditureSum: number;
   totalSum: number;
+};
+
+declare type MonthlyAccount = {
+  incomeSum: number;
+  expenditureSum: number;
+  totalSum: number;
+  month: number;
 };

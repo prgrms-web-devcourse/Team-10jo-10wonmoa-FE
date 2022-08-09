@@ -18,6 +18,7 @@ interface ArcData {
 interface ArcProp {
   data: ArcData;
   index: string;
+  // eslint-disable-next-line
   createArc: d3.Arc<any, ArcData>;
   colors: d3.ScaleOrdinal<string, string, never>;
   format: (
