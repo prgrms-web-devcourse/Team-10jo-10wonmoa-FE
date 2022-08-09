@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
 import styled from '@emotion/styled';
-
 interface Data {
   name: string;
   percent: number;
@@ -10,32 +9,30 @@ interface Data {
 interface ArcData {
   data: Data;
   endAngle: number;
-  index: number;
+  index: number | string;
   padAngle: number;
   startAngle: number;
   value: number;
 }
 
 interface ArcProp {
-  data?: ArcData;
-  index?: number;
-  createArc?: any;
-  colors?: any;
-  format?: any;
+  data: ArcData;
+  index: string;
+  createArc: d3.Arc<any, ArcData>;
+  colors: d3.ScaleOrdinal<string, string, never>;
+  format: (
+    n:
+      | number
+      | {
+          valueOf(): number;
+        }
+  ) => string;
 }
 
-interface PieData {
-  data: Data;
-  index: number;
-  value: number;
-  startAngle: number;
-  endAngle: number;
-}
 interface PieProp {
   innerRadius?: number;
   outerRadius?: number;
-  //data?: PieData[];
-  data?: any;
+  data: Data[];
   colorList?: readonly string[];
 }
 
@@ -47,7 +44,7 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
   return (
     <g key={index}>
       <path
-        d={createArc(data)}
+        d={createArc(data) || undefined}
         fill={colors(index)}
         stroke="white"
         strokeWidth={4}
@@ -79,7 +76,10 @@ const PieChart: React.FC<PieProp> = ({
   colorList,
 }) => {
   const createPie = d3.pie<Data>().value((d: Data): number => d.percent);
-  const createArc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+  const createArc = d3
+    .arc<ArcData>()
+    .innerRadius(innerRadius)
+    .outerRadius(outerRadius);
   const colors = d3.scaleOrdinal(colorList);
   const format = d3.format('.1f');
   const pieData = createPie(data);
@@ -90,7 +90,7 @@ const PieChart: React.FC<PieProp> = ({
         {pieData.map((d, i) => (
           <Arc
             key={i}
-            index={i}
+            index={i.toString()}
             data={d}
             createArc={createArc}
             colors={colors}
