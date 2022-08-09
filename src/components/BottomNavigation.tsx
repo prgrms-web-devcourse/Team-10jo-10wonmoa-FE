@@ -13,7 +13,6 @@ const BottomNavigation = () => {
 
   return (
     <Container>
-      s
       <Destination
         selected={location.pathname === '/account-book/daily'}
         text={'가계부'}
