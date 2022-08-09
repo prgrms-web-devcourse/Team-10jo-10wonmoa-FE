@@ -10,7 +10,6 @@ const Login = () => {
   const login = useLogin();
 
   const submitHandler = (loginUser: LoginUser) => {
-    console.log('login');
     login(loginUser);
   };
 
