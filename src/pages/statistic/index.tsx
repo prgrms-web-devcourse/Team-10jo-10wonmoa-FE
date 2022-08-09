@@ -10,10 +10,12 @@ import {
   Tabs,
 } from '@components';
 import { useMonthSelector } from '@hooks';
+import PieChart from '@components/statistic/PieChart';
 
 import type { TabItem } from '@types';
 import { STATISTICS_TABS } from '../../constants/Tabs';
-
+import { monthData } from './DummyData';
+import * as d3 from 'd3';
 const Statistics = () => {
   const {
     monthDate,
@@ -25,150 +27,73 @@ const Statistics = () => {
   } = useMonthSelector();
 
   const [isMonth, setIsMonth] = useState(true);
-  /**
-   * 임시 목업 데이터
-   * */
-  // const yearData = {
-  //   year: 2022,
-  //   incomes: [
-  //     {
-  //       name: '월급',
-  //       percent: 50,
-  //       total: 500000,
-  //     },
-  //     {
-  //       name: '주식',
-  //       percent: 30,
-  //       total: 300000,
-  //     },
-  //   ],
-  //   expenditures: [
-  //     {
-  //       name: '식비',
-  //       percent: 50,
-  //       total: 50000,
-  //     },
-  //     {
-  //       name: '패션/미용',
-  //       percent: 30,
-  //       total: 30000,
-  //     },
-  //     {
-  //       name: '교육',
-  //       percent: 20,
-  //       total: 20000,
-  //     },
-  //   ],
-  // };
-  const monthData = {
-    year: 2022,
-    month: 7,
-    incomes: [
-      {
-        name: '월급',
-        percent: 50,
-        total: 500000,
-      },
-      {
-        name: '주식',
-        percent: 30,
-        total: 300000,
-      },
-    ],
-    expenditures: [
-      {
-        name: '식비',
-        percent: 50,
-        total: 50000,
-      },
-      {
-        name: '패션/미용',
-        percent: 30,
-        total: 30000,
-      },
-      {
-        name: '교육',
-        percent: 20,
-        total: 20000,
-      },
-    ],
-  };
-  const colorList = ['red', 'orange', 'yellowgreen', 'green'];
-  // const { incomes, expenditures } = yearData;
 
-  const { expenditures } = monthData;
+  const colorList = d3.schemeSet2;
+  const { incomes, expenditures } = monthData;
 
   const [currentTab, setCurrentTab] = useState<TabItem>(STATISTICS_TABS[0]);
 
   const handleTabClick = (clickedTab: TabItem) => {
     setCurrentTab(clickedTab);
   };
-
   return (
     <>
-      {isMonth ? (
-        <TopNavMonthSelector
-          date={monthDate}
-          onChangePev={handlePrevMonth}
-          onChangeNext={handleNextMonth}
-        />
-      ) : (
-        <TopNavMonthSelector
-          date={yearDate}
-          onChangePev={handlePrevYear}
-          onChangeNext={handleNextYear}
-        />
-      )}
-
-      <DropDown />
-      <div>
-        <button>수입</button>
-        <button>지출</button>
-      </div>
-      <div>
-        테스트용
-        <button onClick={() => setIsMonth(false)}>YEAR</button>
-        <button onClick={() => setIsMonth(true)}>MONTH</button>
-      </div>
+      <YearMonthWrapper>
+        {isMonth ? (
+          <TopNavMonthSelector
+            date={monthDate}
+            onChangePev={handlePrevMonth}
+            onChangeNext={handleNextMonth}
+          />
+        ) : (
+          <TopNavMonthSelector
+            date={yearDate}
+            onChangePev={handlePrevYear}
+            onChangeNext={handleNextYear}
+          />
+        )}
+        <DropDown setIsMonth={setIsMonth} />
+      </YearMonthWrapper>
 
       <TabsWrapper>
         <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
           <ChartContainer>
-            {currentTab.title === '수입' && <div>수입차트</div>}
-            {currentTab.title === '지출' && <h1>지출차트</h1>}
+            {currentTab.title === '수입' && (
+              <PieChart data={incomes} colorList={colorList} />
+            )}
+            {currentTab.title === '지출' && (
+              <PieChart data={expenditures} colorList={colorList} />
+            )}
           </ChartContainer>
         </Tabs>
+        {currentTab.title === '수입' && (
+          <ListWrapper>
+            {incomes.map((item, idx) => (
+              <StatisticItem
+                key={idx}
+                percent={item.percent}
+                name={item.name}
+                total={currencyFormatter(item.total)}
+                color={colorList[idx]}
+              />
+            ))}
+          </ListWrapper>
+        )}
+        {currentTab.title === '지출' && (
+          <ListWrapper>
+            {expenditures.map((item, idx) => (
+              <StatisticItem
+                key={idx}
+                percent={item.percent}
+                name={item.name}
+                total={currencyFormatter(item.total)}
+                color={colorList[idx]}
+              />
+            ))}
+          </ListWrapper>
+        )}
       </TabsWrapper>
 
-      <ListWrapper>
-        {expenditures.map((item, idx) => (
-          <StatisticItem
-            key={idx}
-            percent={item.percent}
-            name={item.name}
-            total={currencyFormatter(item.total)}
-            color={colorList[idx]}
-          />
-        ))}
-        {expenditures.map((item, idx) => (
-          <StatisticItem
-            key={idx}
-            percent={item.percent}
-            name={item.name}
-            total={currencyFormatter(item.total)}
-            color={colorList[idx]}
-          />
-        ))}
-        {expenditures.map((item, idx) => (
-          <StatisticItem
-            key={idx}
-            percent={item.percent}
-            name={item.name}
-            total={currencyFormatter(item.total)}
-            color={colorList[idx]}
-          />
-        ))}
-      </ListWrapper>
       <BottomNavigation />
     </>
   );
@@ -176,21 +101,27 @@ const Statistics = () => {
 
 export default Statistics;
 
+const YearMonthWrapper = styled.div`
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  padding-top: 1.5rem;
+  padding-left: 1rem;
+`;
+
 const ListWrapper = styled.div`
   width: 100%;
-  height: 40rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   border-top: 2rem solid ${theme.$gray_light};
 `;
 
 const TabsWrapper = styled.div`
   width: 100%;
-  height: 30rem;
 `;
 
 const ChartContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 30rem;
   display: flex;
   align-items: center;
   justify-content: center;
