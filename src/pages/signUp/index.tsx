@@ -1,7 +1,6 @@
 import React from 'react';
-import SignUpForm from './components/SignUpForm';
 import { TopNavBar, CoinIcon } from '@components';
-import { Title, TitleSection } from '@components/auth';
+import { Title, TitleSection, SignUpForm } from '@components/auth';
 import type { NewUser } from '@types';
 import useSignUp from '@hooks/auth/useSignUp';
 

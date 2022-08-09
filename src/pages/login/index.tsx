@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { TopNavBar, CoinIcon, Divider } from '@components';
-import LoginForm from './components/LoginForm';
-import { Title, SubTitle, TitleSection } from '@components/auth';
+import { Title, SubTitle, TitleSection, LoginForm } from '@components/auth';
 import { LoginUser } from '@types';
 import useLogin from '@hooks/auth/useLogin';
 
