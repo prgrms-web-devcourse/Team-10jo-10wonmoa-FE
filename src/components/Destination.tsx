@@ -4,18 +4,16 @@ import { ReactComponent as BudgetIcon } from '@assets/Icon/Budget.svg';
 import { ReactComponent as StaticsIcon } from '@assets/Icon/Statics.svg';
 import styled from '@emotion/styled';
 import { theme } from '@styles';
-import { useNavigate } from 'react-router-dom';
+
 interface DestinationProps {
   selected: boolean;
   text: string;
   icon: 'ACCOUNT_BOOK' | 'BUDGET' | 'STATICS';
-  linkTo: '/account-book' | '/statistics' | '/budget';
 }
 
-const Destination = ({ selected, text, icon, linkTo }: DestinationProps) => {
-  const navigate = useNavigate();
+const Destination = ({ selected, text, icon }: DestinationProps) => {
   return (
-    <Container selected={selected} onClick={() => navigate(linkTo)}>
+    <Container selected={selected}>
       {icon === 'ACCOUNT_BOOK' && <AccountBookIcon />}
       {icon === 'BUDGET' && <BudgetIcon />}
       {icon === 'STATICS' && <StaticsIcon />}
@@ -30,21 +28,21 @@ type DestinationStyle = {
   selected: boolean;
 };
 
-const Container = styled.button<DestinationStyle>`
-  border: none;
-  outline: none;
-  background-color: ${(props) => props.theme.$white};
-  position: relative;
+const Container = styled.div<DestinationStyle>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 5rem;
   align-items: center;
-  flex: 1;
-  height: 100%;
+  border-radius: 6px;
+  padding: 6px;
   &:hover {
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
+
   color: ${(props) => (props.selected ? theme.$primary : '')};
+
   svg {
     fill: ${(props) => (props.selected ? theme.$primary : '')};
   }
