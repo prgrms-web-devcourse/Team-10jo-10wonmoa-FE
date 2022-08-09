@@ -2,38 +2,42 @@ import styled from '@emotion/styled';
 import { theme } from '@styles';
 
 interface CheckBoxInterface {
-  id?: string | number;
   text?: string;
   isChecked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CheckBox: React.FC<CheckBoxInterface> = ({
-  id,
   text,
   isChecked,
   onChange,
 }) => {
   return (
-    <Wrapper key={id}>
+    <Wrapper>
       <StyledInput type="checkbox" checked={isChecked} onChange={onChange} />
-      <p>{text}</p>
+      {text}
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.label`
   display: flex;
   align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: ${(props) => props.theme.$gray_dark};
+  & + & {
+    border-top: 1px solid ${(props) => props.theme.$gray_accent};
+  }
 `;
 
 const StyledInput = styled.input`
   appearance: none;
   color: ${theme.$primary};
-  border: 1.5px solid gainsboro;
+  border: 1.5px solid ${(props) => props.theme.$gray_medium};
   border-radius: 0.35rem;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.8rem;
+  height: 1.8rem;
   margin-right: 0.5rem;
 
   &:checked {

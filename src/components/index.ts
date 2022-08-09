@@ -17,6 +17,7 @@ import Loading from './Loading';
 import GoTopButton from './GoTopButton';
 import Spinner from './Spinner';
 import Divider from './Divider';
+import CheckBox from './CheckBox';
 
 export {
   AppLayout,
@@ -38,4 +39,5 @@ export {
   GoTopButton,
   Spinner,
   Divider,
+  CheckBox,
 };
