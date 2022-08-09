@@ -57,6 +57,7 @@ const Input = ({
 const Wrapper = styled.div<WrapperInterface>`
   width: 20rem;
   height: 3rem;
+  margin: 0.5rem;
   display: flex;
   justify-content: space-between;
   color: ${(props) => props.theme.$gray_dark};
@@ -72,6 +73,7 @@ const StyledLabel = styled.label`
 const StyledInput = styled.input<InputInterface>`
   width: ${(props) => (props.labelText ? '80%' : '100%')};
   height: 100%;
+  padding: 0 1rem;
   border: 0.1rem solid
     ${(props) => (props.isError ? 'red' : props.theme.$gray_medium)};
   border-radius: 0.5rem;
@@ -82,7 +84,7 @@ const StyledInput = styled.input<InputInterface>`
   }
   &:focus {
     outline: none;
-    border: 0.1rem solid ${(props) => props.theme.$primary};
+    border: 0.15rem solid ${(props) => props.theme.$primary};
   }
 `;
 
