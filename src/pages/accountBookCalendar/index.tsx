@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  MouseEvent,
+  useEffect,
+} from 'react';
 import styled from '@emotion/styled';
 import Calendar from '@toast-ui/react-calendar';
+
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 const AccountBookCalendar = () => {
   const calendars = [
@@ -106,8 +113,27 @@ const AccountBookCalendar = () => {
       return `<p style="color: black; font-size: 2px;">${event.title}</p>`;
     },
   };
+  const calendarRef = useRef<any>(null);
+  const [calendar, setCalendar] = useState();
+
+  useEffect(() => {
+    if (calendarRef.current) {
+      setCalendar(calendarRef.current.getInstance());
+    }
+  });
+
+  const prev = (calendar: any) => {
+    calendar.prev();
+  };
+
+  const next = (calendar: any) => {
+    calendar.next();
+  };
+
   return (
     <CalendarWrapper>
+      <button onClick={() => prev(calendar)}>Go prev!</button>
+      <button onClick={() => next(calendar)}>Go next!</button>
       <Calendar
         height="650px"
         view="month"
@@ -121,6 +147,7 @@ const AccountBookCalendar = () => {
         useDetailPopup={true}
         onAfterRenderEvent={onAfterRenderEvent}
         template={template}
+        ref={calendarRef}
       />
     </CalendarWrapper>
   );
