@@ -34,4 +34,3 @@ export interface CreateAccountRequest {
 export interface AccountDetailResponse extends CreateAccountRequest {
   categoryName: string;
 }
-
