@@ -37,7 +37,7 @@ export interface AccountDetailResponse extends CreateAccountRequest {
 
 export interface CreateSearchRequest {
   content?: string;
-  categories?: string[];
+  categories?: number[];
   minprice?: number;
   maxprice?: number;
   categoryNames?: string;

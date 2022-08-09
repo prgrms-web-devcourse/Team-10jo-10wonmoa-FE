@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { useQuery } from 'react-query';
 import { TopNavBar } from '@components';
 import { SearchForm, SearchResultAccountItem } from '@components/search';
 import { TabsDisplayAccountSum } from '@components/account';
 import { currencyFormatter } from '@utils/formatter';
 import { theme } from '@styles';
 import { fetchGetSearchResult } from '@api';
-import { useQuery } from 'react-query';
 import { CreateSearchRequest } from '@types';
 
 const Search = () => {
@@ -18,7 +18,15 @@ const Search = () => {
   ) => {
     e.preventDefault();
     console.log(formValues);
-    setSearchParams('');
+    const parseParams = Object.entries(formValues)
+      .filter(
+        ([key, values]) =>
+          key !== 'categoryNames' &&
+          (typeof values === 'number' ? values !== 0 : values.length !== 0)
+      )
+      .map((t) => t.join('='))
+      .join('&');
+    setSearchParams(parseParams);
   };
 
   const { data: searchResult } = useQuery(
@@ -44,9 +52,7 @@ const Search = () => {
       color: theme.$red,
     },
     {
-      value: currencyFormatter(
-        searchResult?.incomeSum - searchResult?.expenditureSum ?? 0
-      ),
+      value: currencyFormatter(searchResult?.totalSum ?? 0),
       title: '합계',
     },
   ];

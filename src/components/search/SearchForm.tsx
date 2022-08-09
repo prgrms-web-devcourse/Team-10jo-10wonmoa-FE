@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { ChevronDown, ChevronUp, Search } from 'react-feather';
-import { CreateSearchRequest } from '@types';
+import { Category, CreateSearchRequest } from '@types';
 import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
+import CategoryModal from './CategoryModal';
 
 interface SearchFormProps {
   onSubmit: (
@@ -21,7 +22,9 @@ const initialFormValue = {
 
 const SearchForm = ({ onSubmit }: SearchFormProps) => {
   const [searchOptionToggle, setSearchOptionToggle] = useState(false);
-  const [formValues, setFormValues] = useState(initialFormValue);
+  const [formValues, setFormValues] =
+    useState<Required<CreateSearchRequest>>(initialFormValue);
+  const [categoryModalToggle, setCategoryModalToggle] = useState(false);
 
   const amountFormatter = (amount: number) => {
     return amount === 0 ? '' : currencyFormatter(amount);
@@ -46,6 +49,19 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     handleChange(e, amountToNumberFormatter(value));
+  };
+
+  const handleCategoryChange = (selectedCategories: Category[]) => {
+    const categoryNames = selectedCategories
+      .map((category) => category.name)
+      .join(', ');
+    const categories = selectedCategories.map((category) => category.id);
+
+    setFormValues((prevForm) => ({
+      ...prevForm,
+      categoryNames,
+      categories,
+    }));
   };
 
   return (
@@ -73,6 +89,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
                 type="text"
                 name="categories"
                 value={formValues.categoryNames}
+                onClick={() => setCategoryModalToggle(true)}
                 readOnly
               />
             </StyledInputContainer>
@@ -104,6 +121,11 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
           {searchOptionToggle ? <ChevronUp /> : <ChevronDown />}
         </button>
       </SearchOptionToggleContainer>
+      <CategoryModal
+        visible={categoryModalToggle}
+        onClose={() => setCategoryModalToggle(false)}
+        onSubmit={handleCategoryChange}
+      />
     </>
   );
 };
@@ -188,6 +210,7 @@ const StyledInput = styled.input`
   margin: 0 0.5rem;
   border-bottom: 0.1rem solid #afb1b6;
   text-align: center;
+  text-overflow: ellipsis;
   &:focus {
     border-bottom: 0.1rem solid ${(props) => props.theme.$primary};
   }
