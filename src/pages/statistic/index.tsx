@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import StatisticItem from '@components/statistic/StatisticItem';
-import { currencyFormatter, dateFormatter } from '@utils/formatter';
-import { theme } from '@styles';
 import {
+  Spinner,
   BottomNavigation,
   DropDown,
   TopNavMonthSelector,
   Tabs,
 } from '@components';
+import { currencyFormatter } from '@utils/formatter';
+import { theme } from '@styles';
 import { useMonthSelector } from '@hooks';
 import PieChart from '@components/statistic/PieChart';
 import type { TabItem } from '@types';
 import { STATISTICS_TABS } from '../../constants/Tabs';
-import { monthData } from './DummyData';
 import * as d3 from 'd3';
 import useStatistic from '@hooks/statistics/useStatistic';
 
@@ -26,21 +26,30 @@ const Statistics = () => {
     handleNextYear,
     handlePrevYear,
   } = useMonthSelector();
-  const { data } = useStatistic();
 
   const [isMonth, setIsMonth] = useState(true);
-
   const colorList = d3.schemeSet2;
-  const { income, expenditure } = monthData;
-
   const [currentTab, setCurrentTab] = useState<TabItem>(STATISTICS_TABS[0]);
-
   const handleTabClick = (clickedTab: TabItem) => {
     setCurrentTab(clickedTab);
   };
+  const { isLoading, data } = useStatistic();
 
-  // 여기는 통계 페이지
+  if (isLoading) {
+    return <Spinner />;
+  }
 
+  if (!isLoading && data.length === 0) {
+    return <>데이터가 없습니다</>;
+  }
+  const {
+    year,
+    month,
+    incomeTotalSum,
+    expenditureTotalSum,
+    incomes,
+    expenditures,
+  } = data;
   return (
     <>
       <YearMonthWrapper>
@@ -64,16 +73,16 @@ const Statistics = () => {
         <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
           <ChartContainer>
             {currentTab.title === '수입' && (
-              <PieChart data={income} colorList={colorList} />
+              <PieChart data={incomes} colorList={colorList} />
             )}
             {currentTab.title === '지출' && (
-              <PieChart data={expenditure} colorList={colorList} />
+              <PieChart data={expenditures} colorList={colorList} />
             )}
           </ChartContainer>
         </Tabs>
         {currentTab.title === '수입' && (
           <ListWrapper>
-            {income.map((item, idx) => (
+            {incomes.map((item: StatisticIncome, idx: number) => (
               <StatisticItem
                 key={idx}
                 percent={item.percent}
@@ -86,7 +95,7 @@ const Statistics = () => {
         )}
         {currentTab.title === '지출' && (
           <ListWrapper>
-            {expenditure.map((item, idx) => (
+            {expenditures.map((item: StatisticIncome, idx: number) => (
               <StatisticItem
                 key={idx}
                 percent={item.percent}
@@ -98,7 +107,6 @@ const Statistics = () => {
           </ListWrapper>
         )}
       </TabsWrapper>
-
       <BottomNavigation />
     </>
   );

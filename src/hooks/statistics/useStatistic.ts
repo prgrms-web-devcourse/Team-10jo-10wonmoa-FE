@@ -7,8 +7,9 @@ import { dateFormatter } from '@utils/formatter';
 const fetchStatistic = async (date: string) => {
   const [Year, Month] = date.split('-');
 
-  const { data }: AxiosResponse<StatisticResults[]> =
-    await axiosAuthInstance.get(`/statistics?year=${Year}&month=${Month}`);
+  const { data }: AxiosResponse = await axiosAuthInstance.get(
+    `/statistics?year=${Year}&month=${Month}`
+  );
 
   return data;
 };
@@ -20,13 +21,10 @@ const useStatistic = () => {
     'YEAR_DAY_DASH'
   );
   const fallback: StatisticResults[] = [];
-  const { data = fallback } = useQuery(['stastics', date], () =>
+  const { isLoading, data = fallback } = useQuery(['stastics', date], () =>
     fetchStatistic(date)
   );
-
-  return {
-    data,
-  };
+  return { isLoading, data };
 };
 
 export default useStatistic;
