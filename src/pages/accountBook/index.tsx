@@ -1,10 +1,8 @@
 import React from 'react';
-import { theme } from '@styles';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
 import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useMonthSelector } from '@hooks';
-import { currencyFormatter } from '@utils/formatter';
 import { useAccountBookSum } from '@hooks/account';
 import type { DateSelectorProps } from '@components/DateSelector';
 
@@ -34,9 +32,7 @@ const AccountBook = () => {
   if (!isAccountBookPath(path)) {
     throw new Error('정상적이지 않은 경로로 접근했습니다.');
   }
-
-  const isDaily = path === 'daily';
-  const sumResult = isDaily ? monthSumResult : yearSumResult;
+  const sumResult = path === 'monthly' ? yearSumResult : monthSumResult;
 
   const dateSelectorHandlers: Record<AccountBookPathTypes, DateSelectorProps> =
     {
@@ -72,23 +68,6 @@ const AccountBook = () => {
     },
   ];
 
-  const ACCOUNT_TYPE = [
-    {
-      value: currencyFormatter(sumResult.incomeSum),
-      title: '수입',
-      color: theme.$blue,
-    },
-    {
-      value: currencyFormatter(sumResult.expenditureSum),
-      title: '지출',
-      color: theme.$red,
-    },
-    {
-      value: currencyFormatter(sumResult.totalSum),
-      title: '합계',
-    },
-  ];
-
   return (
     <>
       <TopNavMonthSelector
@@ -97,7 +76,7 @@ const AccountBook = () => {
         onChangeNext={dateSelectorHandlers[path].onChangeNext}
       />
       <TabsNavigation tabItems={ACCOUNT_BOOK_TAB_ITEMS} />
-      <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />
+      <TabsDisplayAccountSum sumResult={sumResult} />
       <Outlet />
       <BottomNavigation />
     </>
