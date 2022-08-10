@@ -23,13 +23,7 @@ const setInterceptors = (instance: AxiosInstance, isAuthRequire?: boolean) => {
 
   instance.interceptors.response.use(
     (response) => response,
-    (error) => {
-      // TODO: QueryClient를 통해 실제 에러 핸들링 처리
-      if (error.response.status === 404 || error.response.status === 400) {
-        // window.location.href = '/';
-      }
-      return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
   );
 
   return instance;
