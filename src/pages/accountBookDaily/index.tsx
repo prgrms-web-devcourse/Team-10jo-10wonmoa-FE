@@ -19,7 +19,7 @@ const AccountBookDaily: React.FC = () => {
     hasNextPage,
     fetchNextPage,
   } = useAccountBookDaily();
-
+  console.log(dailyResult);
   const handleNavigateCreateAccount = async () => {
     navigate('/account/create');
   };

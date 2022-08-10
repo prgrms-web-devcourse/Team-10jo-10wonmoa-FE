@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import StatisticItem from '@components/statistic/StatisticItem';
-import { currencyFormatter } from '@utils/formatter';
+import { currencyFormatter, dateFormatter } from '@utils/formatter';
 import { theme } from '@styles';
 import {
   BottomNavigation,
@@ -11,11 +11,12 @@ import {
 } from '@components';
 import { useMonthSelector } from '@hooks';
 import PieChart from '@components/statistic/PieChart';
-
 import type { TabItem } from '@types';
 import { STATISTICS_TABS } from '../../constants/Tabs';
 import { monthData } from './DummyData';
 import * as d3 from 'd3';
+import useStatistic from '@hooks/statistics/useStatistic';
+
 const Statistics = () => {
   const {
     monthDate,
@@ -25,17 +26,21 @@ const Statistics = () => {
     handleNextYear,
     handlePrevYear,
   } = useMonthSelector();
+  const { data } = useStatistic();
 
   const [isMonth, setIsMonth] = useState(true);
 
   const colorList = d3.schemeSet2;
-  const { incomes, expenditures } = monthData;
+  const { income, expenditure } = monthData;
 
   const [currentTab, setCurrentTab] = useState<TabItem>(STATISTICS_TABS[0]);
 
   const handleTabClick = (clickedTab: TabItem) => {
     setCurrentTab(clickedTab);
   };
+
+  // 여기는 통계 페이지
+
   return (
     <>
       <YearMonthWrapper>
@@ -59,16 +64,16 @@ const Statistics = () => {
         <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
           <ChartContainer>
             {currentTab.title === '수입' && (
-              <PieChart data={incomes} colorList={colorList} />
+              <PieChart data={income} colorList={colorList} />
             )}
             {currentTab.title === '지출' && (
-              <PieChart data={expenditures} colorList={colorList} />
+              <PieChart data={expenditure} colorList={colorList} />
             )}
           </ChartContainer>
         </Tabs>
         {currentTab.title === '수입' && (
           <ListWrapper>
-            {incomes.map((item, idx) => (
+            {income.map((item, idx) => (
               <StatisticItem
                 key={idx}
                 percent={item.percent}
@@ -81,7 +86,7 @@ const Statistics = () => {
         )}
         {currentTab.title === '지출' && (
           <ListWrapper>
-            {expenditures.map((item, idx) => (
+            {expenditure.map((item, idx) => (
               <StatisticItem
                 key={idx}
                 percent={item.percent}

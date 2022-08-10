@@ -3,7 +3,7 @@
  * */
 export const yearData = {
   year: 2022,
-  incomes: [
+  income: [
     {
       name: '월급',
       percent: 50,
@@ -15,7 +15,7 @@ export const yearData = {
       total: 300000,
     },
   ],
-  expenditures: [
+  expenditure: [
     {
       name: '식비',
       percent: 50,
@@ -37,7 +37,7 @@ export const yearData = {
 export const monthData = {
   year: 2022,
   month: 7,
-  incomes: [
+  income: [
     {
       name: '월급',
       percent: 50,
@@ -49,7 +49,7 @@ export const monthData = {
       total: 300000,
     },
   ],
-  expenditures: [
+  expenditure: [
     {
       name: '식비',
       percent: 50,
