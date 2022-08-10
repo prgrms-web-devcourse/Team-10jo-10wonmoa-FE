@@ -18,6 +18,8 @@ const initialFormValue = {
   categoryNames: '',
   minprice: 0,
   maxprice: 0,
+  start: '',
+  end: '',
 };
 
 const SearchForm = ({ onSubmit }: SearchFormProps) => {
@@ -111,6 +113,24 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
                 title="최대 금액"
                 value={amountFormatter(formValues.maxprice)}
                 onChange={handleAmountChange}
+              />
+            </StyledInputContainer>
+            <StyledInputContainer>
+              기간
+              <StyledInput
+                type="date"
+                name="start"
+                title="시작 날짜"
+                value={formValues.start}
+                onChange={handleChange}
+              />
+              ~
+              <StyledInput
+                type="date"
+                name="end"
+                title="종료 날짜"
+                value={formValues.end}
+                onChange={handleChange}
               />
             </StyledInputContainer>
           </>
@@ -213,6 +233,9 @@ const StyledInput = styled.input`
   text-overflow: ellipsis;
   &:focus {
     border-bottom: 0.1rem solid ${(props) => props.theme.$primary};
+  }
+  &[type='date'] {
+    font-size: 0.9rem;
   }
 `;
 

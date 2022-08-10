@@ -5,7 +5,6 @@ import { TopNavBar } from '@components';
 import { SearchForm, SearchResultAccountItem } from '@components/search';
 import { TabsDisplayAccountSum } from '@components/account';
 import { currencyFormatter } from '@utils/formatter';
-import { theme } from '@styles';
 import { fetchGetSearchResult } from '@api';
 import { CreateSearchRequest } from '@types';
 
@@ -24,7 +23,7 @@ const Search = () => {
           key !== 'categoryNames' &&
           (typeof values === 'number' ? values !== 0 : values.length !== 0)
       )
-      .map((t) => t.join('='))
+      .map((param) => param.join('='))
       .join('&');
     setSearchParams(parseParams);
   };
@@ -44,12 +43,10 @@ const Search = () => {
     {
       value: currencyFormatter(searchResult?.incomeSum ?? 0),
       title: '수입',
-      color: theme.$blue,
     },
     {
       value: currencyFormatter(searchResult?.expenditureSum ?? 0),
       title: '지출',
-      color: theme.$red,
     },
     {
       value: currencyFormatter(searchResult?.totalSum ?? 0),

@@ -41,4 +41,6 @@ export interface CreateSearchRequest {
   minprice?: number;
   maxprice?: number;
   categoryNames?: string;
+  start?: string;
+  end?: string;
 }
