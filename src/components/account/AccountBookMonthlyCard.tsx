@@ -27,7 +27,7 @@ const Card = styled.div`
   padding: 4rem 2rem;
   margin: 0 1rem;
   border-bottom: 1px solid ${(props) => props.theme.$gray_medium};
-  & div:nth-child(1) {
+  & div:nth-of-type(1) {
     background: #ffc266;
     border-radius: 0.7rem;
     padding: 0.5rem;
@@ -35,16 +35,16 @@ const Card = styled.div`
     font-size: 1.2rem;
     font-weight: 500;
   }
-  & div:nth-child(2) {
+  & div:nth-of-type(2) {
     text-align: right;
   }
-  & p:nth-child(1) {
+  & p:nth-of-type(1) {
     color: ${(props) => props.theme.$blue};
   }
-  & p:nth-child(2) {
+  & p:nth-of-type(2) {
     color: ${(props) => props.theme.$red};
   }
-  & p:nth-child(3) {
+  & p:nth-of-type(3) {
     margin-top: 1rem;
     font-size: 1.2rem;
     border-top: 1px solid ${(props) => props.theme.$gray_medium};

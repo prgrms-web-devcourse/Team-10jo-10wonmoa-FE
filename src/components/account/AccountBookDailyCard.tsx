@@ -2,9 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { AccountBookDailySum, AccountBookDailyItem } from '@components/account';
 
-const AccountBookDailyCard: React.FC<{
-  items: DailyAccount;
-}> = (props) => {
+const AccountBookDailyCard = <T extends { items: DailyAccount }>(props: T) => {
   return (
     <Container>
       <AccountBookDailySum
@@ -13,7 +11,7 @@ const AccountBookDailyCard: React.FC<{
         registerDate={props.items.registerDate}
       />
       {props.items.dayDetails.map((item) => (
-        <AccountBookDailyItem key={item.id} item={item} />
+        <AccountBookDailyItem key={item.id.toString()} item={item} />
       ))}
     </Container>
   );

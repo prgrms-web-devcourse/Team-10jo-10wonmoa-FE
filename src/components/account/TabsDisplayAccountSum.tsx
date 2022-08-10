@@ -36,11 +36,11 @@ const SumListSection = styled.ul`
     font-weight: 300;
     padding: 0.5rem 0;
 
-    & :first-child {
+    & p:first-of-type {
       font-size: 1rem;
       font-weight: 400;
     }
-    & :last-child {
+    & p:last-of-type {
       font-size: 1rem;
     }
   }
