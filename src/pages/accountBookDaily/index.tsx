@@ -5,7 +5,7 @@ import { AccountBookDailyCard, PlusButton } from '@components/account';
 import { GoTopButton, Spinner, CoinIcon } from '@components';
 import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
 
-const AccountBookDaily: React.FC = () => {
+const AccountBookDaily = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -80,8 +80,8 @@ const AccountBookDaily: React.FC = () => {
   return (
     <CardArea>
       <div ref={topRef} />
-      {dailyAccounts?.map((item: DailyAccount, idx: number) => (
-        <AccountBookDailyCard key={idx} items={item} />
+      {dailyAccounts?.map((item: DailyAccount, index: number) => (
+        <AccountBookDailyCard key={item.registerDate + index} items={item} />
       ))}
       <div ref={loadingRef}>{hasNextPage && <Spinner />}</div>
       <GoTopButton topRef={topRef} isVisible={visible} />
