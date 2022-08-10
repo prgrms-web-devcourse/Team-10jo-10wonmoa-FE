@@ -60,7 +60,28 @@ const Statistics = () => {
 
   const { incomeTotalSum, expenditureTotalSum, incomes, expenditures } = data;
 
-  console.log(isMonth);
+  const makePieData = (consumption: StatisticIncome[]) => {
+    const moreThanTenPercent = consumption.filter((x: StatisticIncome) =>
+      x.percent >= 10 ? x : null
+    );
+    const leftPercent =
+      100 -
+      moreThanTenPercent
+        .map((item) => item.percent)
+        .reduce((prev, next) => prev + next, 0);
+    const ETC =
+      leftPercent !== 0 && leftPercent !== 100
+        ? {
+            name: '기타',
+            total: 0,
+            percent: Number(leftPercent.toFixed(1)),
+          }
+        : [];
+    const pieData = moreThanTenPercent.concat(ETC);
+    return pieData;
+  };
+  const incomePieData = makePieData(incomes);
+  const expendituresPieData = makePieData(expenditures);
   return (
     <>
       <YearMonthWrapper>
@@ -98,10 +119,10 @@ const Statistics = () => {
           </span>
           <ChartContainer>
             {currentTab.title === '수입' && (
-              <PieChart data={incomes} colorList={colorList} />
+              <PieChart data={incomePieData} colorList={colorList} />
             )}
             {currentTab.title === '지출' && (
-              <PieChart data={expenditures} colorList={colorList} />
+              <PieChart data={expendituresPieData} colorList={colorList} />
             )}
           </ChartContainer>
         </Tabs>
