@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { useQueries } from 'react-query';
-import axiosInstance from '@api/core';
+import { axiosAuthInstance } from '@api/core';
 import { queryKeys } from '@api/react-query/constant';
 import { dateFormatter } from '@utils/formatter';
 
@@ -10,7 +10,7 @@ const fetchAccountBookMonthSum = async (
 ): Promise<AccountBookSum> => {
   const formattedDate = dateFormatter(date, 'YEAR_DAY_DASH') + '-01';
 
-  const { data }: AxiosResponse<AccountBookSum> = await axiosInstance.get(
+  const { data }: AxiosResponse<AccountBookSum> = await axiosAuthInstance.get(
     `/account-book/sum/month/${formattedDate}`
   );
   return data;
@@ -20,7 +20,7 @@ const fetchAccountBookYearSum = async (
   date: string
 ): Promise<AccountBookSum> => {
   const formattedDate = dateFormatter(date || new Date(), 'YEAR');
-  const { data }: AxiosResponse<AccountBookSum> = await axiosInstance.get(
+  const { data }: AxiosResponse<AccountBookSum> = await axiosAuthInstance.get(
     `/account-book/sum/year/${formattedDate}`
   );
   return data;

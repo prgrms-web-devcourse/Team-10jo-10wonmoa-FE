@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
-import axiosInstance from '@api/core';
+import { axiosAuthInstance } from '@api/core';
 import { queryKeys } from '@api/react-query/constant';
 import { dateFormatter } from '@utils/formatter';
 
@@ -9,7 +9,7 @@ const fetchAccountBook = async (
   date: string,
   pageParam: number
 ): Promise<DailyAccountBook> => {
-  const { data }: AxiosResponse<DailyAccountBook> = await axiosInstance.get(
+  const { data }: AxiosResponse<DailyAccountBook> = await axiosAuthInstance.get(
     `/account-book/daily/${date}-01`,
     {
       params: {
