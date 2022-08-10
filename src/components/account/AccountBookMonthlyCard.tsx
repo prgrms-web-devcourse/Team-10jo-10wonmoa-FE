@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { currencyFormatter } from '@utils/formatter';
-
+import { Divider } from '@components';
 const AccountBookMonthlyCard = <T extends { item: MonthlyAccount }>(
   props: T
 ) => {
@@ -11,6 +11,7 @@ const AccountBookMonthlyCard = <T extends { item: MonthlyAccount }>(
       <div>
         <p>{currencyFormatter(props.item.incomeSum)}원</p>
         <p>{currencyFormatter(props.item.expenditureSum)}원</p>
+        <Divider />
         <p>{currencyFormatter(props.item.totalSum)}원</p>
       </div>
     </Card>
@@ -26,7 +27,7 @@ const Card = styled.div`
   height: 3rem;
   padding: 4rem 2rem;
   margin: 0 1rem;
-  border-bottom: 1px solid ${(props) => props.theme.$gray_medium};
+  border-bottom: 1px solid ${(props) => props.theme.$gray_light};
   & div:nth-of-type(1) {
     background: #ffc266;
     border-radius: 0.7rem;
@@ -45,8 +46,6 @@ const Card = styled.div`
     color: ${(props) => props.theme.$red};
   }
   & p:nth-of-type(3) {
-    margin-top: 1rem;
     font-size: 1.2rem;
-    border-top: 1px solid ${(props) => props.theme.$gray_medium};
   }
 `;
