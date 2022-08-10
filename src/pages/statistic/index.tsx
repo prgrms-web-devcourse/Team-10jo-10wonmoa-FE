@@ -24,12 +24,10 @@ const Statistics = () => {
     handleNextYear,
     handlePrevYear,
   } = useMonthSelector();
-  const { monthSumResult, yearSumResult } = useAccountBookSum();
 
   type MonthYearTypes = 'month' | 'year';
 
   const [isMonth, setIsMonth] = useState(true);
-  const sumResult = isMonth ? monthSumResult : yearSumResult;
 
   const dateSelectorHandlers: Record<MonthYearTypes, DateSelectorProps> = {
     month: {
@@ -49,7 +47,9 @@ const Statistics = () => {
   const handleTabClick = (clickedTab: TabItem) => {
     setCurrentTab(clickedTab);
   };
-  const { isLoading, data } = useStatistic();
+  const { isLoading, data } = isMonth
+    ? useStatistic(monthDate)
+    : useStatistic(yearDate);
 
   if (isLoading) {
     return <Spinner />;
@@ -58,6 +58,7 @@ const Statistics = () => {
   if (!isLoading && data.length === 0) {
     return <>데이터가 없습니다</>;
   }
+
   const {
     year,
     month,
@@ -90,6 +91,15 @@ const Statistics = () => {
 
       <TabsWrapper>
         <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
+          <span>
+            {'수입'}
+            {incomeTotalSum}
+          </span>
+          <span>|</span>
+          <span>
+            {'지출'}
+            {expenditureTotalSum}
+          </span>
           <ChartContainer>
             {currentTab.title === '수입' && (
               <PieChart data={incomes} colorList={colorList} />
@@ -134,9 +144,7 @@ const Statistics = () => {
 export default Statistics;
 
 const YearMonthWrapper = styled.div`
-  width: 100%;
-  height: 5rem;
-  display: flex;
+  min-width: 100%;
   padding-top: 1.5rem;
   padding-left: 1rem;
 `;
