@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import StatisticItem from '@components/statistic/StatisticItem';
 import {
-  Spinner,
-  BottomNavigation,
-  DropDown,
-  TopNavMonthSelector,
-  Tabs,
-} from '@components';
+  StatisticItem,
+  TopNabMonthWithDropDown,
+  PieChart,
+} from '@components/statistic';
+import { Spinner, BottomNavigation, DropDown, Tabs } from '@components';
 import { currencyFormatter } from '@utils/formatter';
 import { theme } from '@styles';
 import { useMonthSelector } from '@hooks';
-import PieChart from '@components/statistic/PieChart';
 import type { TabItem } from '@types';
 import { STATISTICS_TABS } from '../../constants/Tabs';
 import * as d3 from 'd3';
@@ -54,19 +51,22 @@ const Statistics = () => {
     <>
       <YearMonthWrapper>
         {isMonth ? (
-          <TopNavMonthSelector
+          <TopNabMonthWithDropDown
             date={monthDate}
             onChangePev={handlePrevMonth}
             onChangeNext={handleNextMonth}
-          />
+          >
+            <DropDown setIsMonth={setIsMonth} />
+          </TopNabMonthWithDropDown>
         ) : (
-          <TopNavMonthSelector
+          <TopNabMonthWithDropDown
             date={yearDate}
             onChangePev={handlePrevYear}
             onChangeNext={handleNextYear}
-          />
+          >
+            <DropDown setIsMonth={setIsMonth} />
+          </TopNabMonthWithDropDown>
         )}
-        <DropDown setIsMonth={setIsMonth} />
       </YearMonthWrapper>
 
       <TabsWrapper>
