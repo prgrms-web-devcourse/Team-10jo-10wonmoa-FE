@@ -11,6 +11,7 @@ const AccountBookMonthlyCard = <T extends { item: MonthlyAccount }>(
       <div>
         <p>{currencyFormatter(props.item.incomeSum)}원</p>
         <p>{currencyFormatter(props.item.expenditureSum)}원</p>
+        <p>{currencyFormatter(props.item.totalSum)}원</p>
       </div>
     </Card>
   );
@@ -23,7 +24,7 @@ const Card = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 3rem;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   margin: 0 1rem;
   border-bottom: 1px solid ${(props) => props.theme.$gray_medium};
   & div:nth-child(1) {
@@ -35,7 +36,6 @@ const Card = styled.div`
     font-weight: 500;
   }
   & div:nth-child(2) {
-    padding: 1rem 0;
     text-align: right;
   }
   & p:nth-child(1) {
@@ -43,5 +43,10 @@ const Card = styled.div`
   }
   & p:nth-child(2) {
     color: ${(props) => props.theme.$red};
+  }
+  & p:nth-child(3) {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    border-top: 1px solid ${(props) => props.theme.$gray_medium};
   }
 `;
