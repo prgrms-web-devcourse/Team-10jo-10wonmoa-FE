@@ -1,51 +1,47 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { theme } from '@styles';
+import { currencyFormatter } from '@utils/formatter';
 
-interface TabItem {
-  value: string | number;
-  title: string;
-  color?: string;
-}
-
-interface TabsProps {
-  tabItems: TabItem[];
-}
-
-const TabsDisplayAccountSum: React.FC<TabsProps> = ({ tabItems }) => {
+const TabsDisplayAccountSum = (props: { sumResult: AccountBookSum }) => {
   return (
-    <TabListContainer>
-      {tabItems.map((item) => (
-        <Tab key={item.title}>
-          <P>{item.title}</P>
-          <P color={item.color}>{item.value}</P>
-        </Tab>
-      ))}
-    </TabListContainer>
+    <SumListSection>
+      <li>
+        <p>수입</p>
+        <p> {currencyFormatter(props.sumResult.incomeSum)} 원</p>
+      </li>
+      <li>
+        <p>지출</p>
+        <p> {currencyFormatter(props.sumResult.expenditureSum)} 원</p>
+      </li>
+      <li>
+        <p>합계</p>
+        <p> {currencyFormatter(props.sumResult.totalSum)} 원</p>
+      </li>
+    </SumListSection>
   );
 };
 
 export default TabsDisplayAccountSum;
 
-const P = styled.p(
-  {
-    fontSize: '1rem',
-  },
-  (props) => ({ color: props.color })
-);
-
-const TabListContainer = styled.div`
+const SumListSection = styled.ul`
   width: 100%;
-  height: 5rem;
-  display: flex;
-`;
-
-const Tab = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid ${theme.$gray_dark};
-  background-color: ${theme.$white};
+  padding: 0.5rem 1rem;
+  border-bottom: 5px solid ${(props) => props.theme.$gray_light};
+
+  & li {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 300;
+    padding: 0.5rem 0;
+
+    & :first-child {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    & :last-child {
+      font-size: 1rem;
+    }
+  }
 `;
