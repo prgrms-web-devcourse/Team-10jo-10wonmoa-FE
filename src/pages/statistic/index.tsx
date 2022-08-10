@@ -11,7 +11,6 @@ import { theme } from '@styles';
 import { useMonthSelector } from '@hooks';
 import type { TabItem } from '@types';
 import { STATISTICS_TABS } from '../../constants/Tabs';
-import { useAccountBookSum } from '@hooks/account';
 import * as d3 from 'd3';
 import useStatistic from '@hooks/statistics/useStatistic';
 import type { DateSelectorProps } from '@components/DateSelector';
@@ -59,34 +58,31 @@ const Statistics = () => {
     return <>데이터가 없습니다</>;
   }
 
-  const {
-    year,
-    month,
-    incomeTotalSum,
-    expenditureTotalSum,
-    incomes,
-    expenditures,
-  } = data;
+  const { incomeTotalSum, expenditureTotalSum, incomes, expenditures } = data;
+
+  console.log(isMonth);
   return (
     <>
       <YearMonthWrapper>
-        {isMonth ? (
-          <TopNabMonthWithDropDown
-            date={dateSelectorHandlers['month'].date}
-            onChangePev={dateSelectorHandlers['month'].onChangePev}
-            onChangeNext={dateSelectorHandlers['month'].onChangeNext}
-          >
-            <DropDown setIsMonth={setIsMonth} />
-          </TopNabMonthWithDropDown>
-        ) : (
-          <TopNabMonthWithDropDown
-            date={dateSelectorHandlers['year'].date}
-            onChangePev={dateSelectorHandlers['year'].onChangePev}
-            onChangeNext={dateSelectorHandlers['year'].onChangeNext}
-          >
-            <DropDown setIsMonth={setIsMonth} />
-          </TopNabMonthWithDropDown>
-        )}
+        <TopNabMonthWithDropDown
+          date={
+            isMonth
+              ? dateSelectorHandlers['month'].date
+              : dateSelectorHandlers['year'].date
+          }
+          onChangePev={
+            isMonth
+              ? dateSelectorHandlers['month'].onChangePev
+              : dateSelectorHandlers['year'].onChangePev
+          }
+          onChangeNext={
+            isMonth
+              ? dateSelectorHandlers['month'].onChangeNext
+              : dateSelectorHandlers['year'].onChangeNext
+          }
+        >
+          <DropDown setIsMonth={setIsMonth} />
+        </TopNabMonthWithDropDown>
       </YearMonthWrapper>
 
       <TabsWrapper>
