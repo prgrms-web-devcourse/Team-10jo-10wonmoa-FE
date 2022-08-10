@@ -1,4 +1,4 @@
-import axios from '@api/core';
+import { axiosInstance } from '@api/core';
 
 type SignUpForm = {
   email: string;
@@ -7,7 +7,7 @@ type SignUpForm = {
 };
 
 export const fetchPostLogin = (signUpForm: SignUpForm) =>
-  axios.post('/users', { signUpForm });
+  axiosInstance.post('/users', { signUpForm });
 
 export const fetchPostSignUp = (signUpForm: SignUpForm) =>
-  axios.post('/users', { signUpForm });
+  axiosInstance.post('/users', { signUpForm });
