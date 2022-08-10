@@ -11,9 +11,10 @@ import { theme } from '@styles';
 import { useMonthSelector } from '@hooks';
 import type { TabItem } from '@types';
 import { STATISTICS_TABS } from '../../constants/Tabs';
+import { useAccountBookSum } from '@hooks/account';
 import * as d3 from 'd3';
 import useStatistic from '@hooks/statistics/useStatistic';
-
+import type { DateSelectorProps } from '@components/DateSelector';
 const Statistics = () => {
   const {
     monthDate,
@@ -23,8 +24,26 @@ const Statistics = () => {
     handleNextYear,
     handlePrevYear,
   } = useMonthSelector();
+  const { monthSumResult, yearSumResult } = useAccountBookSum();
+
+  type MonthYearTypes = 'month' | 'year';
 
   const [isMonth, setIsMonth] = useState(true);
+  const sumResult = isMonth ? monthSumResult : yearSumResult;
+
+  const dateSelectorHandlers: Record<MonthYearTypes, DateSelectorProps> = {
+    month: {
+      date: monthDate,
+      onChangePev: handlePrevMonth,
+      onChangeNext: handleNextMonth,
+    },
+    year: {
+      date: yearDate,
+      onChangePev: handlePrevYear,
+      onChangeNext: handleNextYear,
+    },
+  };
+
   const colorList = d3.schemeSet2;
   const [currentTab, setCurrentTab] = useState<TabItem>(STATISTICS_TABS[0]);
   const handleTabClick = (clickedTab: TabItem) => {
@@ -52,17 +71,17 @@ const Statistics = () => {
       <YearMonthWrapper>
         {isMonth ? (
           <TopNabMonthWithDropDown
-            date={monthDate}
-            onChangePev={handlePrevMonth}
-            onChangeNext={handleNextMonth}
+            date={dateSelectorHandlers['month'].date}
+            onChangePev={dateSelectorHandlers['month'].onChangePev}
+            onChangeNext={dateSelectorHandlers['month'].onChangeNext}
           >
             <DropDown setIsMonth={setIsMonth} />
           </TopNabMonthWithDropDown>
         ) : (
           <TopNabMonthWithDropDown
-            date={yearDate}
-            onChangePev={handlePrevYear}
-            onChangeNext={handleNextYear}
+            date={dateSelectorHandlers['year'].date}
+            onChangePev={dateSelectorHandlers['year'].onChangePev}
+            onChangeNext={dateSelectorHandlers['year'].onChangeNext}
           >
             <DropDown setIsMonth={setIsMonth} />
           </TopNabMonthWithDropDown>
