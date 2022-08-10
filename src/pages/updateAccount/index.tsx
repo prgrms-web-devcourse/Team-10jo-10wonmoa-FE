@@ -3,6 +3,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Tabs, TopNavBar } from '@components';
 import { AccountForm } from '@components/account';
+import { ACCOUNT_TYPE } from '@constants/Tabs';
 import {
   fetchGetCategory,
   fetchGetIncomes,
@@ -17,17 +18,6 @@ import type {
   CreateAccountRequest,
   AccountDetailResponse,
 } from '@types';
-
-const ACCOUNT_TYPE: TabItem[] = [
-  {
-    value: 'INCOME',
-    title: '수입',
-  },
-  {
-    value: 'EXPENDITURE',
-    title: '지출',
-  },
-];
 
 const UpdateAccount = () => {
   const { accountId } = useParams<{ accountId: string }>();
@@ -102,7 +92,7 @@ const UpdateAccount = () => {
   const deleteAccountMutation = useMutation(
     ['deleteAccount', accountId],
     () => {
-      return accountType.value === 'INCOME'
+      return originAccountType.value === 'INCOME'
         ? fetchDeleteIncomes(accountId)
         : fetchDeleteExpenditures(accountId);
     },
@@ -133,7 +123,8 @@ const UpdateAccount = () => {
     });
   };
 
-  const handleDelete = () => {
+  const handleDelete = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     deleteAccountMutation.mutate();
   };
 
