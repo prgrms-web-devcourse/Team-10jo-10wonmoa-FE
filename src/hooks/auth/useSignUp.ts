@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import axiosInstance from '@api/core';
+import { axiosInstance } from '@api/core';
 import { useNavigate } from 'react-router-dom';
 import type { NewUser } from '@types';
 import { useMutation, UseMutateFunction } from 'react-query';
