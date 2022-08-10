@@ -32,6 +32,7 @@ const CreateAccount = () => {
     userCategoryId: 0,
     registerDate: '',
     categoryName: '',
+    content: '',
   });
   const navigate = useNavigate();
 
@@ -69,6 +70,7 @@ const CreateAccount = () => {
 
   const handleSubmit = () => {
     const { userCategoryId, content, amount, registerDate } = formValues;
+    console.log(formValues, content);
     createAccountMutation.mutate({
       userCategoryId,
       content,
