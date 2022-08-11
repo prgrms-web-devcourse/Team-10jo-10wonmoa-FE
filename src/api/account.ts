@@ -1,5 +1,9 @@
 import { axiosAuthInstance } from '@api/core';
-import type { CreateAccountRequest } from '@types';
+import type {
+  CreateAccountRequest,
+  CreateCategoryRequest,
+  UpdateCategoryRequest,
+} from '@types';
 
 const fetchPostIncomes = (createAccountRequest: CreateAccountRequest) =>
   axiosAuthInstance
@@ -49,12 +53,32 @@ const fetchGetCategory = (kind: string) => {
     .then((response) => response.data);
 };
 
+const fetchPostCategory = (category: CreateCategoryRequest) => {
+  return axiosAuthInstance
+    .post('/categories', category)
+    .then((response) => response.data);
+};
+
+const fetchUpdateCategory = ({ categoryId, name }: UpdateCategoryRequest) => {
+  return axiosAuthInstance
+    .patch(`/categories/${categoryId}`, { name })
+    .then((response) => response.data);
+};
+
+const fetchDeleteCategory = (id: number) => {
+  return axiosAuthInstance
+    .delete(`/categories/${id}`)
+    .then((response) => response.data);
+};
+
 const fetchGetSearchResult = (searchParams: string | null) => {
   console.log(searchParams);
   const searchResultURL = `/account-book/search${
     searchParams ? '?' + searchParams : ''
   }`;
-  return axios.get(searchResultURL).then((response) => response.data);
+  return axiosAuthInstance
+    .get(searchResultURL)
+    .then((response) => response.data);
 };
 
 export {
@@ -67,5 +91,8 @@ export {
   fetchDeleteIncomes,
   fetchDeleteExpenditures,
   fetchGetCategory,
+  fetchPostCategory,
+  fetchUpdateCategory,
+  fetchDeleteCategory,
   fetchGetSearchResult,
 };
