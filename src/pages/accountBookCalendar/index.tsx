@@ -1,15 +1,15 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  MouseEvent,
-  useEffect,
-} from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { dateFormatter } from '@utils/formatter';
+import { useCalendar } from '@hooks/account';
+import { Spinner } from '@components';
+import { useMonthSelector } from '@hooks';
 import Calendar from '@toast-ui/react-calendar';
-
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 const AccountBookCalendar = () => {
+  const { monthDate, yearDate } = useMonthSelector();
+
   const calendars = [
     {
       id: 'cal1',
@@ -74,31 +74,10 @@ const AccountBookCalendar = () => {
     },
   ];
 
-  const dummy = {
-    results: [
-      {
-        registerDate: '2022-07-19T22:11',
-        dayIncome: 0,
-        dayExpenditure: 0,
-        dayTotal: 0,
-      },
-      {
-        registerDate: '2022-07-20T22:11',
-        dayIncome: 60000,
-        dayExpenditure: 20000,
-        dayTotal: 40000,
-      },
-      {
-        registerDate: '2022-07-21T22:11',
-        dayIncome: 60000,
-        dayExpenditure: 20000,
-        dayTotal: 40000,
-      },
-    ],
-  };
   const onAfterRenderEvent = (event: any) => {
     console.log(event);
   };
+
   const template = {
     /* 수입 */
     allday(event: any) {
@@ -114,26 +93,46 @@ const AccountBookCalendar = () => {
     },
   };
   const calendarRef = useRef<any>(null);
-  const [calendar, setCalendar] = useState();
-
   useEffect(() => {
-    if (calendarRef.current) {
-      setCalendar(calendarRef.current.getInstance());
+    if (!calendarRef.current) {
+      return;
     }
-  });
+    console.log(calendarRef.current);
+  }, [calendarRef]);
 
-  const prev = (calendar: any) => {
-    calendar.prev();
+  // prevMonth
+  const prevMonth = () => {
+    calendarRef.current.getInstance().prev();
   };
 
-  const next = (calendar: any) => {
-    calendar.next();
+  const nextMonth = () => {
+    calendarRef.current.getInstance().next();
   };
+  const [searchParams] = useSearchParams();
+  const [currentDate, setCurrentDate] = useState(
+    dateFormatter(searchParams.get('date') || new Date(), 'YEAR_DAY_DASH')
+  );
+  useEffect(() => {
+    const date = dateFormatter(
+      searchParams.get('date') || new Date(),
+      'YEAR_DAY_DASH'
+    );
+
+    if (!calendarRef.current) {
+      return;
+    }
+
+    if (date < currentDate) {
+      prevMonth();
+      setCurrentDate(date);
+    } else if (date > currentDate) {
+      nextMonth();
+      setCurrentDate(date);
+    }
+  }, [searchParams, calendarRef]);
 
   return (
     <CalendarWrapper>
-      <button onClick={() => prev(calendar)}>Go prev!</button>
-      <button onClick={() => next(calendar)}>Go next!</button>
       <Calendar
         height="650px"
         view="month"
