@@ -48,3 +48,12 @@ declare type CalendarAccount = {
   totalSum: number;
   day: number;
 };
+
+declare type CalendarEvents = {
+  calendarId: string;
+  category: string;
+  start: string;
+  end: string;
+  isVisible: boolean;
+  title: number;
+};

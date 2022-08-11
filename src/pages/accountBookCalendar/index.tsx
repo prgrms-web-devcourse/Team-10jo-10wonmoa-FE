@@ -1,15 +1,13 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { dateFormatter } from '@utils/formatter';
 import { useCalendar } from '@hooks/account';
-import { Spinner } from '@components';
-import { useMonthSelector } from '@hooks';
+import { makeCalendarData } from './makeCalendarData';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
+import { Dummy } from './DummyData';
 const AccountBookCalendar = () => {
-  const { monthDate, yearDate } = useMonthSelector();
-
   const calendars = [
     {
       id: 'cal1',
@@ -24,53 +22,6 @@ const AccountBookCalendar = () => {
       backgroundColor: '#fff',
       dragBgColor: '#fff',
       borderColor: '#fff',
-    },
-  ];
-  const initialEvents = [
-    {
-      id: '1',
-      calendarId: 'cal1',
-      title: '200,000',
-      category: 'milestone',
-      isVisible: true,
-      start: '2022-08-08',
-      end: '2022-08-08',
-    },
-    {
-      id: '2',
-      calendarId: 'cal1',
-      title: '100,000',
-      category: 'task',
-      isVisible: true,
-      start: '2022-08-08',
-      end: '2022-08-08',
-    },
-    {
-      id: '3',
-      calendarId: 'cal1',
-      title: '100,000',
-      category: 'allday',
-      isVisible: true,
-      start: '2022-08-08',
-      end: '2022-08-08T13:30',
-    },
-    {
-      id: '4',
-      calendarId: 'cal2',
-      title: '1,000',
-      category: 'milestone',
-      start: '2022-08-28',
-      end: '2022-08-28',
-      isVisible: true,
-    },
-    {
-      id: '5',
-      calendarId: 'cal2',
-      title: '2,000',
-      category: 'allday',
-      start: '2022-08-28',
-      end: '2022-08-28',
-      isVisible: true,
     },
   ];
 
@@ -97,10 +48,8 @@ const AccountBookCalendar = () => {
     if (!calendarRef.current) {
       return;
     }
-    console.log(calendarRef.current);
   }, [calendarRef]);
 
-  // prevMonth
   const prevMonth = () => {
     calendarRef.current.getInstance().prev();
   };
@@ -109,9 +58,11 @@ const AccountBookCalendar = () => {
     calendarRef.current.getInstance().next();
   };
   const [searchParams] = useSearchParams();
+
   const [currentDate, setCurrentDate] = useState(
     dateFormatter(searchParams.get('date') || new Date(), 'YEAR_DAY_DASH')
   );
+
   useEffect(() => {
     const date = dateFormatter(
       searchParams.get('date') || new Date(),
@@ -130,7 +81,19 @@ const AccountBookCalendar = () => {
       setCurrentDate(date);
     }
   }, [searchParams, calendarRef]);
+  const [apiData, setAPIData] = useState<CalendarAccount[] | null>(null);
+  const [Events, setEvents] = useState<CalendarEvents[] | null>(null);
+  const { isLoading, data } = useCalendar(currentDate);
 
+  useEffect(() => {
+    if (!isLoading) {
+      setAPIData(data);
+    }
+    if (apiData !== null) {
+      setEvents(makeCalendarData(apiData));
+    }
+  }, [data, apiData]);
+  if (Events !== null) console.log(Events);
   return (
     <CalendarWrapper>
       <Calendar
@@ -142,7 +105,7 @@ const AccountBookCalendar = () => {
           dayNames: ['일', '월', '화', '수', '목', '금', '토'],
         }}
         calendars={calendars}
-        events={initialEvents}
+        events={Dummy}
         useDetailPopup={true}
         onAfterRenderEvent={onAfterRenderEvent}
         template={template}
