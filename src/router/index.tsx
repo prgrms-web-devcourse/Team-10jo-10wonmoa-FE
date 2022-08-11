@@ -11,6 +11,7 @@ import {
   Statistics,
   Budget,
   NotFound,
+  Profile,
 } from '@pages';
 
 const AppRouter = () => {
@@ -19,6 +20,7 @@ const AppRouter = () => {
       <Route path="/" element={<Navigate replace to="/login" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signUp" element={<SignUp />} />
+      <Route path="/profile" element={<Profile />} />
 
       <Route path="/account">
         <Route path={`create`} element={<CreateAccount />} />
