@@ -71,11 +71,8 @@ const fetchDeleteCategory = (id: number) => {
     .then((response) => response.data);
 };
 
-const fetchGetSearchResult = (searchParams: string | null) => {
-  console.log(searchParams);
-  const searchResultURL = `/account-book/search${
-    searchParams ? '?' + searchParams : ''
-  }`;
+const fetchGetSearchResult = (searchParams: string) => {
+  const searchResultURL = `/account-book/search${searchParams}`;
   return axiosAuthInstance
     .get(searchResultURL)
     .then((response) => response.data);

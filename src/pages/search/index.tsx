@@ -4,7 +4,6 @@ import { useQuery } from 'react-query';
 import { TopNavBar } from '@components';
 import { SearchForm, SearchResultAccountItem } from '@components/search';
 import { TabsDisplayAccountSum } from '@components/account';
-import { currencyFormatter } from '@utils/formatter';
 import { fetchGetSearchResult } from '@api';
 import { CreateSearchRequest } from '@types';
 
@@ -12,7 +11,7 @@ const Search = () => {
   const [searchParams, setSearchParams] = useState<string | null>(null);
 
   const handleSubmit = (formValues: CreateSearchRequest) => {
-    const parseParams = Object.entries(formValues)
+    let parseParams = Object.entries(formValues)
       .filter(
         ([key, values]) =>
           key !== 'categoryNames' &&
@@ -20,31 +19,18 @@ const Search = () => {
       )
       .map((param) => param.join('='))
       .join('&');
+
+    parseParams = parseParams.length !== 0 ? `?${parseParams}` : '';
     setSearchParams(parseParams);
   };
 
   const { data: searchResult } = useQuery(
     ['search', searchParams],
-    () => fetchGetSearchResult(searchParams),
+    () => fetchGetSearchResult(searchParams as string),
     {
       enabled: searchParams !== null,
     }
   );
-
-  const ACCOUNT_TYPE = [
-    {
-      value: currencyFormatter(searchResult?.incomeSum ?? 0),
-      title: '수입',
-    },
-    {
-      value: currencyFormatter(searchResult?.expenditureSum ?? 0),
-      title: '지출',
-    },
-    {
-      value: currencyFormatter(searchResult?.totalSum ?? 0),
-      title: '합계',
-    },
-  ];
 
   return (
     <SearchPageContainer>
@@ -53,7 +39,13 @@ const Search = () => {
       <SearchResultContainer>
         {searchResult && (
           <>
-            <TabsDisplayAccountSum tabItems={ACCOUNT_TYPE} />
+            <TabsDisplayAccountSum
+              sumResult={{
+                incomeSum: searchResult.incomeSum,
+                expenditureSum: searchResult.expenditureSum,
+                totalSum: searchResult.totalSum,
+              }}
+            />
             <SearchResultAccountList>
               {searchResult.results?.map((item: SingleAccount) => (
                 <SearchResultAccountItem item={item} key={item.id} />
