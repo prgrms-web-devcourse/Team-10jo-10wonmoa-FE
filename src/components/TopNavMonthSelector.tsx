@@ -4,11 +4,7 @@ import type { DateSelectorProps } from '@components/DateSelector';
 import { Search } from 'react-feather';
 import { Link } from 'react-router-dom';
 
-const TopNavMonthSelector = <
-  T extends DateSelectorProps & { isShowSearch?: boolean }
->(
-  props: T
-) => {
+const TopNavMonthSelector = <T extends DateSelectorProps>(props: T) => {
   return (
     <TopNavOutline>
       <DateSelector
