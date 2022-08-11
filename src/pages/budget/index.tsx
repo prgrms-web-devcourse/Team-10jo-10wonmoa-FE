@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
 import BudgetItem from './components/BudgetItem';
@@ -6,6 +6,7 @@ import { currencyFormatter } from '@utils/formatter';
 import { useMonthSelector } from '@hooks';
 import { fetchGetMonthlyBudgetList } from '@api/budget';
 import { useQuery } from 'react-query';
+
 const Budget = () => {
   const {
     monthDate,
@@ -17,12 +18,20 @@ const Budget = () => {
   } = useMonthSelector();
 
   const [isMonth, setIsMonth] = useState(true);
-  const { data } = useQuery(['monthlyBudget', monthDate], async () => {
-    const year = monthDate.slice(0, 4);
-    const month = monthDate.slice(6, 8);
-    const { data } = await fetchGetMonthlyBudgetList(year, month);
-    return data;
-  });
+
+  const { data, isLoading } = useQuery(
+    ['monthlyBudget', monthDate],
+    async () => {
+      const year = monthDate.slice(0, 4);
+      const month = monthDate.slice(6, 8);
+      const response = await fetchGetMonthlyBudgetList(year, month);
+      return response.data;
+    }
+  );
+
+  if (isLoading || !data) {
+    return <></>;
+  }
 
   return (
     <Container>
@@ -44,11 +53,14 @@ const Budget = () => {
           <h5>한 달 예산</h5>
           <h5>예산설정</h5>
         </TotalBudgetTop>
-        <h3>500,000원 남음</h3>
+        <h3>{currencyFormatter(data.amount - data.expenditure)}원 남음</h3>
         <ProgressContainer>
           <ProgressBar>
-            <Progress percent={30} isOverBudget={false}>
-              <Percent>30%</Percent>
+            <Progress
+              percent={data.percent}
+              isOverBudget={data.amount - data.expenditure > 0}
+            >
+              <Percent>{data.percent > 100 ? 100 : data.percent}%</Percent>
             </Progress>
           </ProgressBar>
           <ProgressBarBottom>
@@ -56,13 +68,13 @@ const Budget = () => {
               <BudgetDetail>
                 <BudgetDetailLabel>총 예산</BudgetDetailLabel>
                 <BudgetDetailMoney>
-                  {currencyFormatter(1000000)}원
+                  {currencyFormatter(data.amount)}원
                 </BudgetDetailMoney>
               </BudgetDetail>
               <BudgetDetail>
                 <BudgetDetailLabel>오늘까지 지출</BudgetDetailLabel>
                 <BudgetDetailMoney>
-                  {currencyFormatter(500000)}원
+                  {currencyFormatter(data.expenditure)}원
                 </BudgetDetailMoney>
               </BudgetDetail>
             </BudgetDetailList>
@@ -70,18 +82,9 @@ const Budget = () => {
         </ProgressContainer>
       </TotalBudgetSection>
       <BudgetItemListSection>
-        <BudgetItem
-          category="식비"
-          budget={1000}
-          expenditure={1000}
-          percent={100}
-        />
-        <BudgetItem
-          category="식비"
-          budget={1000}
-          expenditure={1000}
-          percent={100}
-        />
+        {data.budgets.map((budget) => (
+          <BudgetItem {...budget} key={budget.id} />
+        ))}
       </BudgetItemListSection>
       <BottomNavigation />
     </Container>
@@ -118,7 +121,7 @@ const BudgetItemListSection = styled(Section)`
   position: absolute;
   margin-top: 2rem;
   bottom: 7rem;
-  height: 20rem;
+  height: 40rem;
   width: 100%;
   background-color: ${({ theme }) => theme.$white};
 
