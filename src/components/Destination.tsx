@@ -2,14 +2,16 @@ import React from 'react';
 import { ReactComponent as AccountBookIcon } from '@assets/Icon/AccountBook.svg';
 import { ReactComponent as BudgetIcon } from '@assets/Icon/Budget.svg';
 import { ReactComponent as StaticsIcon } from '@assets/Icon/Statics.svg';
+import { ReactComponent as ProfileIcon } from '@assets/Icon/Profile.svg';
+
 import styled from '@emotion/styled';
 import { theme } from '@styles';
 import { useNavigate } from 'react-router-dom';
 interface DestinationProps {
   selected: boolean;
   text: string;
-  icon: 'ACCOUNT_BOOK' | 'BUDGET' | 'STATICS';
-  linkTo: '/account-book/daily' | '/statistics' | '/budget';
+  icon: 'ACCOUNT_BOOK' | 'BUDGET' | 'STATICS' | 'PROFILE';
+  linkTo: '/account-book/daily' | '/statistics' | '/budget' | '/profile';
 }
 
 const Destination = ({ selected, text, icon, linkTo }: DestinationProps) => {
@@ -19,6 +21,7 @@ const Destination = ({ selected, text, icon, linkTo }: DestinationProps) => {
       {icon === 'ACCOUNT_BOOK' && <AccountBookIcon />}
       {icon === 'BUDGET' && <BudgetIcon />}
       {icon === 'STATICS' && <StaticsIcon />}
+      {icon === 'PROFILE' && <ProfileIcon />}
       <DestinationText>{text}</DestinationText>
     </Container>
   );
