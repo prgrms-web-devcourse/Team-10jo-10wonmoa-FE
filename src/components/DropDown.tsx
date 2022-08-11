@@ -1,18 +1,20 @@
 import styled from '@emotion/styled';
 import { theme } from '@styles';
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import { ChevronDown } from 'react-feather';
 import { useClickAway } from '@hooks';
 interface DropDownInterface {
   type?: 'search' | 'statistics';
   top?: number;
   right?: number;
+  setIsMonth: Dispatch<SetStateAction<boolean>>;
 }
 
 const DropDown: React.FC<DropDownInterface> = ({
   type = 'statistics',
-  top = 2,
-  right = 2,
+  top,
+  right,
+  setIsMonth,
 }) => {
   const [selectedMenu, setSelectedMenu] = useState('월별');
   const [showMenu, setShowMenu] = useState(false);
@@ -24,9 +26,9 @@ const DropDown: React.FC<DropDownInterface> = ({
   const selectRef = useClickAway(handleClickAway);
   const handleSelectMenu = (e: React.MouseEvent) => {
     const eText = (e.target as HTMLElement).textContent;
-    (e.target as HTMLElement).style.color = 'red';
     setSelectedMenu(eText || '');
     handleShowMenu();
+    eText === '월별' ? setIsMonth(true) : setIsMonth(false);
   };
   return (
     <MenuWrapper top={top} right={right} ref={selectRef}>
@@ -71,12 +73,11 @@ export default DropDown;
 
 const MenuWrapper = styled.div<{ top?: number; right?: number }>`
   width: 5rem;
+  height: 2rem;
   border: 1px solid ${(props) => props.theme.$gray_dark};
   border-radius: 0.5rem;
   background-color: ${(props) => props.theme.$white};
   padding: 0.2rem 0.6rem;
-  z-index: 10;
-  position: absolute;
   top: ${(props) => props.top}rem;
   right: ${(props) => props.right}rem;
 `;
@@ -87,6 +88,8 @@ const SelectedMenu = styled.div`
 `;
 
 const Menu = styled.div`
+  width: 100%;
+  background-color: ${(props) => props.theme.$white};
   padding: 0.2rem 0;
   &:hover {
     color: ${(props) => props.theme.$primary};

@@ -16,6 +16,7 @@ const Divider: React.FC<DividerInterface> = ({
 
 const Line = styled.hr<DividerInterface>`
   border: none;
+  width: ${(props) => props.size + 'rem'};
   background-color: ${theme.$gray_medium};
   ${(props) => props.dividerType && dividerType[props.dividerType]}
 `;
@@ -23,7 +24,6 @@ const Line = styled.hr<DividerInterface>`
 const dividerType = {
   horizontal: css`
     display: block;
-    width: 100%;
     height: 1px;
   `,
   vertical: css`

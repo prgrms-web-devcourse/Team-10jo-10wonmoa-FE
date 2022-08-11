@@ -1,23 +1,25 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import SignUpForm from './components/SignUpForm';
-import { LoginLayout } from '@components';
+import { TopNavBar, CoinIcon } from '@components';
+import { Title, TitleSection, SignUpForm } from '@components/auth';
 import type { NewUser } from '@types';
-import useAuth from '@hooks/auth/useAuth';
+import useSignUp from '@hooks/auth/useSignUp';
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const signUp = useSignUp();
 
   const submitHandler = async (newUser: NewUser) => {
-    await signUp(newUser);
-    navigate('/login');
+    signUp(newUser);
   };
 
   return (
-    <LoginLayout title="회원가입" isActiveGoBack={true}>
-      <SignUpForm submitHandler={submitHandler} buttonTitle="회원가입하기" />
-    </LoginLayout>
+    <>
+      <TopNavBar isActiveGoBack={true} />
+      <CoinIcon />
+      <TitleSection>
+        <Title text="회원가입" />
+      </TitleSection>
+      <SignUpForm submitHandler={submitHandler} />
+    </>
   );
 };
 
