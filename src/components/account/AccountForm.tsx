@@ -86,6 +86,7 @@ const AccountForm = ({
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    debugger;
     e.preventDefault();
     if (isValidateAccount()) {
       onSubmit();
@@ -181,7 +182,7 @@ const AccountForm = ({
               삭제
             </Button>
           )}
-          <Button buttonType="primary" sizeType="large">
+          <Button buttonType="primary" sizeType="large" type="submit">
             등록
           </Button>
         </ButtonContainer>

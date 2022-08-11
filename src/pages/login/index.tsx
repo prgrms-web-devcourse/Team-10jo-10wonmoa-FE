@@ -21,7 +21,7 @@ const Login = () => {
         <Title text="로그인" />
         <SubTitle text="편리하게 돈을 관리해보세요." />
       </TitleSection>
-      <LoginForm submitHandler={submitHandler} />
+      <LoginForm submitHandler={submitHandler}></LoginForm>
       <Divider size={20} />
       <SignUpLink>
         오늘 처음이신가요? <Link to={'/signUp'}>회원가입하기</Link>
@@ -35,7 +35,7 @@ export default Login;
 const SignUpLink = styled.div`
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 2rem;
   > a {
     color: ${(props) => props.theme.$primary};
     font-weight: 600;
