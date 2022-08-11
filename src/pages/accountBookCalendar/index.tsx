@@ -32,15 +32,15 @@ const AccountBookCalendar = () => {
   const template = {
     /* 수입 */
     allday(event: any) {
-      return `<p style="color: blue; font-size: 2px;">${event.title}</p>`;
+      return `<p style="color: #228be6; font-size: 2px;">${event.title}</p>`;
     },
     /* 지출 */
     milestone(event: any) {
-      return `<p style="color: red; font-size: 2px;">${event.title}</p>`;
+      return `<p style="color: #D81921; font-size: 2px;">${event.title}</p>`;
     },
     /* 합계 */
     task(event: any) {
-      return `<p style="color: black; font-size: 2px;">${event.title}</p>`;
+      return `<p style="font-size: 2px;">${event.title}</p>`;
     },
   };
   const calendarRef = useRef<any>(null);
