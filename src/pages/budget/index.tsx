@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { BottomNavigation, TopNavMonthSelector, DropDown } from '@components';
+import { BottomNavigation, TopNavMonthSelector } from '@components';
 import BudgetItem from './components/BudgetItem';
 import { currencyFormatter } from '@utils/formatter';
 import { useMonthSelector } from '@hooks';
@@ -17,7 +17,7 @@ const Budget = () => {
     handlePrevYear,
   } = useMonthSelector();
 
-  const [isMonth, setIsMonth] = useState(true);
+  const [isMonth] = useState(true);
 
   const { data } = useQuery(['monthlyBudget', monthDate], async () => {
     const year = monthDate.slice(0, 4);
