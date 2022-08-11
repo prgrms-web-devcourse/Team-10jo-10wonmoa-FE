@@ -6,6 +6,7 @@ const Tabs = {
   ACCOUNT_BOOK: 'ACCOUNT_BOOK',
   BUDGET: 'BUDGET',
   STATICS: 'STATICS',
+  PROFILE: 'PROFILE',
 } as const;
 
 const BottomNavigation = () => {
@@ -30,6 +31,13 @@ const BottomNavigation = () => {
         text={'예산'}
         icon={Tabs.BUDGET}
         linkTo={'/budget'}
+      />
+
+      <Destination
+        selected={location.pathname === '/profile'}
+        text={'프로필'}
+        icon={Tabs.PROFILE}
+        linkTo={'/profile'}
       />
     </Container>
   );
