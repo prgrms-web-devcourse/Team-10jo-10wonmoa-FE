@@ -9,6 +9,7 @@ import AccountBookMonthly from './accountBookMonthly';
 import Statistics from './statistic';
 import Budget from './budget';
 import NotFound from './notFound';
+import Profile from './profile';
 
 export {
   Login,
@@ -22,4 +23,5 @@ export {
   Statistics,
   Budget,
   NotFound,
+  Profile,
 };
