@@ -1,24 +1,18 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
+import type { Budget } from 'types/budget';
 
-export interface BudgetItemProps {
-  category: string;
-  budget: number;
-  expenditure: number;
-  percent: number;
-}
-
-const BudgetItem: React.FC<BudgetItemProps> = ({
-  category,
-  budget,
+const BudgetItem: React.FC<Budget> = ({
+  categoryName,
+  amount,
   expenditure,
   percent,
 }) => {
-  if (!budget) {
+  if (!amount) {
     return (
       <BudgetItemContainer>
-        <div>{category}</div>
+        <div>{categoryName}</div>
         <div>{currencyFormatter(expenditure)}</div>
       </BudgetItemContainer>
     );
@@ -27,7 +21,7 @@ const BudgetItem: React.FC<BudgetItemProps> = ({
   return (
     <BudgetItemContainer>
       <BudgetLeftInnerContainer>
-        <BudgetCategory>{category}</BudgetCategory>
+        <BudgetCategory>{categoryName}</BudgetCategory>
         <BudgetExpenditure>
           {currencyFormatter(expenditure)}원
         </BudgetExpenditure>
@@ -35,11 +29,14 @@ const BudgetItem: React.FC<BudgetItemProps> = ({
       <BudgetRightInnerContainer>
         <ProgressBar>
           <Percent>{percent}%</Percent>
-          <Progress percent={percent} isOverBudget={budget - expenditure < 0} />
+          <Progress
+            percent={percent > 100 ? 100 : percent}
+            isOverBudget={amount - expenditure < 0}
+          />
         </ProgressBar>
         <ProgressBarBottom>
           <span>{currencyFormatter(expenditure)}</span>
-          <span>{currencyFormatter(budget - expenditure)}</span>
+          <span>{currencyFormatter(amount - expenditure)}</span>
         </ProgressBarBottom>
       </BudgetRightInnerContainer>
     </BudgetItemContainer>
@@ -50,8 +47,6 @@ const BudgetItemContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 2rem;
-  border: 1px solid ${(props) => props.theme.$gray_medium};
   & + & {
     border-top: none;
   }
@@ -62,7 +57,6 @@ const BudgetLeftInnerContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   flex: 1;
-  padding: 1rem 0rem;
 `;
 
 const BudgetCategory = styled.span`
