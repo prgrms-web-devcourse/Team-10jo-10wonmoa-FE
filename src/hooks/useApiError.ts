@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-interface Response404 {
+interface Response400 {
   data: {
     message: string;
   };
@@ -10,7 +10,7 @@ const useApiError = () => {
   const navigate = useNavigate();
 
   const handle400 = (error: AxiosError) => {
-    const res = error.response as Response404;
+    const res = error.response as Response400;
     alert(res.data.message);
   };
 
