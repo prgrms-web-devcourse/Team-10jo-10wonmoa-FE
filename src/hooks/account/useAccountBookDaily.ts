@@ -13,7 +13,7 @@ const fetchAccountBook = async (
     `/account-book/daily/${date}-01`,
     {
       params: {
-        size: 1,
+        size: 5,
         page: pageParam,
       },
     }
