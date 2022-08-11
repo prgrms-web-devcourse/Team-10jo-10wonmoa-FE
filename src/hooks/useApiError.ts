@@ -1,8 +1,18 @@
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+interface Response404 {
+  data: {
+    message: string;
+  };
+}
 const useApiError = () => {
   const navigate = useNavigate();
+
+  const handle400 = (error: AxiosError) => {
+    const res = error.response as Response404;
+    alert(res.data.message);
+  };
 
   const handle401 = () => {
     navigate('/login');
@@ -22,6 +32,9 @@ const useApiError = () => {
 
   const defaultHandlers = {
     default: defaultHandler,
+    400: {
+      default: handle400,
+    },
     401: {
       default: handle401,
     },
@@ -44,13 +57,22 @@ const useApiError = () => {
 
       // TODO: 커스텀 에러 핸들러 사용을 위한 코드. 타입설정 후 사용할예정
 
+      if (httpStatus === 400) {
+        handle400(error);
+        return;
+      }
+
       if (httpStatus === 401) {
         handle401();
         return;
-      } else if (httpStatus === 403) {
+      }
+
+      if (httpStatus === 403) {
         handle403();
         return;
-      } else if (httpStatus === 404) {
+      }
+
+      if (httpStatus === 404) {
         handle404();
         return;
       }
