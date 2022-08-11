@@ -1,12 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import {
-  BottomNavigation,
-  TopNavBar,
-  CoinIcon,
-  Divider,
-  Button,
-} from '@components';
+import { BottomNavigation, TopNavBar, CoinIcon, Button } from '@components';
 import { fetchDeleteUser, fetchGetLogout, fetchGetUser } from '@api/users';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
