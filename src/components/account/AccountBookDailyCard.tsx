@@ -10,8 +10,11 @@ const AccountBookDailyCard = <T extends { items: DailyAccount }>(props: T) => {
         dayExpenditure={props.items.expenditureSum}
         registerDate={props.items.registerDate}
       />
-      {props.items.dayDetails.map((item) => (
-        <AccountBookDailyItem key={item.id.toString()} item={item} />
+      {props.items.dayDetails.map((item, idx) => (
+        <AccountBookDailyItem
+          key={`account-single-${item.id}-${item.type}-${idx}`}
+          item={item}
+        />
       ))}
     </Container>
   );

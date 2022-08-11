@@ -80,8 +80,11 @@ const AccountBookDaily = () => {
   return (
     <CardArea>
       <div ref={topRef} />
-      {dailyAccounts?.map((item: DailyAccount, index: number) => (
-        <AccountBookDailyCard key={item.registerDate + index} items={item} />
+      {dailyAccounts?.map((item: DailyAccount, idx) => (
+        <AccountBookDailyCard
+          key={`daily-account-${item.registerDate}-${idx}`}
+          items={item}
+        />
       ))}
       <div ref={loadingRef}>{hasNextPage && <Spinner />}</div>
       <GoTopButton topRef={topRef} isVisible={visible} />
