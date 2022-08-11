@@ -14,6 +14,7 @@ import { STATISTICS_TABS } from '../../constants/Tabs';
 import * as d3 from 'd3';
 import useStatistic from '@hooks/statistics/useStatistic';
 import type { DateSelectorProps } from '@components/DateSelector';
+
 const Statistics = () => {
   const {
     monthDate,
@@ -46,6 +47,7 @@ const Statistics = () => {
   const handleTabClick = (clickedTab: TabItem) => {
     setCurrentTab(clickedTab);
   };
+
   const { isLoading, data } = isMonth
     ? useStatistic(monthDate)
     : useStatistic(yearDate);
@@ -55,7 +57,7 @@ const Statistics = () => {
   }
 
   if (!isLoading && data.length === 0) {
-    return <>데이터가 없습니다</>;
+    return <div>데이터가 없습니다</div>;
   }
 
   const { incomeTotalSum, expenditureTotalSum, incomes, expenditures } = data;
@@ -82,6 +84,7 @@ const Statistics = () => {
   };
   const incomePieData = makePieData(incomes);
   const expendituresPieData = makePieData(expenditures);
+
   return (
     <>
       <YearMonthWrapper>
@@ -108,15 +111,12 @@ const Statistics = () => {
 
       <TabsWrapper>
         <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
-          <span>
-            {'수입'}
-            {incomeTotalSum}
-          </span>
-          <span>|</span>
-          <span>
-            {'지출'}
-            {expenditureTotalSum}
-          </span>
+          {currentTab.title === '수입' ? (
+            <div>{`수입: ${currencyFormatter(incomeTotalSum)}`}</div>
+          ) : (
+            <div>{`지출: ${currencyFormatter(expenditureTotalSum)}`}</div>
+          )}
+
           <ChartContainer>
             {currentTab.title === '수입' && (
               <PieChart data={incomePieData} colorList={colorList} />
@@ -168,6 +168,7 @@ const YearMonthWrapper = styled.div`
 
 const ListWrapper = styled.div`
   width: 100%;
+  height: 35rem;
   overflow-y: auto;
   border-top: 2rem solid ${theme.$gray_light};
 `;
