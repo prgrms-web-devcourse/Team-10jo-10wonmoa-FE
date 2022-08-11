@@ -6,19 +6,22 @@ interface ButtonInterface {
   isDisabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
-  buttonType?: 'primary' | 'secondary' | 'red' | 'green';
+  type?: 'button' | 'submit' | 'reset';
+  buttonType?: 'primary' | 'secondary' | 'red' | 'green' | 'white';
   sizeType?: 'small' | 'medium' | 'large';
 }
 
-const Button: React.FC<ButtonInterface> = ({
+const Button = <T extends ButtonInterface>({
   isDisabled = false,
   children,
   onClick,
+  type = 'button',
   buttonType = 'primary',
   sizeType = 'small',
-}) => {
+}: T) => {
   return (
     <StyledButton
+      type={type}
       disabled={isDisabled}
       onClick={onClick}
       buttonType={buttonType}
@@ -32,6 +35,9 @@ const Button: React.FC<ButtonInterface> = ({
 export default Button;
 
 const StyledButton = styled.button<ButtonInterface>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 3rem;
   border: none;
   border-radius: 0.5rem;
@@ -66,6 +72,11 @@ const ButtonType = {
   green: css`
     color: ${theme.$white};
     background: ${theme.$green};
+  `,
+  white: css`
+    border: 1px solid ${theme.$gray_medium};
+    color: ${theme.$black};
+    background: ${theme.$white};
   `,
 };
 
