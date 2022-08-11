@@ -11,7 +11,7 @@ interface AccountFormProps {
   onChangeForm: React.Dispatch<React.SetStateAction<AccountDetailResponse>>;
   categories: Category[];
   formValues: AccountDetailResponse;
-  onDelete?: () => void;
+  onDelete?: (e: React.FormEvent<HTMLButtonElement>) => void;
 }
 const AMOUNT_MIN_LIMIT = 0;
 const AMOUNT_MAX_LIMIT = 1000000000000;

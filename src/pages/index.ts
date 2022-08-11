@@ -10,6 +10,8 @@ import Statistics from './statistic';
 import Budget from './budget';
 import NotFound from './notFound';
 import OAuth2RedirectHandler from './OAuth2RedirectHandler';
+import Profile from './profile';
+import Search from './search';
 
 export {
   Login,
@@ -24,4 +26,6 @@ export {
   Budget,
   NotFound,
   OAuth2RedirectHandler,
+  Profile,
+  Search,
 };
