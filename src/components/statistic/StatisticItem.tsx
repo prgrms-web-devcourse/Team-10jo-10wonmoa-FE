@@ -18,7 +18,7 @@ const StatisticItem: React.FC<StatisticItemProp> = ({
   const theme = useTheme();
   return (
     <Container theme={theme}>
-      <Percent color={color}>{percent}%</Percent>
+      <Percent color={color}>{Number(percent?.toFixed(1))}%</Percent>
       <CategoryInfo>{name}</CategoryInfo>
       <CategoryInfo>{total}</CategoryInfo>
     </Container>
