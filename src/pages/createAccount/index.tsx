@@ -3,6 +3,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TopNavBar } from '@components';
 import { AccountForm } from '@components/account';
+import { ACCOUNT_TYPE } from '@constants/Tabs';
 import {
   fetchGetCategory,
   fetchPostExpenditures,
@@ -14,17 +15,6 @@ import type {
   AccountDetailResponse,
 } from '@types';
 
-const ACCOUNT_TYPE: TabItem[] = [
-  {
-    value: 'INCOME',
-    title: '수입',
-  },
-  {
-    value: 'EXPENDITURE',
-    title: '지출',
-  },
-];
-
 const CreateAccount = () => {
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0]);
   const [formValues, setFormValues] = useState<AccountDetailResponse>({
@@ -32,6 +22,7 @@ const CreateAccount = () => {
     userCategoryId: 0,
     registerDate: '',
     categoryName: '',
+    content: '',
   });
   const navigate = useNavigate();
 
@@ -69,6 +60,7 @@ const CreateAccount = () => {
 
   const handleSubmit = () => {
     const { userCategoryId, content, amount, registerDate } = formValues;
+    console.log(formValues, content);
     createAccountMutation.mutate({
       userCategoryId,
       content,

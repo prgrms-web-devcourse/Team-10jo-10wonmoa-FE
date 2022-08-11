@@ -11,6 +11,7 @@ const theme = {
   $gray_dark: '#61646B',
   $gray_medium: '#AFB1B6',
   $gray_light: '#F7F7FB',
+  $gray_accent: '#e9ecef',
 
   $chart_red: '#ED7669',
   $chart_orange: '#F09C60',
