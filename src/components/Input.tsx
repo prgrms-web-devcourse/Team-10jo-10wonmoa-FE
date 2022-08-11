@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import styled from '@emotion/styled';
-import { theme } from '@styles';
 
 interface WrapperInterface {
   width?: number;
@@ -58,32 +57,34 @@ const Input = ({
 const Wrapper = styled.div<WrapperInterface>`
   width: 20rem;
   height: 3rem;
+  margin: 0.5rem;
   display: flex;
   justify-content: space-between;
-  color: ${theme.$gray_dark};
+  color: ${(props) => props.theme.$gray_dark};
   box-sizing: border-box;
 `;
 
 const StyledLabel = styled.label`
   font-size: 1rem;
   padding: 0.5rem 0;
-  color: ${theme.$gray_dark};
+  color: ${(props) => props.theme.$gray_dark};
 `;
 
 const StyledInput = styled.input<InputInterface>`
   width: ${(props) => (props.labelText ? '80%' : '100%')};
   height: 100%;
+  padding: 0 1rem;
   border: 0.1rem solid
-    ${(props) => (props.isError ? 'red' : theme.$gray_medium)};
+    ${(props) => (props.isError ? 'red' : props.theme.$gray_medium)};
   border-radius: 0.5rem;
   box-sizing: border-box;
 
   ::placeholder {
-    color: ${theme.$gray_medium};
+    color: ${(props) => props.theme.$gray_medium};
   }
   &:focus {
     outline: none;
-    border: 0.1rem solid ${theme.$primary};
+    border: 0.15rem solid ${(props) => props.theme.$primary};
   }
 `;
 

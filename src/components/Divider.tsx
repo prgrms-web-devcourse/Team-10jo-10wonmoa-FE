@@ -16,14 +16,15 @@ const Divider: React.FC<DividerInterface> = ({
 
 const Line = styled.hr<DividerInterface>`
   border: none;
+  width: ${(props) => props.size + 'rem'};
   background-color: ${theme.$gray_medium};
   ${(props) => props.dividerType && dividerType[props.dividerType]}
 `;
 
 const dividerType = {
   horizontal: css`
+    margin: 0.5rem 0;
     display: block;
-    width: 100%;
     height: 1px;
   `,
   vertical: css`

@@ -10,6 +10,8 @@ const NavBar: React.FC<NavOutlineProps> = (props) => {
 
 const NavBarContainer = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 3.6rem;
   width: 100%;
   position: relative;

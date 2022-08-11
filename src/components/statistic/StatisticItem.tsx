@@ -18,20 +18,22 @@ const StatisticItem: React.FC<StatisticItemProp> = ({
   const theme = useTheme();
   return (
     <Container theme={theme}>
-      <Percent color={color}>{percent}%</Percent>
+      <Percent color={color}>{Number(percent?.toFixed(1))}%</Percent>
       <CategoryInfo>{name}</CategoryInfo>
       <CategoryInfo>{total}</CategoryInfo>
     </Container>
   );
 };
-/* 숫자 천자리 단위 처리*/
+
 export default StatisticItem;
 
 const Container = styled.div`
+  width: 100%;
   padding: 1rem 2rem;
   border-bottom: 0.3rem solid ${theme.$gray_light};
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
 `;
 
 const Percent = styled.button`
