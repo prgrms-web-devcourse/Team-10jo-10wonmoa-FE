@@ -13,7 +13,6 @@ interface AccountFormProps {
   formValues: AccountDetailResponse;
   onDelete?: () => void;
 }
-
 const AMOUNT_MIN_LIMIT = 0;
 const AMOUNT_MAX_LIMIT = 1000000000000;
 const CONTENT_MAX_LIMIT = 50;
@@ -86,7 +85,6 @@ const AccountForm = ({
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    debugger;
     e.preventDefault();
     if (isValidateAccount()) {
       onSubmit();
