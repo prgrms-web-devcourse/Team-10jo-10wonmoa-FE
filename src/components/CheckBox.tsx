@@ -21,6 +21,8 @@ const CheckBox: React.FC<CheckBoxInterface> = ({
 }) => {
   const [editState, setEditState] = useState(false);
   const editInputRef = useRef<HTMLInputElement>(null);
+  const isShowEditIcon = isEditMode && !editState;
+  const isCategoryEditMode = isEditMode && editState;
 
   useEffect(() => {
     if (!isEditMode) {
@@ -45,7 +47,7 @@ const CheckBox: React.FC<CheckBoxInterface> = ({
   return (
     <Wrapper>
       <StyledInput type="checkbox" checked={isChecked} onChange={onChange} />
-      {isEditMode && editState ? (
+      {isCategoryEditMode ? (
         <EditContainer onClick={handleEventPrevent}>
           <input type="text" defaultValue={text} ref={editInputRef} />
           <button onClick={handleEditSubmit}>완료</button>
@@ -54,7 +56,7 @@ const CheckBox: React.FC<CheckBoxInterface> = ({
       ) : (
         <span>{text}</span>
       )}
-      {isEditMode && !editState && (
+      {isShowEditIcon && (
         <ButtonContainer onClick={handleEventPrevent}>
           <button onClick={() => setEditState(true)}>
             <EditIcon size={18} />

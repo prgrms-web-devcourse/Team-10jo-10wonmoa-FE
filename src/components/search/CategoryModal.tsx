@@ -150,70 +150,66 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
   );
 
   return (
-    <>
-      {visible && (
-        <BackupLayer visible={visible}>
-          <ModalContainer ref={modalRef}>
-            <ContentContainer>
-              <ModalTitle>
-                <p>분류</p>
-                <Toggle
-                  name="category-editmode-toggle"
-                  on={editModeToggle}
-                  key="editmode-toggle"
-                  onChange={() => setEditModeToggle((prevState) => !prevState)}
-                />
-              </ModalTitle>
-              <Tabs
-                tabItems={ACCOUNT_TYPE}
-                onClick={handleTabClick}
-                initialItem={accountType}
+    <BackupLayer visible={visible}>
+      <ModalContainer ref={modalRef}>
+        <ContentContainer>
+          <ModalTitle>
+            <p>분류</p>
+            <Toggle
+              name="category-editmode-toggle"
+              on={editModeToggle}
+              key="editmode-toggle"
+              onChange={() => setEditModeToggle((prevState) => !prevState)}
+            />
+          </ModalTitle>
+          <Tabs
+            tabItems={ACCOUNT_TYPE}
+            onClick={handleTabClick}
+            initialItem={accountType}
+          />
+          <CheckBoxContainer>
+            <CheckBox
+              key="category_all_select"
+              text="전체 선택"
+              isChecked={
+                categories?.categories.every((category: Category) =>
+                  selectedCategory.includes(category)
+                ) ?? false
+              }
+              onChange={handleAllCategoryChange}
+              isEditMode={false}
+            />
+            {categories?.categories.map((category: Category) => (
+              <CheckBox
+                key={category.id}
+                text={category.name}
+                isChecked={selectedCategory.includes(category)}
+                onChange={(e) => handleCategoryChange(e, category)}
+                onEdit={(name) => handleUpdateCategory(category, name)}
+                onDelete={() => handleDeleteCategory(category.id)}
+                isEditMode={editModeToggle}
               />
-              <CheckBoxContainer>
-                <CheckBox
-                  key="category_all_select"
-                  text="전체 선택"
-                  isChecked={
-                    categories?.categories.every((category: Category) =>
-                      selectedCategory.includes(category)
-                    ) ?? false
-                  }
-                  onChange={handleAllCategoryChange}
-                  isEditMode={false}
+            ))}
+            {editModeToggle && (
+              <CategoryAddContainer>
+                <label htmlFor="category-add-input" />
+                <input
+                  id="category-add-input"
+                  type="text"
+                  placeholder="카테고리 추가"
+                  ref={categoryInputRef}
                 />
-                {categories?.categories.map((category: Category) => (
-                  <CheckBox
-                    key={category.id}
-                    text={category.name}
-                    isChecked={selectedCategory.includes(category)}
-                    onChange={(e) => handleCategoryChange(e, category)}
-                    onEdit={(name) => handleUpdateCategory(category, name)}
-                    onDelete={() => handleDeleteCategory(category.id)}
-                    isEditMode={editModeToggle}
-                  />
-                ))}
-                {editModeToggle && (
-                  <CategoryAddContainer>
-                    <label htmlFor="category-add-input" />
-                    <input
-                      id="category-add-input"
-                      type="text"
-                      placeholder="카테고리 추가"
-                      ref={categoryInputRef}
-                    />
-                    <button onClick={handleAddCategory}>추가</button>
-                  </CategoryAddContainer>
-                )}
-              </CheckBoxContainer>
-            </ContentContainer>
-            <ButtonContainer>
-              <button onClick={onClose}>취소</button>
-              <button onClick={handleSubmit}>확인</button>
-            </ButtonContainer>
-          </ModalContainer>
-        </BackupLayer>
-      )}
-    </>
+                <button onClick={handleAddCategory}>추가</button>
+              </CategoryAddContainer>
+            )}
+          </CheckBoxContainer>
+        </ContentContainer>
+        <ButtonContainer>
+          <button onClick={onClose}>취소</button>
+          <button onClick={handleSubmit}>확인</button>
+        </ButtonContainer>
+      </ModalContainer>
+    </BackupLayer>
   );
 };
 
