@@ -1,11 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { BottomNavigation } from '@components';
+import { BottomNavigation, TopNavMonthSelector } from '@components';
 import BudgetItem from './components/BudgetItem';
 import { currencyFormatter } from '@utils/formatter';
+import { useMonthSelector } from '@hooks';
+import { fetchGetMonthlyBudgetList } from '@api/budget';
+import { useQuery } from 'react-query';
 const Budget = () => {
+  const {
+    monthDate,
+    yearDate,
+    handlePrevMonth,
+    handleNextMonth,
+    handleNextYear,
+    handlePrevYear,
+  } = useMonthSelector();
+
+  const [isMonth, setIsMonth] = useState(true);
+  const { data } = useQuery(['monthlyBudget', monthDate], async () => {
+    const year = monthDate.slice(0, 4);
+    const month = monthDate.slice(6, 8);
+    const { data } = await fetchGetMonthlyBudgetList(year, month);
+    return data;
+  });
+
   return (
     <Container>
+      {isMonth ? (
+        <TopNavMonthSelector
+          date={monthDate}
+          onChangePev={handlePrevMonth}
+          onChangeNext={handleNextMonth}
+        />
+      ) : (
+        <TopNavMonthSelector
+          date={yearDate}
+          onChangePev={handlePrevYear}
+          onChangeNext={handleNextYear}
+        />
+      )}
       <TotalBudgetSection>
         <TotalBudgetTop>
           <h5>한 달 예산</h5>
