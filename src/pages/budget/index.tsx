@@ -18,18 +18,14 @@ const Budget = () => {
   } = useMonthSelector();
 
   const [isMonth, setIsMonth] = useState(true);
+  const { data } = useQuery(['monthlyBudget', monthDate], async () => {
+    const year = monthDate.slice(0, 4);
+    const month = monthDate.slice(6, 8);
+    const response = await fetchGetMonthlyBudgetList(year, month);
+    return response.data;
+  });
 
-  const { data, isLoading } = useQuery(
-    ['monthlyBudget', monthDate],
-    async () => {
-      const year = monthDate.slice(0, 4);
-      const month = monthDate.slice(6, 8);
-      const response = await fetchGetMonthlyBudgetList(year, month);
-      return response.data;
-    }
-  );
-
-  if (isLoading || !data) {
+  if (!data) {
     return <></>;
   }
 
@@ -121,7 +117,7 @@ const BudgetItemListSection = styled(Section)`
   position: absolute;
   margin-top: 2rem;
   bottom: 7rem;
-  height: 40rem;
+  height: 30rem;
   width: 100%;
   background-color: ${({ theme }) => theme.$white};
 
