@@ -13,7 +13,7 @@ const BudgetItem: React.FC<Budget> = ({
     return (
       <BudgetItemContainer>
         <div>{categoryName}</div>
-        <div>{currencyFormatter(expenditure)}</div>
+        <div>{currencyFormatter(expenditure)}원</div>
       </BudgetItemContainer>
     );
   }
@@ -35,8 +35,8 @@ const BudgetItem: React.FC<Budget> = ({
           />
         </ProgressBar>
         <ProgressBarBottom>
-          <span>{currencyFormatter(expenditure)}</span>
-          <span>{currencyFormatter(amount - expenditure)}</span>
+          <span>{currencyFormatter(expenditure)}원</span>
+          <span>{currencyFormatter(amount - expenditure)}원</span>
         </ProgressBarBottom>
       </BudgetRightInnerContainer>
     </BudgetItemContainer>
