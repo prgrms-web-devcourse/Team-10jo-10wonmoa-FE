@@ -12,6 +12,7 @@ import {
   Budget,
   NotFound,
   Profile,
+  Search,
 } from '@pages';
 
 const AppRouter = () => {
@@ -37,6 +38,7 @@ const AppRouter = () => {
         <Route path={`monthly`} element={<AccountBookMonthly />} />
       </Route>
 
+      <Route path="/search" element={<Search />}></Route>
       <Route path="/statistics" element={<Statistics />}></Route>
       <Route path="/budget" element={<Budget />}></Route>
 

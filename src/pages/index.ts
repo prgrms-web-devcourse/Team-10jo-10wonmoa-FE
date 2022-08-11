@@ -10,6 +10,7 @@ import Statistics from './statistic';
 import Budget from './budget';
 import NotFound from './notFound';
 import Profile from './profile';
+import Search from './search';
 
 export {
   Login,
@@ -24,4 +25,5 @@ export {
   Budget,
   NotFound,
   Profile,
+  Search,
 };
