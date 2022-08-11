@@ -1,15 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { theme } from '@styles';
-import { dateFormatter } from '@utils/formatter/dateFormatter';
 import { useNavigate } from 'react-router-dom';
-import { currencyFormatter } from '@utils/formatter';
-
-const colorType = {
-  INCOME: theme.$blue,
-  EXPENDITURE: theme.$red,
-};
-
+import { dateFormatter, currencyFormatter } from '@utils/formatter';
 const AccountBookDailyItem: React.FC<{ item: SingleAccount }> = (props) => {
   const navigate = useNavigate();
 
@@ -19,43 +11,58 @@ const AccountBookDailyItem: React.FC<{ item: SingleAccount }> = (props) => {
   }`;
 
   return (
-    <Container onClick={() => navigate(accountUpdatePath)}>
-      <P color={theme.$gray_dark}>{props.item.categoryName}</P>
+    <Wrapper onClick={() => navigate(accountUpdatePath)}>
       <div>
-        <P color={theme.$black}>{props.item.content}</P>
-        <P color={theme.$gray_medium}>
-          {dateFormatter(props.item.registerTime, 'HOUR_MINUTE')}
-        </P>
+        <p>{dateFormatter(props.item.registerTime, 'HOUR_MINUTE')}</p>
       </div>
-      <P color={colorType[props.item.type]}>
-        {currencyFormatter(props.item.amount)}
-      </P>
-    </Container>
+      <div>
+        <p>{props.item.categoryName}</p>
+        <p>{props.item.content}</p>
+      </div>
+      <div>
+        <StyledParagraph type={props.item.type}>
+          {currencyFormatter(props.item.amount)}원
+        </StyledParagraph>
+      </div>
+    </Wrapper>
   );
 };
 
 export default AccountBookDailyItem;
 
-const Container = styled.div(
-  {
-    display: 'grid',
-    gridTemplateColumns: '1fr 2fr 1fr',
-    paddingBottom: '1rem',
-    borderBottom: '1px solid gray',
-    minHeight: '4rem',
-    alignItems: 'center',
-    margin: '0 2rem',
-    '>p:nth-of-type(2)': {
-      textAlign: 'right',
-    },
-  },
-  (props) => ({ color: props.color })
-);
+const Wrapper = styled.div<{ type?: string }>`
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 2rem 2rem;
+  border-bottom: 3px solid ${(props) => props.theme.$gray_light};
 
-const P = styled.p(
-  {
-    fontSize: '1rem',
-    paddingTop: '1rem',
-  },
-  ({ color }) => ({ color, fontSize: '1rem' })
-);
+  & div:nth-of-type(1) {
+    & p:nth-of-type(1) {
+      font-size: 0.8rem;
+      color: ${(props) => props.theme.$gray_medium};
+    }
+  }
+
+  & div:nth-of-type(2) {
+    text-align: left;
+    & p:nth-of-type(2) {
+      font-size: 0.7rem;
+      color: ${(props) => props.theme.$gray_medium};
+    }
+  }
+  & div:nth-of-type(3) {
+    text-align: right;
+  }
+`;
+
+const StyledParagraph = styled.p<{ type?: string }>`
+  color: ${(props) =>
+    props.type === 'INCOME'
+      ? props.theme.$blue
+      : props.type === 'EXPENDITURE'
+      ? props.theme.$red
+      : props.theme.$black};
+`;

@@ -1,18 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { theme } from '@styles';
 
 type TabItem = {
   path: string;
   title: string;
 };
 
-interface TabsProps {
-  tabItems: TabItem[];
-}
-
-const TabsNavigation: React.FC<TabsProps> = (props) => {
+const TabsNavigation = <T extends { tabItems: TabItem[] }>(props: T) => {
   return (
     <TabListContainer>
       {props.tabItems.map((item) => (
@@ -32,23 +27,21 @@ export default TabsNavigation;
 
 const TabListContainer = styled.div`
   width: 100%;
-  height: 3rem;
   display: flex;
 `;
 
 const TabNav = styled(NavLink)`
-  display: flex;
+  text-align: center;
+  padding: 0.7rem 0;
   flex-grow: 1;
-  justify-content: center;
-  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 500;
   cursor: pointer;
-  border-bottom: 1px solid ${theme.$gray_dark};
-  color: ${theme.$gray_dark};
-  background-color: ${theme.$white};
-
+  color: ${(props) => props.theme.$gray_dark};
+  background-color: ${(props) => props.theme.$white};
   &.active {
-    background-color: ${theme.$secondary};
-    border-bottom: 1px solid ${theme.$primary};
-    color: ${theme.$primary};
+    font-weight: bold;
+    border-bottom: 3px solid ${(props) => props.theme.$primary};
+    color: ${(props) => props.theme.$primary};
   }
 `;
