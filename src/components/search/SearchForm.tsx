@@ -6,10 +6,7 @@ import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
 import CategoryModal from './CategoryModal';
 
 interface SearchFormProps {
-  onSubmit: (
-    e: React.FormEvent<HTMLButtonElement>,
-    formValues: CreateSearchRequest
-  ) => void;
+  onSubmit: (formValues: CreateSearchRequest) => void;
 }
 
 const initialFormValue = {
@@ -22,10 +19,16 @@ const initialFormValue = {
   end: '',
 };
 
+const initialErrorForm: Record<string, string> = {
+  price: '',
+  date: '',
+};
+
 const SearchForm = ({ onSubmit }: SearchFormProps) => {
   const [searchOptionToggle, setSearchOptionToggle] = useState(false);
   const [formValues, setFormValues] =
     useState<Required<CreateSearchRequest>>(initialFormValue);
+  const [formErrors, setFormErrors] = useState(initialErrorForm);
   const [categoryModalToggle, setCategoryModalToggle] = useState(false);
 
   const amountFormatter = (amount: number) => {
@@ -42,10 +45,62 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
   ) => {
     const { name, value } = e.target;
 
+    setFormErrors(initialErrorForm);
+
     setFormValues((prevForm) => ({
       ...prevForm,
       [name]: customValue ?? value,
     }));
+  };
+
+  const isValidDate = () => {
+    if (
+      formValues.start !== '' &&
+      formValues.end !== '' &&
+      new Date(formValues.start) > new Date(formValues.end)
+    ) {
+      return false;
+    }
+    return true;
+  };
+
+  const isValidPrice = () => {
+    if (
+      formValues.minprice !== 0 &&
+      formValues.maxprice !== 0 &&
+      formValues.maxprice < formValues.minprice
+    ) {
+      return false;
+    }
+    return true;
+  };
+
+  const isValidateSearchForm = () => {
+    if (!isValidDate()) {
+      setFormErrors({
+        ...initialErrorForm,
+        date: '시작 날짜는 종료 날짜보다 빨라야 합니다.',
+      });
+      return false;
+    }
+
+    if (!isValidPrice()) {
+      setFormErrors({
+        ...initialErrorForm,
+        date: '최소 금액은 최대 금액보다 낮아야 합니다.',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (isValidateSearchForm()) {
+      onSubmit(formValues);
+    }
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +134,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
             value={formValues.content}
             onChange={handleChange}
           />
-          <button type="submit" onClick={(e) => onSubmit(e, formValues)}>
+          <button type="submit" onClick={handleSubmit}>
             <Search size={20} />
           </button>
         </SearchInputContainer>
@@ -95,44 +150,50 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
                 readOnly
               />
             </StyledInputContainer>
-            <StyledInputContainer>
-              금액
-              <StyledInput
-                type="text"
-                name="minprice"
-                placeholder="최소"
-                title="최소 금액"
-                value={amountFormatter(formValues.minprice)}
-                onChange={handleAmountChange}
-              />
-              ~
-              <StyledInput
-                type="text"
-                name="maxprice"
-                placeholder="최대"
-                title="최대 금액"
-                value={amountFormatter(formValues.maxprice)}
-                onChange={handleAmountChange}
-              />
-            </StyledInputContainer>
-            <StyledInputContainer>
-              기간
-              <StyledInput
-                type="date"
-                name="start"
-                title="시작 날짜"
-                value={formValues.start}
-                onChange={handleChange}
-              />
-              ~
-              <StyledInput
-                type="date"
-                name="end"
-                title="종료 날짜"
-                value={formValues.end}
-                onChange={handleChange}
-              />
-            </StyledInputContainer>
+            <div>
+              <StyledInputContainer>
+                금액
+                <StyledInput
+                  type="text"
+                  name="minprice"
+                  placeholder="최소"
+                  title="최소 금액"
+                  value={amountFormatter(formValues.minprice)}
+                  onChange={handleAmountChange}
+                />
+                ~
+                <StyledInput
+                  type="text"
+                  name="maxprice"
+                  placeholder="최대"
+                  title="최대 금액"
+                  value={amountFormatter(formValues.maxprice)}
+                  onChange={handleAmountChange}
+                />
+              </StyledInputContainer>
+              <ErrorMessageContent>{formErrors.price}</ErrorMessageContent>
+            </div>
+            <div>
+              <StyledInputContainer>
+                기간
+                <StyledInput
+                  type="date"
+                  name="start"
+                  title="시작 날짜"
+                  value={formValues.start}
+                  onChange={handleChange}
+                />
+                ~
+                <StyledInput
+                  type="date"
+                  name="end"
+                  title="종료 날짜"
+                  value={formValues.end}
+                  onChange={handleChange}
+                />
+              </StyledInputContainer>
+              <ErrorMessageContent>{formErrors.date}</ErrorMessageContent>
+            </div>
           </>
         )}
       </SearchFormContainer>
@@ -252,4 +313,9 @@ const SearchOptionToggleContainer = styled.div`
     color: ${(props) => props.theme.$gray_dark};
     cursor: pointer;
   }
+`;
+
+const ErrorMessageContent = styled.p`
+  color: ${(props) => props.theme.$red};
+  text-align: center;
 `;

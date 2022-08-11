@@ -11,12 +11,7 @@ import { CreateSearchRequest } from '@types';
 const Search = () => {
   const [searchParams, setSearchParams] = useState<string | null>(null);
 
-  const handleSubmit = (
-    e: React.FormEvent<HTMLButtonElement>,
-    formValues: CreateSearchRequest
-  ) => {
-    e.preventDefault();
-    console.log(formValues);
+  const handleSubmit = (formValues: CreateSearchRequest) => {
     const parseParams = Object.entries(formValues)
       .filter(
         ([key, values]) =>
@@ -33,9 +28,6 @@ const Search = () => {
     () => fetchGetSearchResult(searchParams),
     {
       enabled: searchParams !== null,
-      onSuccess: (data) => {
-        console.log(data);
-      },
     }
   );
 
@@ -69,6 +61,11 @@ const Search = () => {
             </SearchResultAccountList>
           </>
         )}
+        {searchResult && searchResult.results.length === 0 && (
+          <SearchNoResultParagraph>
+            검색 결과가 존재하지 않습니다
+          </SearchNoResultParagraph>
+        )}
       </SearchResultContainer>
     </SearchPageContainer>
   );
@@ -96,4 +93,10 @@ const SearchResultContainer = styled.div`
 const SearchResultAccountList = styled.div`
   width: 100%;
   overflow-y: scroll;
+`;
+
+const SearchNoResultParagraph = styled.p`
+  text-align: center;
+  padding: 3rem;
+  color: ${(props) => props.theme.$black};
 `;

@@ -44,3 +44,13 @@ export interface CreateSearchRequest {
   start?: string;
   end?: string;
 }
+
+export interface CreateCategoryRequest {
+  categoryType: string;
+  name: string;
+}
+
+export interface UpdateCategoryRequest {
+  categoryId: number;
+  name: string;
+}
