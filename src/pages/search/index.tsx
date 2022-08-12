@@ -10,6 +10,7 @@ import { CreateSearchRequest } from '@types';
 const Search = () => {
   const [searchParams, setSearchParams] = useState<string | null>(null);
   const targetRef = useRef<HTMLDivElement>(null);
+  const scrollTopTargetRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = (formValues: CreateSearchRequest) => {
     let parseParams = Object.entries(formValues)
@@ -23,21 +24,9 @@ const Search = () => {
 
     parseParams = parseParams.length !== 0 ? `?${parseParams}` : '';
     setSearchParams(parseParams);
-  };
-
-  const options = {
-    root: document.querySelector('.search-result-account-list'),
-    rootMargin: '0px',
-    threshold: 0.5,
-  };
-
-  const onIntersect: IntersectionObserverCallback = (entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        observer.unobserve(entry.target);
-        hasNextPage && fetchNextPage();
-      }
-    });
+    if (scrollTopTargetRef.current) {
+      scrollTopTargetRef.current.scrollTop = 0;
+    }
   };
 
   const {
@@ -57,6 +46,21 @@ const Search = () => {
       getNextPageParam: (lastPage) => lastPage.nextPage,
     }
   );
+
+  const options = {
+    root: document.querySelector('.search-result-account-list'),
+    rootMargin: '0px',
+    threshold: 0.5,
+  };
+
+  const onIntersect: IntersectionObserverCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+        hasNextPage && fetchNextPage();
+      }
+    });
+  };
 
   useEffect(() => {
     let observer: IntersectionObserver;
@@ -81,16 +85,22 @@ const Search = () => {
                 totalSum: searchResult?.pages[0].totalSum,
               }}
             />
-            <SearchResultAccountList className="search-result-account-list">
+            <SearchResultAccountList
+              className="search-result-account-list"
+              ref={scrollTopTargetRef}
+            >
               {searchResult.pages.map((group, i) => (
-                <React.Fragment key={i}>
-                  <div ref={targetRef}>
-                    {group.results.map((item: SingleAccount) => (
-                      <SearchResultAccountItem item={item} key={item.id} />
-                    ))}
-                  </div>
-                </React.Fragment>
+                <div key={i}>
+                  {group.results.map((item: SingleAccount) => (
+                    <SearchResultAccountItem item={item} key={item.id} />
+                  ))}
+                </div>
               ))}
+              {hasNextPage && (
+                <InfiniteScrollDiv ref={targetRef}>
+                  데이터를 불러오는 중입니다...
+                </InfiniteScrollDiv>
+              )}
             </SearchResultAccountList>
           </>
         )}
@@ -112,8 +122,6 @@ const SearchPageContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-
-  overflow: auto;
 
   & > p {
     padding: 3rem;
@@ -139,4 +147,10 @@ const SearchNoResultParagraph = styled.p`
   text-align: center;
   padding: 3rem;
   color: ${(props) => props.theme.$black};
+`;
+
+const InfiniteScrollDiv = styled.div`
+  padding: 2rem;
+  text-align: center;
+  color: ${(props) => props.theme.$gray_dark};
 `;
