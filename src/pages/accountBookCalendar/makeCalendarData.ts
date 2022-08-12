@@ -1,63 +1,48 @@
-const makeIncome = (data: number, idx: number) => {
+import { currencyFormatter } from '@utils/formatter';
+
+const makeIncome = (data: CalendarAccount) => {
   const incomeFormat = {
     calendarId: 'cal1',
     category: 'allday',
-    start: `2022-08-${idx}`,
-    end: `2022-08-${idx}`,
+    start: `${data.day}`,
+    end: `${data.day}`,
     isVisible: true,
+    title: currencyFormatter(Number(`${data.incomeSum}`)),
   };
 
-  const eachObject = { title: 0 };
-  eachObject.title = data;
-  const eachData = Object.assign(incomeFormat, eachObject);
-
-  return eachData;
+  return incomeFormat;
 };
 
-const makeExpenditure = (data: number, idx: number) => {
+const makeExpenditure = (data: CalendarAccount) => {
   const expenditureFormat = {
     calendarId: 'cal1',
     category: 'milestone',
-    start: `2022-08-${idx}`,
-    end: `2022-08-${idx}`,
+    start: `${data.day}`,
+    end: `${data.day}`,
     isVisible: true,
+    title: currencyFormatter(Number(`${data.incomeSum}`)),
   };
 
-  const eachObject = { title: 0 };
-  eachObject.title = data;
-
-  const eachData = Object.assign(expenditureFormat, eachObject);
-
-  return eachData;
+  return expenditureFormat;
 };
 
-const makeTotal = (data: number, idx: number) => {
+const makeTotal = (data: CalendarAccount) => {
   const totalFormat = {
     calendarId: 'cal1',
     category: 'task',
-    start: `2022-08-${idx}`,
-    end: `2022-08-${idx}`,
+    start: `${data.day}`,
+    end: `${data.day}`,
     isVisible: true,
+    title: currencyFormatter(Number(`${data.incomeSum}`)),
   };
 
-  const eachObject = { title: 0 };
-  eachObject.title = data;
-
-  const eachData = Object.assign(totalFormat, eachObject);
-
-  return eachData;
+  return totalFormat;
 };
 
 export const makeCalendarData = (calendarData: CalendarAccount[]) => {
-  const IncomeData = calendarData.map((x: CalendarAccount, idx) =>
-    makeIncome(x.incomeSum, idx + 1)
-  );
-  const ExpenditureData = calendarData.map((x, idx) =>
-    makeExpenditure(x.expenditureSum, idx + 1)
-  );
-  const TotalData = calendarData.map((x, idx) =>
-    makeTotal(x.totalSum, idx + 1)
-  );
+  const IncomeData = calendarData.map((x) => makeIncome(x));
+  const ExpenditureData = calendarData.map((x) => makeExpenditure(x));
+  const TotalData = calendarData.map((x) => makeTotal(x));
 
   return IncomeData.concat(ExpenditureData).concat(TotalData);
 };

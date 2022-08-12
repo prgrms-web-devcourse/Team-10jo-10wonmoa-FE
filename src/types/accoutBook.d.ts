@@ -55,5 +55,5 @@ declare type CalendarEvents = {
   start: string;
   end: string;
   isVisible: boolean;
-  title: number;
+  title: number | string;
 };
