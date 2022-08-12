@@ -6,6 +6,7 @@ import { useCalendar } from '@hooks/account';
 import { makeCalendarData } from './makeCalendarData';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
+
 const AccountBookCalendar = () => {
   const calendars = [
     {
@@ -15,33 +16,23 @@ const AccountBookCalendar = () => {
       dragBgColor: '#fff',
       borderColor: '#fff',
     },
-    {
-      id: 'cal2',
-      name: 'Another Calendar',
-      backgroundColor: '#fff',
-      dragBgColor: '#fff',
-      borderColor: '#fff',
-    },
   ];
-
-  const onAfterRenderEvent = (event: any) => {
-    console.log(event);
-  };
 
   const template = {
     /* 수입 */
-    allday(event: any) {
+    allday(event: CalendarEvents) {
       return `<p style="color: #228be6; font-size: 2px;">${event.title}</p>`;
     },
     /* 지출 */
-    milestone(event: any) {
+    milestone(event: CalendarEvents) {
       return `<p style="color: #D81921; font-size: 2px;">${event.title}</p>`;
     },
     /* 합계 */
-    task(event: any) {
+    task(event: CalendarEvents) {
       return `<p style="font-size: 2px;">${event.title}</p>`;
     },
   };
+  // eslint-disable-next-line
   const calendarRef = useRef<any>(null);
   useEffect(() => {
     if (!calendarRef.current) {
@@ -105,8 +96,7 @@ const AccountBookCalendar = () => {
         }}
         calendars={calendars}
         events={Events}
-        useDetailPopup={true}
-        onAfterRenderEvent={onAfterRenderEvent}
+        onClickEvent={(event) => alert(`${event.event.title}원 입니다`)}
         template={template}
         ref={calendarRef}
       />
