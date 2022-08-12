@@ -46,7 +46,7 @@ declare type CalendarAccount = {
   incomeSum: number;
   expenditureSum: number;
   totalSum: number;
-  day: number;
+  date: string;
 };
 
 declare type CalendarEvents = {

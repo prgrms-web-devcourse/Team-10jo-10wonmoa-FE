@@ -6,7 +6,6 @@ import { useCalendar } from '@hooks/account';
 import { makeCalendarData } from './makeCalendarData';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
-import { Dummy } from './DummyData';
 const AccountBookCalendar = () => {
   const calendars = [
     {
@@ -81,31 +80,31 @@ const AccountBookCalendar = () => {
       setCurrentDate(date);
     }
   }, [searchParams, calendarRef]);
-  const [apiData, setAPIData] = useState<CalendarAccount[] | null>(null);
-  const [Events, setEvents] = useState<CalendarEvents[] | null>(null);
+  const [apiData, setAPIData] = useState<CalendarAccount[] | undefined>();
+  const [Events, setEvents] = useState<CalendarEvents[] | undefined>();
   const { isLoading, data } = useCalendar(currentDate);
 
   useEffect(() => {
     if (!isLoading) {
       setAPIData(data);
     }
-    if (apiData !== null) {
+    if (apiData !== undefined) {
       setEvents(makeCalendarData(apiData));
     }
   }, [data, apiData]);
-  if (Events !== null) console.log(Events);
+
   return (
     <CalendarWrapper>
       <Calendar
-        height="650px"
+        height="600px"
         view="month"
         month={{
           isAlways6Weeks: false,
-          visibleEventCount: 3,
+          visibleEventCount: 5,
           dayNames: ['일', '월', '화', '수', '목', '금', '토'],
         }}
         calendars={calendars}
-        events={Dummy}
+        events={Events}
         useDetailPopup={true}
         onAfterRenderEvent={onAfterRenderEvent}
         template={template}

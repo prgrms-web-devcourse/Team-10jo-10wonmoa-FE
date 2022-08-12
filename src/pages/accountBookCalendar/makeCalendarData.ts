@@ -4,10 +4,12 @@ const makeIncome = (data: CalendarAccount) => {
   const incomeFormat = {
     calendarId: 'cal1',
     category: 'allday',
-    start: `${data.day}`,
-    end: `${data.day}`,
+    start: `${data.date}`,
+    end: `${data.date}`,
     isVisible: true,
-    title: currencyFormatter(Number(`${data.incomeSum}`)),
+    title: `${
+      data.incomeSum === 0 ? '' : currencyFormatter(Number(data.incomeSum))
+    }`,
   };
 
   return incomeFormat;
@@ -17,10 +19,14 @@ const makeExpenditure = (data: CalendarAccount) => {
   const expenditureFormat = {
     calendarId: 'cal1',
     category: 'milestone',
-    start: `${data.day}`,
-    end: `${data.day}`,
+    start: `${data.date}`,
+    end: `${data.date}`,
     isVisible: true,
-    title: currencyFormatter(Number(`${data.incomeSum}`)),
+    title: `${
+      data.expenditureSum === 0
+        ? ''
+        : currencyFormatter(Number(data.expenditureSum))
+    }`,
   };
 
   return expenditureFormat;
@@ -30,10 +36,12 @@ const makeTotal = (data: CalendarAccount) => {
   const totalFormat = {
     calendarId: 'cal1',
     category: 'task',
-    start: `${data.day}`,
-    end: `${data.day}`,
+    start: `${data.date}`,
+    end: `${data.date}`,
     isVisible: true,
-    title: currencyFormatter(Number(`${data.incomeSum}`)),
+    title: `${
+      data.totalSum === 0 ? '' : currencyFormatter(Number(data.totalSum))
+    }`,
   };
 
   return totalFormat;
