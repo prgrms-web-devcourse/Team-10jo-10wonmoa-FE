@@ -13,3 +13,7 @@ export type Budget = {
   amount: number;
   expenditure: number;
 };
+
+export type BudgetItemToEdit = {
+  budgets: Pick<Budget, 'id' | 'categoryName' | 'amount'>[];
+};
