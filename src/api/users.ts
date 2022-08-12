@@ -15,6 +15,6 @@ export const fetchPostSignUp = (signUpForm: SignUpForm) =>
 export const fetchGetUser = () =>
   axiosAuthInstance.get<{ email: string }>('/users');
 
-export const fetchGetLogout = () => axiosAuthInstance.get('/users/logout');
+export const fetchPostLogout = () => axiosAuthInstance.post('/users/logout');
 
-export const fetchDeleteUser = () => axiosAuthInstance.delete('/users/out');
+export const fetchDeleteUser = () => axiosAuthInstance.delete('/users/delete');
