@@ -23,20 +23,24 @@ const BudgetItem: React.FC<Budget> = ({
       <BudgetLeftInnerContainer>
         <BudgetCategory>{categoryName}</BudgetCategory>
         <BudgetExpenditure>
-          {currencyFormatter(expenditure)}원
+          지출 {currencyFormatter(expenditure)}원
         </BudgetExpenditure>
       </BudgetLeftInnerContainer>
       <BudgetRightInnerContainer>
         <ProgressBar>
-          <Percent>{percent}%</Percent>
+          <Percent>{percent > 100 ? 100 : percent}%</Percent>
           <Progress
             percent={percent > 100 ? 100 : percent}
             isOverBudget={amount - expenditure < 0}
           />
         </ProgressBar>
         <ProgressBarBottom>
-          <span>{currencyFormatter(expenditure)}원</span>
-          <span>{currencyFormatter(amount - expenditure)}원</span>
+          <span> 예산 {currencyFormatter(amount)}원</span>
+          <span>
+            남은 예산{' '}
+            {currencyFormatter(amount < expenditure ? 0 : amount - expenditure)}
+            원
+          </span>
         </ProgressBarBottom>
       </BudgetRightInnerContainer>
     </BudgetItemContainer>
@@ -82,12 +86,7 @@ const ProgressBar = styled.div`
   background-color: ${(props) => props.theme.$gray_light};
 `;
 
-type Progress = {
-  percent: number;
-  isOverBudget: boolean;
-};
-
-const Progress = styled.div<Progress>`
+const Progress = styled.div<{ percent: number; isOverBudget: boolean }>`
   border-radius: inherit;
   width: ${(props) => props.percent}%;
   height: 100%;
@@ -100,6 +99,7 @@ const Percent = styled.span`
   position: absolute;
   right: 5px;
   top: 2px;
+  color: ${({ theme }) => theme.$white};
 `;
 
 const ProgressBarBottom = styled.div`
