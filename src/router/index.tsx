@@ -11,6 +11,7 @@ import {
   Statistics,
   Budget,
   NotFound,
+  OAuth2RedirectHandler,
   Profile,
   Search,
 } from '@pages';
@@ -22,6 +23,11 @@ const AppRouter = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signUp" element={<SignUp />} />
       <Route path="/profile" element={<Profile />} />
+
+      <Route
+        path="/oauth2/redirect"
+        element={<OAuth2RedirectHandler />}
+      ></Route>
 
       <Route path="/account">
         <Route path={`create`} element={<CreateAccount />} />
