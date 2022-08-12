@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { TopNavBar } from '@components';
 import { SearchForm, SearchResultAccountItem } from '@components/search';
 import { TabsDisplayAccountSum } from '@components/account';
@@ -9,6 +9,7 @@ import { CreateSearchRequest } from '@types';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useState<string | null>(null);
+  const targetRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = (formValues: CreateSearchRequest) => {
     let parseParams = Object.entries(formValues)
@@ -24,13 +25,47 @@ const Search = () => {
     setSearchParams(parseParams);
   };
 
-  const { data: searchResult } = useQuery(
-    ['search', searchParams],
-    () => fetchGetSearchResult(searchParams as string),
+  const options = {
+    root: document.querySelector('.search-result-account-list'),
+    rootMargin: '0px',
+    threshold: 0.5,
+  };
+
+  const onIntersect: IntersectionObserverCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+        hasNextPage && fetchNextPage();
+      }
+    });
+  };
+
+  const {
+    data: searchResult,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    ['searchInfinite', searchParams],
+    ({ pageParam = 1 }) => {
+      const params = searchParams
+        ? `${searchParams}&page=${pageParam}`
+        : `?page=${pageParam}`;
+      return fetchGetSearchResult(params);
+    },
     {
       enabled: searchParams !== null,
+      getNextPageParam: (lastPage) => lastPage.nextPage,
     }
   );
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (targetRef.current) {
+      observer = new IntersectionObserver(onIntersect, options);
+      observer.observe(targetRef.current);
+    }
+    return () => observer && observer.disconnect();
+  }, [searchResult]);
 
   return (
     <SearchPageContainer>
@@ -41,19 +76,25 @@ const Search = () => {
           <>
             <TabsDisplayAccountSum
               sumResult={{
-                incomeSum: searchResult.incomeSum,
-                expenditureSum: searchResult.expenditureSum,
-                totalSum: searchResult.totalSum,
+                incomeSum: searchResult?.pages[0].incomeSum,
+                expenditureSum: searchResult?.pages[0].expenditureSum,
+                totalSum: searchResult?.pages[0].totalSum,
               }}
             />
-            <SearchResultAccountList>
-              {searchResult.results?.map((item: SingleAccount) => (
-                <SearchResultAccountItem item={item} key={item.id} />
+            <SearchResultAccountList className="search-result-account-list">
+              {searchResult.pages.map((group, i) => (
+                <React.Fragment key={i}>
+                  <div ref={targetRef}>
+                    {group.results.map((item: SingleAccount) => (
+                      <SearchResultAccountItem item={item} key={item.id} />
+                    ))}
+                  </div>
+                </React.Fragment>
               ))}
             </SearchResultAccountList>
           </>
         )}
-        {searchResult && searchResult.results.length === 0 && (
+        {searchResult && searchResult.pages[0].results.length === 0 && (
           <SearchNoResultParagraph>
             검색 결과가 존재하지 않습니다
           </SearchNoResultParagraph>
@@ -71,6 +112,13 @@ const SearchPageContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+
+  overflow: auto;
+
+  & > p {
+    padding: 3rem;
+    text-align: center;
+  }
 `;
 
 const SearchResultContainer = styled.div`
