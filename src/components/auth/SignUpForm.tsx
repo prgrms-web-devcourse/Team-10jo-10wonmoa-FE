@@ -5,11 +5,7 @@ import { AuthFormWrapper, ErrorParagraph } from '@components/auth';
 import { useForm } from '@hooks';
 import { NewUser } from '@types';
 
-interface SignUpFormProps {
-  submitHandler: (data: NewUser) => void;
-}
-
-const SignUpForm: React.FC<SignUpFormProps> = (props) => {
+const SignUpForm = (props: { submitHandler: (data: NewUser) => void }) => {
   const { formValues, handleChange } = useForm<NewUser>({
     email: '',
     username: '',
@@ -69,7 +65,11 @@ const SignUpForm: React.FC<SignUpFormProps> = (props) => {
       {formValues.passwordConfirm && !isConfirmedPassword && (
         <ErrorParagraph text="비밀번호가 일치하지 않습니다." />
       )}
-      <Button sizeType="large" isDisabled={!isValidValues || !isAllFilled}>
+      <Button
+        sizeType="large"
+        type="submit"
+        isDisabled={!isValidValues || !isAllFilled}
+      >
         회원가입하기
       </Button>
     </AuthFormWrapper>

@@ -14,6 +14,7 @@ declare module '@emotion/react' {
     $gray_dark: string;
     $gray_medium: string;
     $gray_light: string;
+    $gray_accent: string;
 
     $chart_red: string;
     $chart_orange: string;

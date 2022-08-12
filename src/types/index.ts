@@ -34,3 +34,23 @@ export interface CreateAccountRequest {
 export interface AccountDetailResponse extends CreateAccountRequest {
   categoryName: string;
 }
+
+export interface CreateSearchRequest {
+  content?: string;
+  categories?: number[];
+  minprice?: number;
+  maxprice?: number;
+  categoryNames?: string;
+  start?: string;
+  end?: string;
+}
+
+export interface CreateCategoryRequest {
+  categoryType: string;
+  name: string;
+}
+
+export interface UpdateCategoryRequest {
+  categoryId: number;
+  name: string;
+}

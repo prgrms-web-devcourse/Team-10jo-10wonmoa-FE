@@ -11,9 +11,8 @@ interface AccountFormProps {
   onChangeForm: React.Dispatch<React.SetStateAction<AccountDetailResponse>>;
   categories: Category[];
   formValues: AccountDetailResponse;
-  onDelete?: () => void;
+  onDelete?: (e: React.FormEvent<HTMLButtonElement>) => void;
 }
-
 const AMOUNT_MIN_LIMIT = 0;
 const AMOUNT_MAX_LIMIT = 1000000000000;
 const CONTENT_MAX_LIMIT = 50;
@@ -181,7 +180,7 @@ const AccountForm = ({
               삭제
             </Button>
           )}
-          <Button buttonType="primary" sizeType="large">
+          <Button buttonType="primary" sizeType="large" type="submit">
             등록
           </Button>
         </ButtonContainer>

@@ -11,6 +11,9 @@ import {
   Statistics,
   Budget,
   NotFound,
+  OAuth2RedirectHandler,
+  Profile,
+  Search,
 } from '@pages';
 
 const AppRouter = () => {
@@ -19,6 +22,12 @@ const AppRouter = () => {
       <Route path="/" element={<Navigate replace to="/login" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signUp" element={<SignUp />} />
+      <Route path="/profile" element={<Profile />} />
+
+      <Route
+        path="/oauth2/redirect"
+        element={<OAuth2RedirectHandler />}
+      ></Route>
 
       <Route path="/account">
         <Route path={`create`} element={<CreateAccount />} />
@@ -35,6 +44,7 @@ const AppRouter = () => {
         <Route path={`monthly`} element={<AccountBookMonthly />} />
       </Route>
 
+      <Route path="/search" element={<Search />}></Route>
       <Route path="/statistics" element={<Statistics />}></Route>
       <Route path="/budget" element={<Budget />}></Route>
 

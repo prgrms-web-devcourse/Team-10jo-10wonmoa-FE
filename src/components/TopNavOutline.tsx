@@ -16,6 +16,7 @@ const NavBarContainer = styled.div`
   width: 100%;
   position: relative;
   top: 0;
+  background-color: ${(props) => props.theme.$white};
 `;
 
 export default NavBar;
