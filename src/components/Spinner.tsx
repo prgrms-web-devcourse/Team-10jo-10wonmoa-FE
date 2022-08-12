@@ -1,15 +1,19 @@
 import styled from '@emotion/styled';
 
-const Spinner = () => {
-  return <StyledSpinner />;
+interface SpinnerProps {
+  size?: number;
+}
+
+const Spinner = ({ size = 10 }: SpinnerProps) => {
+  return <StyledSpinner size={size} />;
 };
 
 export default Spinner;
 
-const StyledSpinner = styled.div`
+const StyledSpinner = styled.div<{ size: number }>`
   border-radius: 50%;
-  width: 10rem;
-  height: 10rem;
+  width: ${(props) => props.size}rem;
+  height: ${(props) => props.size}rem;
   margin: 60px auto;
   font-size: 10px;
   position: relative;
@@ -25,8 +29,8 @@ const StyledSpinner = styled.div`
   animation: load 1.1s infinite linear;
   &:after {
     border-radius: 50%;
-    width: 10rem;
-    height: 10rem;
+    width: ${(props) => props.size}rem;
+    height: ${(props) => props.size}rem;
   }
   @-webkit-keyframes load {
     0% {
