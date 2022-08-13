@@ -1,16 +1,13 @@
 import { request, authRequest } from '@api/core';
+import type { LoginUser, NewUser, Token } from '@types';
 
-type SignUpForm = {
-  email: string;
-  password: string;
-  username: string;
+export const fetchPostLogin = async (loginUser: LoginUser): Promise<Token> => {
+  const { data } = await request().post('/users', loginUser);
+  return data;
 };
 
-export const fetchPostLogin = (signUpForm: SignUpForm) =>
-  request().post('/users', { signUpForm });
-
-export const fetchPostSignUp = (signUpForm: SignUpForm) =>
-  request().post('/users', { signUpForm });
+export const fetchPostSignUp = async (NewUser: NewUser) =>
+  await request().post('/users', NewUser);
 
 export const fetchGetUser = () =>
   authRequest().get<{ email: string }>('/users');

@@ -1,23 +1,15 @@
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import type { LoginUser, Token } from '@types';
-import { request } from '@api/core';
+import type { LoginUser } from '@types';
+import { fetchPostLogin } from '@api/users';
 import tokenStorage from '@utils/storage/TokenStorage';
-
-const fetchLogIn = async (loginUser: LoginUser): Promise<Token> => {
-  const { data }: AxiosResponse<Token> = await request().post(
-    '/users/login',
-    loginUser
-  );
-  return data;
-};
 
 const useLogin = () => {
   const navigate = useNavigate();
 
   const { mutate } = useMutation(
-    (loginUser: LoginUser) => fetchLogIn(loginUser),
+    (loginUser: LoginUser) => fetchPostLogin(loginUser),
     {
       onSuccess: (res) => {
         tokenStorage.setAccessToken(res.accessToken);
