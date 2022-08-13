@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from '@emotion/styled';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import { TopNavBar } from '@components';
 import { SearchForm, SearchResultAccountItem } from '@components/search';
 import { TabsDisplayAccountSum } from '@components/account';
-import { fetchGetSearchResult } from '@api';
+import { fetchGetSearchResult, fetchGetSearchSumResult } from '@api';
 import { CreateSearchRequest } from '@types';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useState<string | null>(null);
-  const targetRef = useRef<HTMLDivElement>(null);
+  const [targetRef, setTargetRef] = useState<HTMLDivElement>();
   const scrollTopTargetRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = (formValues: CreateSearchRequest) => {
@@ -47,29 +47,53 @@ const Search = () => {
     }
   );
 
+  const { data: searchSumResult } = useQuery(
+    ['searchSumResult', searchParams],
+    () => {
+      if (searchParams === null) {
+        return;
+      }
+
+      return fetchGetSearchSumResult(searchParams);
+    },
+    {
+      enabled: searchParams !== null,
+    }
+  );
+
   const options = {
     root: document.querySelector('.search-result-account-list'),
     rootMargin: '0px',
     threshold: 0.5,
   };
 
-  const onIntersect: IntersectionObserverCallback = (entries, observer) => {
+  const onIntersect: IntersectionObserverCallback = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        observer.unobserve(entry.target);
         hasNextPage && fetchNextPage();
       }
     });
   };
 
-  useEffect(() => {
-    let observer: IntersectionObserver;
-    if (targetRef.current) {
-      observer = new IntersectionObserver(onIntersect, options);
-      observer.observe(targetRef.current);
+  const lazySetTargetRef = useCallback((node: HTMLDivElement) => {
+    if (node !== null) {
+      setTargetRef(node);
     }
+  }, []);
+
+  useEffect(() => {
+    if (!targetRef) {
+      return;
+    }
+
+    const observer: IntersectionObserver = new IntersectionObserver(
+      onIntersect,
+      options
+    );
+    observer.observe(targetRef);
+
     return () => observer && observer.disconnect();
-  }, [searchResult]);
+  }, [targetRef]);
 
   return (
     <SearchPageContainer>
@@ -80,9 +104,9 @@ const Search = () => {
           <>
             <TabsDisplayAccountSum
               sumResult={{
-                incomeSum: searchResult?.pages[0].incomeSum,
-                expenditureSum: searchResult?.pages[0].expenditureSum,
-                totalSum: searchResult?.pages[0].totalSum,
+                incomeSum: searchSumResult?.incomeSum ?? 0,
+                expenditureSum: searchSumResult?.expenditureSum ?? 0,
+                totalSum: searchSumResult?.totalSum ?? 0,
               }}
             />
             <SearchResultAccountList
@@ -92,12 +116,15 @@ const Search = () => {
               {searchResult.pages.map((group, i) => (
                 <div key={i}>
                   {group.results.map((item: SingleAccount) => (
-                    <SearchResultAccountItem item={item} key={item.id} />
+                    <SearchResultAccountItem
+                      item={item}
+                      key={item.type + item.id}
+                    />
                   ))}
                 </div>
               ))}
               {hasNextPage && (
-                <InfiniteScrollDiv ref={targetRef}>
+                <InfiniteScrollDiv ref={lazySetTargetRef}>
                   데이터를 불러오는 중입니다...
                 </InfiniteScrollDiv>
               )}
