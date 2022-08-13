@@ -2,33 +2,32 @@ import styled from '@emotion/styled';
 import { theme } from '@styles';
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import { ChevronDown } from 'react-feather';
-import { useClickAway } from '@hooks';
+
 interface DropDownInterface {
   type?: 'search' | 'statistics';
   setIsMonth: Dispatch<SetStateAction<boolean>>;
+  initialMenu: string;
 }
 
 const DropDown: React.FC<DropDownInterface> = ({
   type = 'statistics',
   setIsMonth,
+  initialMenu,
 }) => {
-  const [selectedMenu, setSelectedMenu] = useState('월별');
+  const [selectedMenu, setSelectedMenu] = useState<string | null>(initialMenu);
   const [showMenu, setShowMenu] = useState(false);
-  const handleShowMenu = () => setShowMenu(!showMenu);
-  const handleClickAway = () => {
-    if (showMenu) handleShowMenu();
-  };
 
-  const selectRef = useClickAway(handleClickAway);
+  const handleShowMenu = () => setShowMenu(!showMenu);
+
   const handleSelectMenu = (e: React.MouseEvent) => {
     const eText = (e.target as HTMLElement).textContent;
-    setSelectedMenu(eText || '');
+    setSelectedMenu(eText);
     handleShowMenu();
     eText === '월별' ? setIsMonth(true) : setIsMonth(false);
   };
+
   return (
     <MenuWrapper
-      ref={selectRef}
       style={{
         height: showMenu ? '6rem' : '2rem',
         marginTop: showMenu ? '4rem' : '',

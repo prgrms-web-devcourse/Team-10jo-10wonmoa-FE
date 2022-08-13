@@ -105,7 +105,10 @@ const Statistics = () => {
               : dateSelectorHandlers['year'].onChangeNext
           }
         >
-          <DropDown setIsMonth={setIsMonth} />
+          <DropDown
+            setIsMonth={setIsMonth}
+            initialMenu={isMonth ? '월별' : '연별'}
+          />
         </TopNabMonthWithDropDown>
       </YearMonthWrapper>
 
