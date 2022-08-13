@@ -269,6 +269,10 @@ const reset = css`
     display: none; /* Chrome, Safari, Opera*/
   }
 
+  body {
+    background-color: #f7f7f7;
+  }
+
   html {
     box-sizing: border-box;
   }
