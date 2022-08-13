@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import type { LoginUser } from '@types';
 import { fetchPostLogin } from '@api/users';
 import tokenStorage from '@utils/storage/TokenStorage';
 

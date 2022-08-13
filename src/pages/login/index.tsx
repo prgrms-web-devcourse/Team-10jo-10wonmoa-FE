@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { TopNavBar, CoinIcon, Divider } from '@components';
 import { Title, SubTitle, TitleSection, LoginForm } from '@components/auth';
-import { LoginUser } from '@types';
 import useLogin from '@hooks/auth/useLogin';
 
 const Login = () => {

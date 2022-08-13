@@ -1,13 +1,12 @@
 import { AxiosError } from 'axios';
 import { fetchPostSignUp } from '@api/users';
 import { useNavigate } from 'react-router-dom';
-import type { NewUser } from '@types';
 import { useMutation } from 'react-query';
 
 const useSignUp = () => {
   const navigate = useNavigate();
   const { mutate } = useMutation(
-    (newUser: NewUser) => fetchPostSignUp(newUser),
+    (signUpUser: SignUpUser) => fetchPostSignUp(signUpUser),
     {
       onSuccess: () => {
         alert('10원 모아 가계부에 가입하신걸 환영해요! 📝💰');
