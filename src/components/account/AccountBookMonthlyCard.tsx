@@ -11,7 +11,7 @@ const AccountBookMonthlyCard = <T extends { item: MonthlyAccount }>(
       <div>
         <span>{currencyFormatter(props.item.incomeSum)}원</span>
         <span>{currencyFormatter(props.item.expenditureSum)}원</span>
-        <Divider />
+        <Divider thick={2} />
         <strong>{currencyFormatter(props.item.totalSum)}원</strong>
       </div>
     </Card>
