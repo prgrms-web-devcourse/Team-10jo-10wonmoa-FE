@@ -6,6 +6,7 @@ import { useCalendar } from '@hooks/account';
 import { makeCalendarData } from './makeCalendarData';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
+import toast from 'react-hot-toast';
 
 const AccountBookCalendar = () => {
   const calendars = [
@@ -96,7 +97,7 @@ const AccountBookCalendar = () => {
         }}
         calendars={calendars}
         events={Events}
-        onClickEvent={(event) => alert(`${event.event.title}원 입니다`)}
+        onClickEvent={(event) => toast(`${event.event.title}원 입니다`)}
         template={template}
         ref={calendarRef}
       />

@@ -14,6 +14,7 @@ import type {
   CreateAccountRequest,
   AccountDetailResponse,
 } from '@types';
+import toast from 'react-hot-toast';
 
 const CreateAccount = () => {
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0]);
@@ -43,7 +44,7 @@ const CreateAccount = () => {
     },
     {
       onSuccess: () => {
-        alert('등록 성공');
+        toast.success('가계부 등록에 성공했어요!');
         navigate('/account-book/daily', { replace: true });
       },
     }

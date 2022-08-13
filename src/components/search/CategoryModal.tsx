@@ -12,6 +12,7 @@ import {
   fetchDeleteCategory,
 } from '@api';
 import type { CreateCategoryRequest, UpdateCategoryRequest } from '@types';
+import toast from 'react-hot-toast';
 
 interface ModalProps {
   visible: boolean;
@@ -69,7 +70,7 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
       inputRef.value.length <= CATEGORY_MIN_LIMIT ||
       inputRef.value.length >= CATEGORY_MAX_LIMIT
     ) {
-      alert('카테고리 이름은 1~20자까지 가능합니다');
+      toast.error('카테고리 이름은 1~20자까지 가능합니다');
       return;
     }
 

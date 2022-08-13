@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Spinner } from '@components';
 import tokenStorage from '@utils/storage/TokenStorage';
+import toast from 'react-hot-toast';
 
 const OAuth2RedirectHandler = () => {
   const [searchParam] = useSearchParams();
@@ -13,7 +14,7 @@ const OAuth2RedirectHandler = () => {
 
   useEffect(() => {
     if (!hasToken) {
-      alert(`로그인에 실패했습니다. 🥲 \n다시 시도해주세요.`);
+      toast.error(`로그인에 실패했습니다. 🥲 \n다시 시도해주세요.`);
       navigate('/login');
       return;
     }

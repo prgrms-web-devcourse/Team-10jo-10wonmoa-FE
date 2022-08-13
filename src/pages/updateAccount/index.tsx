@@ -18,6 +18,7 @@ import type {
   CreateAccountRequest,
   AccountDetailResponse,
 } from '@types';
+import toast from 'react-hot-toast';
 
 const UpdateAccount = () => {
   const { accountId } = useParams<{ accountId: string }>();
@@ -39,14 +40,14 @@ const UpdateAccount = () => {
 
   useEffect(() => {
     if (accountId === undefined) {
-      alert('잘못된 접근입니다');
+      toast.error('가계부 내용이 존재하지 않아요.');
       navigate('/account-book/daily', { replace: true });
       return;
     }
 
     const toNumberAccountId = parseInt(accountId);
     if (isNaN(toNumberAccountId) || toNumberAccountId === 0) {
-      alert('잘못된 접근입니다');
+      toast.error('가계부 내용이 존재하지 않아요.');
       navigate('/account-book/daily', { replace: true });
     }
   }, [accountId]);
@@ -83,7 +84,7 @@ const UpdateAccount = () => {
     },
     {
       onSuccess: () => {
-        alert('수정 성공');
+        toast.error('수정 성공');
         navigate('/account-book/daily', { replace: true });
       },
     }
@@ -98,7 +99,7 @@ const UpdateAccount = () => {
     },
     {
       onSuccess: () => {
-        alert('삭제 성공');
+        toast.error('삭제 성공');
         navigate('/account-book/daily', { replace: true });
       },
     }

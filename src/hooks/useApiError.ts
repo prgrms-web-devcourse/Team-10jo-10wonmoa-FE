@@ -1,17 +1,16 @@
+import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-interface Response400 {
-  data: {
-    message: string;
-  };
-}
 const useApiError = () => {
   const navigate = useNavigate();
 
   const handle400 = (error: AxiosError) => {
-    const res = error.response as Response400;
-    alert(res.data.message);
+    const message =
+      error instanceof AxiosError
+        ? error.response?.data.messages
+        : '네트워크 서버에 잠시 문제가 있는 것 같아요. 잠시 후 다시 시도해주세요! 🙏';
+    toast.error(message);
   };
 
   const handle401 = () => {
