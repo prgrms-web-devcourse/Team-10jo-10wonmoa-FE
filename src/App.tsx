@@ -1,7 +1,7 @@
 import React from 'react';
 import { Global, ThemeProvider } from '@emotion/react';
 import { theme, reset } from '@styles';
-import { AppLayout, Loading } from '@components';
+import { AppLayout, Loading, Toast } from '@components';
 import { QueryClientProvider } from 'react-query';
 import { queryClient } from '@api/react-query/queryClient';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -17,6 +17,7 @@ const App = () => {
         <AppLayout>
           <AppRouter />
           <Loading />
+          <Toast />
         </AppLayout>
       </ThemeProvider>
       <ReactQueryDevtools />
