@@ -22,15 +22,15 @@ const AccountBookCalendar = () => {
   const template = {
     /* 수입 */
     allday(event: CalendarEvents) {
-      return `<p style="color: #228be6; font-size: 2px;">${event.title}</p>`;
+      return `<p style="color: #228be6;">${event.title}</p>`;
     },
     /* 지출 */
     milestone(event: CalendarEvents) {
-      return `<p style="color: #D81921; font-size: 2px;">${event.title}</p>`;
+      return `<p style="color: #D81921; ">${event.title}</p>`;
     },
     /* 합계 */
     task(event: CalendarEvents) {
-      return `<p style="font-size: 2px;">${event.title}</p>`;
+      return <p>{event.title}</p>;
     },
   };
   // eslint-disable-next-line
@@ -90,7 +90,7 @@ const AccountBookCalendar = () => {
     <CalendarWrapper>
       <Calendar
         isReadOnly={true}
-        height="600px"
+        height="45rem"
         view="month"
         month={{
           isAlways6Weeks: false,
@@ -110,4 +110,6 @@ export default AccountBookCalendar;
 
 const CalendarWrapper = styled.div`
   width: 100%;
+  height: 45rem;
+  overflow-y: auto;
 `;
