@@ -75,7 +75,7 @@ const UpdateAccount = () => {
     },
     {
       onSuccess: () => {
-        toast.error('수정 성공');
+        toast.success('수정 성공');
         navigate('/account-book/daily', { replace: true });
       },
     }
@@ -90,7 +90,7 @@ const UpdateAccount = () => {
     },
     {
       onSuccess: () => {
-        toast.error('삭제 성공');
+        toast.success('삭제 성공');
         navigate('/account-book/daily', { replace: true });
       },
     }
