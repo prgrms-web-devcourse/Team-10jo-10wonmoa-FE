@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
-// import { AuthRequest } from '@api/core/request';
 import { authRequest } from '@api/core';
 import { queryKeys } from '@api/react-query/constant';
 import { dateFormatter } from '@utils/formatter';
