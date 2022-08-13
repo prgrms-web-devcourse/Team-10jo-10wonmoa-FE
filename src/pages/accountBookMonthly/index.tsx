@@ -25,5 +25,6 @@ export default AccountBookMonthly;
 
 const CardArea = styled.div`
   width: 100%;
+  padding-bottom: 7rem;
   overflow-y: scroll;
 `;
