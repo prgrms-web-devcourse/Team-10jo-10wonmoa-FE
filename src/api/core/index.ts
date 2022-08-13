@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import tokenStorage from '@utils/storage/TokenStorage';
 import { fetchAccessToken } from '@api/auth';
 
-const Instance = (
+const axiosInstance = (
   baseURL = process.env.REACT_APP_API_URL,
   options?: AxiosRequestConfig
 ) => {
@@ -17,11 +17,11 @@ const Instance = (
 type Request = () => AxiosInstance;
 
 export const request: Request = () => {
-  return Instance();
+  return axiosInstance();
 };
 
 export const authRequest: Request = () => {
-  const instance = Instance();
+  const instance = axiosInstance();
 
   instance.interceptors.request.use((config) => {
     return {
