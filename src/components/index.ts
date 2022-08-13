@@ -19,7 +19,7 @@ import Spinner from './Spinner';
 import Divider from './Divider';
 import CheckBox from './CheckBox';
 import Toggle from './Toggle';
-
+import Toast from './Toast';
 export {
   AppLayout,
   BackupLayer,
@@ -42,4 +42,5 @@ export {
   Divider,
   CheckBox,
   Toggle,
+  Toast,
 };
