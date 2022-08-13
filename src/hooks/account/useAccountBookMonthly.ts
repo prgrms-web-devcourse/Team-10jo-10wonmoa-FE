@@ -20,13 +20,17 @@ const useAccountBookMonthly = () => {
   );
 
   const fallback: MonthlyAccount[] = [];
-  const { data = fallback } = useQuery(
+  const { data = fallback, isLoading } = useQuery(
     [queryKeys.accountBook.monthly, date],
     () => fetchAccountMonthly(date)
   );
 
+  const isEmpty = !isLoading && data.length === 0;
+
   return {
     data,
+    isLoading,
+    isEmpty,
   };
 };
 

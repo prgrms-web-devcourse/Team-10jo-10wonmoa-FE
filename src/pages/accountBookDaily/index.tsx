@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
-import { AccountBookDailyCard } from '@components/account';
-import { GoTopButton, Spinner, CoinIcon } from '@components';
+import { AccountBookDailyCard, AccountBookEmpty } from '@components/account';
+import { GoTopButton, Spinner } from '@components';
 import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
 
 const AccountBookDaily = () => {
   const [visible, setVisible] = useState(false);
-  const navigate = useNavigate();
 
   const topRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
 
   const {
-    data: dailyResult,
+    computedDatas: dailyAccounts,
     isLoading,
+    isEmpty,
     hasNextPage,
     fetchNextPage,
   } = useAccountBookDaily();
@@ -58,17 +57,13 @@ const AccountBookDaily = () => {
     createTopObserver();
   }, []);
 
-  if (!isLoading && dailyResult?.pages.length === 0) {
-    return (
-      <>
-        <p>Empty</p>
-      </>
-    );
+  if (isLoading) {
+    return <Spinner />;
   }
 
-  const dailyAccounts = dailyResult?.pages.flatMap(
-    (page: DailyAccountBook) => page.results
-  );
+  if (isEmpty) {
+    return <AccountBookEmpty />;
+  }
 
   return (
     <CardArea>
