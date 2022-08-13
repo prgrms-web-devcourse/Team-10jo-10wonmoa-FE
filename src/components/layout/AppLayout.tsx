@@ -20,14 +20,15 @@ const Layout = styled.div`
   align-items: center;
   box-sizing: border-box;
   overflow-y: hidden;
-  width: 30rem;
+  max-width: 768px;
+  min-width: 320px;
+  padding: 0.5rem 1rem;
   height: 100vh;
-  box-shadow: 0 0 2rem 0.1rem rgba(0, 0, 0, 0.3);
   background-color: ${theme.$white};
   margin: 0 auto;
   -ms-overflow-style: none;
 
-  @media screen and (max-width: 40rem) {
+  @media screen and (max-width: 576px) {
     width: 100%;
   }
 `;
