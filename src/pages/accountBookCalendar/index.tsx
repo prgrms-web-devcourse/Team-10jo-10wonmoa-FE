@@ -74,6 +74,7 @@ const AccountBookCalendar = () => {
   }, [searchParams, calendarRef]);
   const [apiData, setAPIData] = useState<CalendarAccount[] | undefined>();
   const [Events, setEvents] = useState<CalendarEvents[] | undefined>();
+
   const { isLoading, data } = useCalendar(currentDate);
 
   useEffect(() => {
@@ -88,6 +89,7 @@ const AccountBookCalendar = () => {
   return (
     <CalendarWrapper>
       <Calendar
+        isReadOnly={true}
         height="600px"
         view="month"
         month={{
