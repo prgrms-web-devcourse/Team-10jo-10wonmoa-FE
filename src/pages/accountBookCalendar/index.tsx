@@ -99,7 +99,11 @@ const AccountBookCalendar = () => {
         }}
         calendars={calendars}
         events={Events}
-        onClickEvent={(event) => toast(`${event.event.title}원 입니다`)}
+        onClickEvent={(event) =>
+          event.event.title !== ''
+            ? toast(`${event.event.title}원 입니다`)
+            : null
+        }
         template={template}
         ref={calendarRef}
       />
