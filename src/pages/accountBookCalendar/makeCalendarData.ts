@@ -1,56 +1,48 @@
 import { currencyFormatter } from '@utils/formatter';
 
-const makeIncome = (data: CalendarAccount) => {
-  const incomeFormat = {
-    calendarId: 'cal1',
-    category: 'allday',
-    start: `${data.date}`,
-    end: `${data.date}`,
-    isVisible: true,
-    title: `${
-      data.incomeSum === 0 ? '' : currencyFormatter(Number(data.incomeSum))
-    }`,
+const makeEachData = (data: CalendarAccount) => {
+  const format = {
+    income: {
+      calendarId: 'cal1',
+      category: 'allday',
+      start: `${data.date}`,
+      end: `${data.date}`,
+      isVisible: true,
+      title: `${
+        data.incomeSum === 0 ? '' : currencyFormatter(Number(data.incomeSum))
+      }`,
+    },
+    expenditure: {
+      calendarId: 'cal1',
+      category: 'milestone',
+      start: `${data.date}`,
+      end: `${data.date}`,
+      isVisible: true,
+      title: `${
+        data.expenditureSum === 0
+          ? ''
+          : currencyFormatter(Number(data.expenditureSum))
+      }`,
+    },
+    total: {
+      calendarId: 'cal1',
+      category: 'task',
+      start: `${data.date}`,
+      end: `${data.date}`,
+      isVisible: true,
+      title: `${
+        data.totalSum === 0 ? '' : currencyFormatter(Number(data.totalSum))
+      }`,
+    },
   };
 
-  return incomeFormat;
-};
-
-const makeExpenditure = (data: CalendarAccount) => {
-  const expenditureFormat = {
-    calendarId: 'cal1',
-    category: 'milestone',
-    start: `${data.date}`,
-    end: `${data.date}`,
-    isVisible: true,
-    title: `${
-      data.expenditureSum === 0
-        ? ''
-        : currencyFormatter(Number(data.expenditureSum))
-    }`,
-  };
-
-  return expenditureFormat;
-};
-
-const makeTotal = (data: CalendarAccount) => {
-  const totalFormat = {
-    calendarId: 'cal1',
-    category: 'task',
-    start: `${data.date}`,
-    end: `${data.date}`,
-    isVisible: true,
-    title: `${
-      data.totalSum === 0 ? '' : currencyFormatter(Number(data.totalSum))
-    }`,
-  };
-
-  return totalFormat;
+  return format;
 };
 
 export const makeCalendarData = (calendarData: CalendarAccount[]) => {
-  const IncomeData = calendarData.map((x) => makeIncome(x));
-  const ExpenditureData = calendarData.map((x) => makeExpenditure(x));
-  const TotalData = calendarData.map((x) => makeTotal(x));
+  const IncomeData = calendarData.map((x) => makeEachData(x).income);
+  const ExpenditureData = calendarData.map((x) => makeEachData(x).expenditure);
+  const TotalData = calendarData.map((x) => makeEachData(x).total);
 
   return IncomeData.concat(ExpenditureData).concat(TotalData);
 };
