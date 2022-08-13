@@ -22,7 +22,7 @@ const NavBar: React.FC<NavBarProps> = ({
 };
 
 const NavTitle = styled.p`
-  font-size: 2.2rem;
+  font-size: 1.4rem;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);

@@ -85,7 +85,7 @@ const reset = css`
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 10px;
+    font-size: 16px;
     font: inherit;
     vertical-align: baseline;
     font-family: 'Noto Sans KR', sans-serif;
@@ -234,7 +234,7 @@ const reset = css`
   mark,
   audio,
   video {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   h1 {
@@ -258,6 +258,19 @@ const reset = css`
   }
   button {
     font-size: 16px;
+  }
+
+  div {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  div::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+
+  body {
+    background-color: #f7f7f7;
   }
 
   html {
