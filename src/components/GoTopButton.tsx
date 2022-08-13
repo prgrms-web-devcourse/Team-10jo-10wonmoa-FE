@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 import { theme } from '@styles';
-import { ArrowUpCircle } from 'react-feather';
+import { ChevronUp } from 'react-feather';
 import styled from '@emotion/styled';
 
 const GoTopButton = <
@@ -18,9 +18,9 @@ const GoTopButton = <
 
   return (
     <StyledLink visible={props.isVisible} onClick={scrollToTop}>
-      <ArrowUpCircle
-        stroke={theme.$white}
-        fill={theme.$gray_medium}
+      <ChevronUp
+        stroke={theme.$gray_medium}
+        fill="transparent"
         width="3.5rem"
         height="3.5rem"
       />
