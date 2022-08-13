@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { AccountBookDailyCard, PlusButton } from '@components/account';
+import { AccountBookDailyCard } from '@components/account';
 import { GoTopButton, Spinner, CoinIcon } from '@components';
 import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
 
@@ -19,10 +19,6 @@ const AccountBookDaily = () => {
     hasNextPage,
     fetchNextPage,
   } = useAccountBookDaily();
-
-  const handleNavigateCreateAccount = async () => {
-    navigate('/account/create');
-  };
 
   const createTopObserver = useCallback(() => {
     const options = {
@@ -65,10 +61,7 @@ const AccountBookDaily = () => {
   if (!isLoading && dailyResult?.pages.length === 0) {
     return (
       <>
-        <p>👇 클릭해서 가계부를 등록해보세요!</p>
-        <a onClick={handleNavigateCreateAccount}>
-          <CoinIcon />
-        </a>
+        <p>Empty</p>
       </>
     );
   }
@@ -88,7 +81,6 @@ const AccountBookDaily = () => {
       ))}
       <div ref={loadingRef}>{hasNextPage && <Spinner />}</div>
       <GoTopButton topRef={topRef} isVisible={visible} />
-      <PlusButton onClickPlus={handleNavigateCreateAccount} />
     </CardArea>
   );
 };
