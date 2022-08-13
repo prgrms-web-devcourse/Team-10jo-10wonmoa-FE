@@ -1,4 +1,4 @@
-import { axiosInstance, axiosAuthInstance } from '@api/core';
+import { request, authRequest } from '@api/core';
 
 type SignUpForm = {
   email: string;
@@ -7,14 +7,14 @@ type SignUpForm = {
 };
 
 export const fetchPostLogin = (signUpForm: SignUpForm) =>
-  axiosInstance.post('/users', { signUpForm });
+  request().post('/users', { signUpForm });
 
 export const fetchPostSignUp = (signUpForm: SignUpForm) =>
-  axiosInstance.post('/users', { signUpForm });
+  request().post('/users', { signUpForm });
 
 export const fetchGetUser = () =>
-  axiosAuthInstance.get<{ email: string }>('/users');
+  authRequest().get<{ email: string }>('/users');
 
-export const fetchGetLogout = () => axiosAuthInstance.get('/users/logout');
+export const fetchGetLogout = () => authRequest().get('/users/logout');
 
-export const fetchDeleteUser = () => axiosAuthInstance.delete('/users/out');
+export const fetchDeleteUser = () => authRequest().delete('/users/out');

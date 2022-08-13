@@ -1,11 +1,11 @@
 import { AxiosError } from 'axios';
-import { axiosInstance } from '@api/core';
+import { request } from '@api/core';
 import { useNavigate } from 'react-router-dom';
 import type { NewUser } from '@types';
 import { useMutation, UseMutateFunction } from 'react-query';
 
 const fetchSignUp = async (newUser: NewUser): Promise<void> => {
-  return axiosInstance.post('/users', newUser);
+  return request().post('/users', newUser);
 };
 
 const useSignUp = (): UseMutateFunction<void, unknown, NewUser, unknown> => {

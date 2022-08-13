@@ -1,11 +1,11 @@
-import { axiosAuthInstance } from '@api/core';
+import { authRequest } from '@api/core';
 import type { TotalBudgetList } from '../types/budget';
 
 // export const fetchGetBudgetList = (date: string) =>
 //   axios.get(`/budgets?registerDate=${date}`);
 
 export const fetchGetMonthlyBudgetList = (year: string, month: string) =>
-  axiosAuthInstance.get<TotalBudgetList>(`/budgets`, {
+  authRequest().get<TotalBudgetList>(`/budgets`, {
     params: { year: year, month: month },
   });
 
@@ -14,7 +14,7 @@ export const fetchPutBudgetItem = (
   userCategoryId: number,
   amount: number
 ) =>
-  axiosAuthInstance.put('/budgets', {
+  authRequest().put('/budgets', {
     registerDate,
     userCategoryId,
     amount,

@@ -2,11 +2,11 @@ import { AxiosResponse, AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import type { LoginUser, Token } from '@types';
-import { axiosInstance } from '@api/core';
+import { request } from '@api/core';
 import tokenStorage from '@utils/storage/TokenStorage';
 
 const fetchLogIn = async (loginUser: LoginUser): Promise<Token> => {
-  const { data }: AxiosResponse<Token> = await axiosInstance.post(
+  const { data }: AxiosResponse<Token> = await request().post(
     '/users/login',
     loginUser
   );

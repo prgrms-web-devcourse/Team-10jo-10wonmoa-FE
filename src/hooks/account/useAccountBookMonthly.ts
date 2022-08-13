@@ -1,14 +1,15 @@
 import { AxiosResponse } from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { axiosAuthInstance } from '@api/core';
+// import { AuthRequest } from '@api/core/request';
+import { authRequest } from '@api/core';
 import { queryKeys } from '@api/react-query/constant';
 import { dateFormatter } from '@utils/formatter';
 
 const fetchAccountMonthly = async (date: string) => {
   const formattedDate = dateFormatter(date, 'YEAR');
   const { data }: AxiosResponse<{ results: MonthlyAccount[] }> =
-    await axiosAuthInstance.get(`/account-book/month/${formattedDate}`);
+    await authRequest().get(`/account-book/month/${formattedDate}`);
   return data.results;
 };
 
