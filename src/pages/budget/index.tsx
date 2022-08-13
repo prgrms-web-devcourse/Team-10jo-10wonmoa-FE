@@ -6,6 +6,7 @@ import { currencyFormatter } from '@utils/formatter';
 import { useMonthSelector } from '@hooks';
 import { fetchGetMonthlyBudgetList } from '@api/budget';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
 const Budget = () => {
   const {
@@ -48,14 +49,23 @@ const Budget = () => {
       <TotalBudgetSection>
         <TotalBudgetTop>
           <h5>한 달 예산</h5>
-          <h5>예산설정</h5>
+          <Link to="/budget/edit">
+            <h6>예산설정</h6>
+          </Link>
         </TotalBudgetTop>
-        <h3>{currencyFormatter(data.amount - data.expenditure)}원 남음</h3>
+        <h3>
+          {currencyFormatter(
+            data.amount - data.expenditure < 0
+              ? 0
+              : data.amount - data.expenditure
+          )}
+          원 남음
+        </h3>
         <ProgressContainer>
           <ProgressBar>
             <Progress
-              percent={data.percent}
-              isOverBudget={data.amount - data.expenditure > 0}
+              percent={data.percent > 100 ? 100 : data.percent}
+              isOverBudget={data.amount < data.expenditure}
             >
               <Percent>{data.percent > 100 ? 100 : data.percent}%</Percent>
             </Progress>
@@ -79,9 +89,11 @@ const Budget = () => {
         </ProgressContainer>
       </TotalBudgetSection>
       <BudgetItemListSection>
-        {data.budgets.map((budget) => (
-          <BudgetItem {...budget} key={budget.id} />
-        ))}
+        {data?.budgets
+          .filter((budget) => budget.amount !== 0)
+          .map((budget, index) => (
+            <BudgetItem {...budget} key={index} />
+          ))}
       </BudgetItemListSection>
       <BottomNavigation />
     </Container>
@@ -112,6 +124,9 @@ const TotalBudgetTop = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  h6 {
+    color: ${({ theme }) => theme.$primary};
+  }
 `;
 
 const BudgetItemListSection = styled(Section)`
