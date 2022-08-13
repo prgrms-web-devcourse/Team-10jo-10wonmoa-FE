@@ -1,4 +1,4 @@
-import toast from 'react-hot-toast';
+import { default as toast } from 'react-hot-toast';
 import { fetchPostSignUp } from '@api/users';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';

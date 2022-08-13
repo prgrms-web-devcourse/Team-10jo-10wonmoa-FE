@@ -18,7 +18,7 @@ import type {
   CreateAccountRequest,
   AccountDetailResponse,
 } from '@types';
-import toast from 'react-hot-toast';
+import { default as toast } from 'react-hot-toast';
 
 const UpdateAccount = () => {
   const { accountId } = useParams<{ accountId: string }>();

@@ -14,7 +14,7 @@ import type {
   CreateAccountRequest,
   AccountDetailResponse,
 } from '@types';
-import toast from 'react-hot-toast';
+import { default as toast } from 'react-hot-toast';
 
 const CreateAccount = () => {
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0]);

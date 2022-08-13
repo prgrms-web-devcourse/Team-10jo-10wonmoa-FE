@@ -12,7 +12,7 @@ import {
   fetchDeleteCategory,
 } from '@api';
 import type { CreateCategoryRequest, UpdateCategoryRequest } from '@types';
-import toast from 'react-hot-toast';
+import { default as toast } from 'react-hot-toast';
 
 interface ModalProps {
   visible: boolean;

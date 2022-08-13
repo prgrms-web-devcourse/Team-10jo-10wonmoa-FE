@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Spinner } from '@components';
 import tokenStorage from '@utils/storage/TokenStorage';
-import toast from 'react-hot-toast';
+import { default as toast } from 'react-hot-toast';
 
 const OAuth2RedirectHandler = () => {
   const [searchParam] = useSearchParams();

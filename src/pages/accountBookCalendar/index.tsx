@@ -6,7 +6,7 @@ import { useCalendar } from '@hooks/account';
 import { makeCalendarData } from './makeCalendarData';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
-import toast from 'react-hot-toast';
+import { default as toast } from 'react-hot-toast';
 
 const AccountBookCalendar = () => {
   const calendars = [

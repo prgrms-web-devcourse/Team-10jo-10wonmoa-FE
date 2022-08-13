@@ -1,4 +1,4 @@
-import toast from 'react-hot-toast';
+import { default as toast } from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
