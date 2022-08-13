@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
-import { axiosAuthInstance } from '@api/core';
+import { authRequest } from '@api/core';
 
 const fetchCalendar = async (date: string) => {
   const [Year, Month] = date.split('-');
   const { data }: AxiosResponse<{ results: CalendarAccount[] }> =
-    await axiosAuthInstance.get(
+    await authRequest().get(
       `/account-book/calendar?year=${Year}&month=${Month}`
     );
 
