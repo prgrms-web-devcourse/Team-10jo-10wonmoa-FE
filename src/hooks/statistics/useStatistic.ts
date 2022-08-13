@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios';
 
 import { useQuery } from 'react-query';
-import { axiosAuthInstance } from '@api/core';
+import { authRequest } from '@api/core';
 
 const fetchStatistic = async (date: string) => {
   const [Year, Month] = date.length > 4 ? date.split('-') : [date, ''];
-  const { data }: AxiosResponse = await axiosAuthInstance.get(
+  const { data }: AxiosResponse = await authRequest().get(
     `/statistics?year=${Year}&month=${Month}`
   );
 

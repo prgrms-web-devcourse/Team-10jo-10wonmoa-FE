@@ -1,12 +1,10 @@
 import React from 'react';
-
 import { Input, Button } from '@components';
 import { AuthFormWrapper, ErrorParagraph } from '@components/auth';
 import { useForm } from '@hooks';
-import { NewUser } from '@types';
 
-const SignUpForm = (props: { submitHandler: (data: NewUser) => void }) => {
-  const { formValues, handleChange } = useForm<NewUser>({
+const SignUpForm = (props: { submitHandler: (data: SignUpUser) => void }) => {
+  const { formValues, handleChange } = useForm<SignUpUser>({
     email: '',
     username: '',
     password: '',

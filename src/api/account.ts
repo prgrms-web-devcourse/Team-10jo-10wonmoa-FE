@@ -1,4 +1,4 @@
-import { axiosAuthInstance } from '@api/core';
+import { authRequest } from '@api/core';
 import type {
   CreateAccountRequest,
   CreateCategoryRequest,
@@ -6,20 +6,22 @@ import type {
 } from '@types';
 
 const fetchPostIncomes = (createAccountRequest: CreateAccountRequest) =>
-  axiosAuthInstance
+  authRequest()
     .post('/incomes', createAccountRequest)
     .then((response) => response.data);
 
 const fetchPostExpenditures = (createAccountRequest: CreateAccountRequest) =>
-  axiosAuthInstance
+  authRequest()
     .post('/expenditures', createAccountRequest)
     .then((response) => response.data);
 
 const fetchGetIncomes = (id: string | undefined) =>
-  axiosAuthInstance.get(`/incomes/${id}`).then((response) => response.data);
+  authRequest()
+    .get(`/incomes/${id}`)
+    .then((response) => response.data);
 
 const fetchGetExpenditures = (id: string | undefined) =>
-  axiosAuthInstance
+  authRequest()
     .get(`/expenditures/${id}`)
     .then((response) => response.data);
 
@@ -27,7 +29,7 @@ const fetchUpdateIncomes = (
   id: string | undefined,
   createAccountRequest: CreateAccountRequest
 ) =>
-  axiosAuthInstance
+  authRequest()
     .put(`/incomes/${id}`, createAccountRequest)
     .then((response) => response.data);
 
@@ -35,45 +37,47 @@ const fetchUpdateExpenditures = (
   id: string | undefined,
   createAccountRequest: CreateAccountRequest
 ) =>
-  axiosAuthInstance
+  authRequest()
     .put(`/expenditures/${id}`, createAccountRequest)
     .then((response) => response.data);
 
 const fetchDeleteIncomes = (id: string | undefined) =>
-  axiosAuthInstance.delete(`/incomes/${id}`).then((response) => response.data);
+  authRequest()
+    .delete(`/incomes/${id}`)
+    .then((response) => response.data);
 
 const fetchDeleteExpenditures = (id: string | undefined) =>
-  axiosAuthInstance
+  authRequest()
     .delete(`/expenditures/${id}`)
     .then((response) => response.data);
 
 const fetchGetCategory = (kind: string) => {
-  return axiosAuthInstance
+  return authRequest()
     .get(`/categories?kind=${kind}`)
     .then((response) => response.data);
 };
 
 const fetchPostCategory = (category: CreateCategoryRequest) => {
-  return axiosAuthInstance
+  return authRequest()
     .post('/categories', category)
     .then((response) => response.data);
 };
 
 const fetchUpdateCategory = ({ categoryId, name }: UpdateCategoryRequest) => {
-  return axiosAuthInstance
+  return authRequest()
     .patch(`/categories/${categoryId}`, { name })
     .then((response) => response.data);
 };
 
 const fetchDeleteCategory = (id: number) => {
-  return axiosAuthInstance
+  return authRequest()
     .delete(`/categories/${id}`)
     .then((response) => response.data);
 };
 
 const fetchGetSearchResult = (searchParams: string) => {
   const searchResultURL = `/account-book/search${searchParams}`;
-  return axiosAuthInstance
+  return authRequest()
     .get(searchResultURL)
     .then((response) => response.data);
 };

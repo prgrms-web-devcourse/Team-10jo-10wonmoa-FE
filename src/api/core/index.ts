@@ -1,40 +1,62 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import tokenStorage from '@utils/storage/TokenStorage';
+import { fetchAccessToken } from '@api/auth';
 
-const getJWTHeader = (): Record<string, string> => {
-  const token = tokenStorage.getAccessToken();
-
-  return token
-    ? { Authorization: `Bearer ${tokenStorage.getAccessToken()}` }
-    : {};
+const axiosInstance = (
+  baseURL = process.env.REACT_APP_API_URL,
+  options?: AxiosRequestConfig
+) => {
+  const instance = axios.create({
+    baseURL,
+    timeout: 5000,
+    ...options,
+  });
+  return instance;
 };
 
-const setInterceptors = (instance: AxiosInstance, isAuthRequire?: boolean) => {
-  instance.interceptors.request.use((config) => {
-    if (!isAuthRequire) return config;
+type Request = () => AxiosInstance;
 
+export const request: Request = () => {
+  return axiosInstance();
+};
+
+export const authRequest: Request = () => {
+  const instance = axiosInstance();
+
+  const refreshToken = async () => {
+    const { accessToken, refreshToken } = await fetchAccessToken();
+    tokenStorage.setAccessToken(accessToken);
+    tokenStorage.setRefreshToken(refreshToken);
+  };
+
+  instance.interceptors.request.use((config) => {
     return {
       ...config,
       headers: {
-        ...getJWTHeader(),
+        Authorization: `Bearer ${tokenStorage.getAccessToken()}`,
       },
     };
   });
 
   instance.interceptors.response.use(
     (response) => response,
-    (error) => Promise.reject(error)
+    async (error) => {
+      const {
+        config,
+        response: { status, data },
+      } = error;
+
+      const isExpiredAccessToken =
+        status === 401 && data.messages[0] === '만료된 access-token 입니다.';
+
+      if (isExpiredAccessToken) {
+        refreshToken();
+        return axios(config);
+      }
+
+      return Promise.reject(error);
+    }
   );
 
   return instance;
 };
-
-const createInstance = (isAuthRequire: boolean) => {
-  const instance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  });
-  return setInterceptors(instance, isAuthRequire);
-};
-
-export const axiosInstance = createInstance(false);
-export const axiosAuthInstance = createInstance(true);

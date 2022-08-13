@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Input } from '@components';
 import { AuthFormWrapper } from '@components/auth';
 import { useForm } from '@hooks';
-import type { LoginUser } from '@types';
 import { ReactComponent as GoogleLogin } from '@assets/Icon/btn_google_light_normal_ios.svg';
 
 const LoginForm = (props: { submitHandler: (data: LoginUser) => void }) => {
