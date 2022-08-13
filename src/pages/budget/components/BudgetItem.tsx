@@ -1,25 +1,19 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { currencyFormatter } from '@utils/formatter/currencyFormatter';
+import type { Budget } from 'types/budget';
 
-export interface BudgetItemProps {
-  category: string;
-  budget: number;
-  expenditure: number;
-  percent: number;
-}
-
-const BudgetItem: React.FC<BudgetItemProps> = ({
-  category,
-  budget,
+const BudgetItem: React.FC<Budget> = ({
+  categoryName,
+  amount,
   expenditure,
   percent,
 }) => {
-  if (!budget) {
+  if (!amount) {
     return (
       <BudgetItemContainer>
-        <div>{category}</div>
-        <div>{currencyFormatter(expenditure)}</div>
+        <div>{categoryName}</div>
+        <div>{currencyFormatter(expenditure)}원</div>
       </BudgetItemContainer>
     );
   }
@@ -27,19 +21,26 @@ const BudgetItem: React.FC<BudgetItemProps> = ({
   return (
     <BudgetItemContainer>
       <BudgetLeftInnerContainer>
-        <BudgetCategory>{category}</BudgetCategory>
+        <BudgetCategory>{categoryName}</BudgetCategory>
         <BudgetExpenditure>
-          {currencyFormatter(expenditure)}원
+          지출 {currencyFormatter(expenditure)}원
         </BudgetExpenditure>
       </BudgetLeftInnerContainer>
       <BudgetRightInnerContainer>
         <ProgressBar>
-          <Percent>{percent}%</Percent>
-          <Progress percent={percent} isOverBudget={budget - expenditure < 0} />
+          <Percent>{percent > 100 ? 100 : percent}%</Percent>
+          <Progress
+            percent={percent > 100 ? 100 : percent}
+            isOverBudget={amount - expenditure < 0}
+          />
         </ProgressBar>
         <ProgressBarBottom>
-          <span>{currencyFormatter(expenditure)}</span>
-          <span>{currencyFormatter(budget - expenditure)}</span>
+          <span> 예산 {currencyFormatter(amount)}원</span>
+          <span>
+            남은 예산{' '}
+            {currencyFormatter(amount < expenditure ? 0 : amount - expenditure)}
+            원
+          </span>
         </ProgressBarBottom>
       </BudgetRightInnerContainer>
     </BudgetItemContainer>
@@ -50,8 +51,6 @@ const BudgetItemContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 2rem;
-  border: 1px solid ${(props) => props.theme.$gray_medium};
   & + & {
     border-top: none;
   }
@@ -62,7 +61,6 @@ const BudgetLeftInnerContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   flex: 1;
-  padding: 1rem 0rem;
 `;
 
 const BudgetCategory = styled.span`
@@ -88,12 +86,7 @@ const ProgressBar = styled.div`
   background-color: ${(props) => props.theme.$gray_light};
 `;
 
-type Progress = {
-  percent: number;
-  isOverBudget: boolean;
-};
-
-const Progress = styled.div<Progress>`
+const Progress = styled.div<{ percent: number; isOverBudget: boolean }>`
   border-radius: inherit;
   width: ${(props) => props.percent}%;
   height: 100%;
@@ -106,6 +99,7 @@ const Percent = styled.span`
   position: absolute;
   right: 5px;
   top: 2px;
+  color: ${({ theme }) => theme.$white};
 `;
 
 const ProgressBarBottom = styled.div`

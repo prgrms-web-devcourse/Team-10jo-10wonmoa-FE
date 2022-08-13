@@ -1,13 +1,16 @@
-import axios from '@api/core';
+import { request, authRequest } from '@api/core';
 
-type SignUpForm = {
-  email: string;
-  password: string;
-  username: string;
+export const fetchPostLogin = async (loginUser: LoginUser): Promise<Token> => {
+  const { data } = await request().post('/users/login', loginUser);
+  return data;
 };
 
-export const fetchPostLogin = (signUpForm: SignUpForm) =>
-  axios.post('/users', { signUpForm });
+export const fetchPostSignUp = async (signUpUser: SignUpUser) =>
+  await request().post('/users', signUpUser);
 
-export const fetchPostSignUp = (signUpForm: SignUpForm) =>
-  axios.post('/users', { signUpForm });
+export const fetchGetUser = () =>
+  authRequest().get<{ email: string }>('/users');
+
+export const fetchPostLogout = () => authRequest().post('/users/logout');
+
+export const fetchDeleteUser = () => authRequest().delete('/users/out');

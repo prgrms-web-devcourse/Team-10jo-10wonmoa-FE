@@ -23,6 +23,7 @@ const Line = styled.hr<DividerInterface>`
 
 const dividerType = {
   horizontal: css`
+    margin: 0.5rem 0;
     display: block;
     height: 1px;
   `,

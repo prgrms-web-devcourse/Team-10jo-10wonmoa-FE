@@ -1,17 +1,3 @@
-export interface NewUser {
-  email: string;
-  username: string;
-  password: string;
-  passwordConfirm: string;
-}
-
-export type LoginUser = Pick<NewUser, 'email' | 'password'>;
-
-export type Token = {
-  accessToken: string;
-  refreshToken: string;
-};
-
 export type TabItem = { value: string; title: string };
 export type Tabs = Array<TabItem>;
 
@@ -33,4 +19,24 @@ export interface CreateAccountRequest {
 
 export interface AccountDetailResponse extends CreateAccountRequest {
   categoryName: string;
+}
+
+export interface CreateSearchRequest {
+  content?: string;
+  categories?: number[];
+  minprice?: number;
+  maxprice?: number;
+  categoryNames?: string;
+  start?: string;
+  end?: string;
+}
+
+export interface CreateCategoryRequest {
+  categoryType: string;
+  name: string;
+}
+
+export interface UpdateCategoryRequest {
+  categoryId: number;
+  name: string;
 }

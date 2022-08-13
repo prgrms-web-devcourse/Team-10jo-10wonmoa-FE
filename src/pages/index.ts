@@ -8,7 +8,11 @@ import AccountBookCalendar from './accountBookCalendar';
 import AccountBookMonthly from './accountBookMonthly';
 import Statistics from './statistic';
 import Budget from './budget';
+import BudgetEdit from './budget/BudgetEdit';
 import NotFound from './notFound';
+import OAuth2RedirectHandler from './OAuth2RedirectHandler';
+import Profile from './profile';
+import Search from './search';
 
 export {
   Login,
@@ -21,5 +25,9 @@ export {
   AccountBookMonthly,
   Statistics,
   Budget,
+  BudgetEdit,
   NotFound,
+  OAuth2RedirectHandler,
+  Profile,
+  Search,
 };

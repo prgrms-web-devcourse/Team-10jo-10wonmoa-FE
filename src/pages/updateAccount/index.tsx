@@ -3,6 +3,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Tabs, TopNavBar } from '@components';
 import { AccountForm } from '@components/account';
+import { ACCOUNT_TYPE } from '@constants/Tabs';
 import {
   fetchGetCategory,
   fetchGetIncomes,
@@ -17,17 +18,7 @@ import type {
   CreateAccountRequest,
   AccountDetailResponse,
 } from '@types';
-
-const ACCOUNT_TYPE: TabItem[] = [
-  {
-    value: 'INCOME',
-    title: '수입',
-  },
-  {
-    value: 'EXPENDITURE',
-    title: '지출',
-  },
-];
+import { default as toast } from 'react-hot-toast';
 
 const UpdateAccount = () => {
   const { accountId } = useParams<{ accountId: string }>();
@@ -49,14 +40,14 @@ const UpdateAccount = () => {
 
   useEffect(() => {
     if (accountId === undefined) {
-      alert('잘못된 접근입니다');
+      toast.error('가계부 내용이 존재하지 않아요.');
       navigate('/account-book/daily', { replace: true });
       return;
     }
 
     const toNumberAccountId = parseInt(accountId);
     if (isNaN(toNumberAccountId) || toNumberAccountId === 0) {
-      alert('잘못된 접근입니다');
+      toast.error('가계부 내용이 존재하지 않아요.');
       navigate('/account-book/daily', { replace: true });
     }
   }, [accountId]);
@@ -93,7 +84,7 @@ const UpdateAccount = () => {
     },
     {
       onSuccess: () => {
-        alert('수정 성공');
+        toast.error('수정 성공');
         navigate('/account-book/daily', { replace: true });
       },
     }
@@ -102,13 +93,13 @@ const UpdateAccount = () => {
   const deleteAccountMutation = useMutation(
     ['deleteAccount', accountId],
     () => {
-      return accountType.value === 'INCOME'
+      return originAccountType.value === 'INCOME'
         ? fetchDeleteIncomes(accountId)
         : fetchDeleteExpenditures(accountId);
     },
     {
       onSuccess: () => {
-        alert('삭제 성공');
+        toast.error('삭제 성공');
         navigate('/account-book/daily', { replace: true });
       },
     }
@@ -133,7 +124,8 @@ const UpdateAccount = () => {
     });
   };
 
-  const handleDelete = () => {
+  const handleDelete = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     deleteAccountMutation.mutate();
   };
 

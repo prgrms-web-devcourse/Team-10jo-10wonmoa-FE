@@ -41,3 +41,19 @@ declare type MonthlyAccount = {
   totalSum: number;
   month: number;
 };
+
+declare type CalendarAccount = {
+  incomeSum: number;
+  expenditureSum: number;
+  totalSum: number;
+  date: string;
+};
+
+declare type CalendarEvents = {
+  calendarId: string;
+  category: string;
+  start: string;
+  end: string;
+  isVisible: boolean;
+  title: number | string;
+};

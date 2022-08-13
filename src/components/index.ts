@@ -17,7 +17,9 @@ import Loading from './Loading';
 import GoTopButton from './GoTopButton';
 import Spinner from './Spinner';
 import Divider from './Divider';
-
+import CheckBox from './CheckBox';
+import Toggle from './Toggle';
+import { default as Toast } from './Toast';
 export {
   AppLayout,
   BackupLayer,
@@ -38,4 +40,7 @@ export {
   GoTopButton,
   Spinner,
   Divider,
+  CheckBox,
+  Toggle,
+  Toast,
 };
