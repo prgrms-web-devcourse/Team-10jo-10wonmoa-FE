@@ -1,7 +1,7 @@
 import { request, authRequest } from '@api/core';
 
 export const fetchPostLogin = async (loginUser: LoginUser): Promise<Token> => {
-  const { data } = await request().post('/users', loginUser);
+  const { data } = await request().post('/users/login', loginUser);
   return data;
 };
 
