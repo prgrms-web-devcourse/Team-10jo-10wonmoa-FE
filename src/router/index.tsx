@@ -10,6 +10,7 @@ import {
   AccountBookMonthly,
   Statistics,
   Budget,
+  BudgetEdit,
   NotFound,
   OAuth2RedirectHandler,
   Profile,
@@ -51,6 +52,7 @@ const AppRouter = () => {
         <Route path="/search" element={<Search />}></Route>
         <Route path="/statistics" element={<Statistics />}></Route>
         <Route path="/budget" element={<Budget />}></Route>
+        <Route path="/budget/edit" element={<BudgetEdit />}></Route>
       </Route>
 
       <Route path="/404" element={<NotFound />} />
