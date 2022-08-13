@@ -5,8 +5,8 @@ export const fetchGetBudgetList = (date: string) =>
   authRequest().get<BudgetItemToEdit>(`/budgets?registerDate=${date}`);
 
 export const fetchGetMonthlyBudgetList = (year: string, month: string) =>
-  authRequest().get<TotalBudgetList>(`/budgets`, {
-    params: { year: year, month: month },
+  authRequest().get<TotalBudgetList>('/budgets/statistics', {
+    params: { year, month },
   });
 
 export const fetchPutBudgetItem = (
