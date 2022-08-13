@@ -23,6 +23,12 @@ export const request: Request = () => {
 export const authRequest: Request = () => {
   const instance = axiosInstance();
 
+  const refreshToken = async () => {
+    const { accessToken, refreshToken } = await fetchAccessToken();
+    tokenStorage.setAccessToken(accessToken);
+    tokenStorage.setRefreshToken(refreshToken);
+  };
+
   instance.interceptors.request.use((config) => {
     return {
       ...config,
@@ -44,9 +50,7 @@ export const authRequest: Request = () => {
         status === 401 && data.messages[0] === '만료된 access-token 입니다.';
 
       if (isExpiredAccessToken) {
-        const data = await fetchAccessToken();
-        tokenStorage.setAccessToken(data.accessToken);
-        tokenStorage.setRefreshToken(data.refreshToken);
+        refreshToken();
         return axios(config);
       }
 
