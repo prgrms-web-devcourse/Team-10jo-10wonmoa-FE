@@ -7,6 +7,7 @@ import AccountForm from './AccountForm';
 import CategoryBox from './CategoryBox';
 import PlusButton from './PlusButton';
 import AccountBookMonthlyCard from './AccountBookMonthlyCard';
+import AccountBookEmpty from './AccountBookEmpty';
 
 export {
   AccountBookMonthlyCard,
@@ -18,4 +19,5 @@ export {
   AccountForm,
   CategoryBox,
   PlusButton,
+  AccountBookEmpty,
 };
