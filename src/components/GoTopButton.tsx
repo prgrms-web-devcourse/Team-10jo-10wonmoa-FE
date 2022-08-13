@@ -3,34 +3,39 @@ import { theme } from '@styles';
 import { ArrowUpCircle } from 'react-feather';
 import styled from '@emotion/styled';
 
-const GoTopButton: React.FC<{
-  topRef: RefObject<HTMLDivElement>;
-  isVisible: boolean;
-}> = (props) => {
+const GoTopButton = <
+  T extends {
+    topRef: RefObject<HTMLDivElement>;
+    isVisible: boolean;
+  }
+>(
+  props: T
+) => {
   const scrollToTop = () => {
     if (!props.topRef || props.topRef.current === null) return;
     props.topRef?.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <Wrapper visible={props.isVisible}>
-      <a onClick={scrollToTop}>
-        <ArrowUpCircle stroke={theme.$gray_dark} width="3rem" height="3rem" />
-      </a>
-    </Wrapper>
+    <StyledLink visible={props.isVisible} onClick={scrollToTop}>
+      <ArrowUpCircle
+        stroke={theme.$white}
+        fill={theme.$gray_medium}
+        width="3.5rem"
+        height="3.5rem"
+      />
+    </StyledLink>
   );
 };
 
 export default GoTopButton;
-
-const Wrapper = styled.div<{ visible: boolean }>`
+const StyledLink = styled.a<{ visible: boolean }>`
   position: fixed;
-  bottom: 11rem;
-  left: calc(50% + 9.2rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 10;
+  bottom: -3rem;
+  margin: auto 0;
+  display: block;
   cursor: pointer;
-  display: ${(props) => (props.visible ? 'inline' : 'none')};
+  transition: transform 0.5s ease-in-out;
+  transform: ${({ visible }) =>
+    visible ? 'translateY(-9.5rem)' : 'translateY(9.5rem)'};
 `;
