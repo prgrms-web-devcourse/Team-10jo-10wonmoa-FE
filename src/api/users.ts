@@ -11,6 +11,6 @@ export const fetchPostSignUp = async (signUpUser: SignUpUser) =>
 export const fetchGetUser = () =>
   authRequest().get<{ email: string }>('/users');
 
-export const fetchGetLogout = () => authRequest().get('/users/logout');
+export const fetchPostLogout = () => authRequest().post('/users/logout');
 
 export const fetchDeleteUser = () => authRequest().delete('/users/out');

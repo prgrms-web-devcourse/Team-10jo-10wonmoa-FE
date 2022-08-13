@@ -1,8 +1,8 @@
 import { authRequest } from '@api/core';
-import type { TotalBudgetList } from '../types/budget';
+import type { TotalBudgetList, BudgetItemToEdit } from '../types/budget';
 
-// export const fetchGetBudgetList = (date: string) =>
-//   axios.get(`/budgets?registerDate=${date}`);
+export const fetchGetBudgetList = (date: string) =>
+  authRequest().get<BudgetItemToEdit>(`/budgets?registerDate=${date}`);
 
 export const fetchGetMonthlyBudgetList = (year: string, month: string) =>
   authRequest().get<TotalBudgetList>(`/budgets`, {

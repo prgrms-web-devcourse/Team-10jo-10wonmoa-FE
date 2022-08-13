@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { BottomNavigation, TopNavBar, CoinIcon, Button } from '@components';
-import { fetchDeleteUser, fetchGetLogout, fetchGetUser } from '@api/users';
+import { fetchDeleteUser, fetchPostLogout, fetchGetUser } from '@api/users';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import tokenStorage from '@utils/storage/TokenStorage';
+
 const Profile = () => {
   const navigate = useNavigate();
   const { data } = useQuery('user', async () => {
@@ -15,12 +16,11 @@ const Profile = () => {
   const { mutate: mutateLogout } = useMutation(
     'logout',
     async () => {
-      const response = await fetchGetLogout();
+      const response = await fetchPostLogout();
       return response.data;
     },
     {
       onSuccess: () => {
-        alert('로그아웃 성공했습니다');
         tokenStorage.clearTokens();
         navigate('/');
       },
@@ -35,9 +35,7 @@ const Profile = () => {
     },
     {
       onSuccess: () => {
-        alert('회원탈퇴 성공했습니다');
         tokenStorage.clearTokens();
-        navigate('/');
       },
     }
   );
