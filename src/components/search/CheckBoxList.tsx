@@ -123,6 +123,8 @@ export default CheckBoxList;
 
 const CheckBoxListContainer = styled.div`
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const CheckBoxContainer = styled.div`
@@ -130,6 +132,9 @@ const CheckBoxContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
+  & + & {
+    border-top: 1px solid ${(props) => props.theme.$gray_accent};
+  }
 `;
 
 const EditContainer = styled.div`
