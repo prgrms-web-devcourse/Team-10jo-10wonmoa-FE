@@ -15,6 +15,7 @@ import * as d3 from 'd3';
 import useStatistic from '@hooks/statistics/useStatistic';
 import type { DateSelectorProps } from '@components/DateSelector';
 import { makePieData } from './makePieData';
+import { AccountBookEmpty } from '@components/account';
 const Statistics = () => {
   const {
     monthDate,
@@ -55,11 +56,6 @@ const Statistics = () => {
   if (isLoading) {
     return <Spinner />;
   }
-
-  if (!isLoading && data.length === 0) {
-    return <div>데이터가 없습니다</div>;
-  }
-
   const { incomeTotalSum, expenditureTotalSum, incomes, expenditures } = data;
 
   const incomePieData = makePieData(incomes);
@@ -91,53 +87,57 @@ const Statistics = () => {
           />
         </TopNabMonthWithDropDown>
       </YearMonthWrapper>
+      {incomes.length > 0 || expenditures.length > 0 ? (
+        <TabsWrapper>
+          <Tabs
+            tabItems={STATISTICS_TABS}
+            onClick={handleTabClick}
+            total={
+              currentTab.title === '수입'
+                ? currencyFormatter(incomeTotalSum)
+                : currencyFormatter(expenditureTotalSum)
+            }
+          >
+            <ChartContainer>
+              {currentTab.title === '수입' && (
+                <PieChart data={incomePieData} colorList={colorList} />
+              )}
+              {currentTab.title === '지출' && (
+                <PieChart data={expendituresPieData} colorList={colorList} />
+              )}
+            </ChartContainer>
+          </Tabs>
+          {currentTab.title === '수입' && (
+            <ListWrapper>
+              {incomes.map((item: StatisticIncome, idx: number) => (
+                <StatisticItem
+                  key={idx}
+                  percent={item.percent}
+                  name={item.name}
+                  total={currencyFormatter(item.total)}
+                  color={colorList[idx]}
+                />
+              ))}
+            </ListWrapper>
+          )}
+          {currentTab.title === '지출' && (
+            <ListWrapper>
+              {expenditures.map((item: StatisticIncome, idx: number) => (
+                <StatisticItem
+                  key={idx}
+                  percent={item.percent}
+                  name={item.name}
+                  total={currencyFormatter(item.total)}
+                  color={colorList[idx]}
+                />
+              ))}
+            </ListWrapper>
+          )}
+        </TabsWrapper>
+      ) : (
+        <AccountBookEmpty />
+      )}
 
-      <TabsWrapper>
-        <Tabs
-          tabItems={STATISTICS_TABS}
-          onClick={handleTabClick}
-          total={
-            currentTab.title === '수입'
-              ? currencyFormatter(incomeTotalSum)
-              : currencyFormatter(expenditureTotalSum)
-          }
-        >
-          <ChartContainer>
-            {currentTab.title === '수입' && (
-              <PieChart data={incomePieData} colorList={colorList} />
-            )}
-            {currentTab.title === '지출' && (
-              <PieChart data={expendituresPieData} colorList={colorList} />
-            )}
-          </ChartContainer>
-        </Tabs>
-        {currentTab.title === '수입' && (
-          <ListWrapper>
-            {incomes.map((item: StatisticIncome, idx: number) => (
-              <StatisticItem
-                key={idx}
-                percent={item.percent}
-                name={item.name}
-                total={currencyFormatter(item.total)}
-                color={colorList[idx]}
-              />
-            ))}
-          </ListWrapper>
-        )}
-        {currentTab.title === '지출' && (
-          <ListWrapper>
-            {expenditures.map((item: StatisticIncome, idx: number) => (
-              <StatisticItem
-                key={idx}
-                percent={item.percent}
-                name={item.name}
-                total={currencyFormatter(item.total)}
-                color={colorList[idx]}
-              />
-            ))}
-          </ListWrapper>
-        )}
-      </TabsWrapper>
       <BottomNavigation />
     </>
   );
@@ -168,4 +168,10 @@ const ChartContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const Test = styled.div`
+  background-color: pink;
+  height: 20rem;
+  width: 40rem;
 `;
