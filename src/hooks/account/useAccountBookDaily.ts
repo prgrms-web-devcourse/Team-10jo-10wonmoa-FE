@@ -28,12 +28,11 @@ const useAccountBookDaily = () => {
     'YEAR_DAY_DASH'
   );
 
-  const { data, fetchNextPage, hasNextPage, isLoading, isError } =
-    useInfiniteQuery(
-      [queryKeys.accountBook.daily, date],
-      ({ pageParam = 1 }) => fetchAccountBook(date, pageParam),
-      { getNextPageParam: (lastPage) => lastPage.nextPage || undefined }
-    );
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
+    [queryKeys.accountBook.daily, date],
+    ({ pageParam = 1 }) => fetchAccountBook(date, pageParam),
+    { getNextPageParam: (lastPage) => lastPage.nextPage || undefined }
+  );
 
   const pageComputedDatas = data?.pages.flatMap(
     (page: DailyAccountBook) => page.results
