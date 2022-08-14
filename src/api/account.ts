@@ -82,6 +82,13 @@ const fetchGetSearchResult = (searchParams: string) => {
     .then((response) => response.data);
 };
 
+const fetchGetSearchSumResult = (searchParams: string) => {
+  const searchResultURL = `/account-book/search/sum${searchParams}`;
+  return authRequest()
+    .get(searchResultURL)
+    .then((response) => response.data);
+};
+
 export {
   fetchPostIncomes,
   fetchPostExpenditures,
@@ -96,4 +103,5 @@ export {
   fetchUpdateCategory,
   fetchDeleteCategory,
   fetchGetSearchResult,
+  fetchGetSearchSumResult,
 };

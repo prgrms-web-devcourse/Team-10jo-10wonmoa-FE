@@ -73,7 +73,7 @@ const CategoryModal = ({
 
   const handleUpdateCategory = (category: Category, name: string) => {
     if (name === category.name) {
-      alert('동일한 이름으로 수정할 수 없습니다');
+      toast.error('동일한 이름으로 수정할 수 없습니다');
       return;
     }
 
@@ -81,7 +81,7 @@ const CategoryModal = ({
       name.length <= CATEGORY_MIN_LIMIT ||
       name.length >= CATEGORY_MAX_LIMIT
     ) {
-      alert('카테고리 이름은 1~20자까지 가능합니다');
+      toast.error('카테고리 이름은 1~20자까지 가능합니다');
       return;
     }
 
@@ -110,7 +110,7 @@ const CategoryModal = ({
     (categoryInfo: CreateCategoryRequest) => fetchPostCategory(categoryInfo),
     {
       onSuccess: () => {
-        alert('추가 성공');
+        toast.success('추가 성공');
         queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }
@@ -122,7 +122,7 @@ const CategoryModal = ({
       fetchUpdateCategory({ categoryId, name }),
     {
       onSuccess: () => {
-        alert('수정 성공');
+        toast.success('수정 성공');
         queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }
@@ -133,7 +133,7 @@ const CategoryModal = ({
     (categoryId: number) => fetchDeleteCategory(categoryId),
     {
       onSuccess: () => {
-        alert('삭제 성공');
+        toast.success('삭제 성공');
         queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }

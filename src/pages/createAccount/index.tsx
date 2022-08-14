@@ -49,7 +49,6 @@ const CreateAccount = () => {
 
   const handleSubmit = () => {
     const { userCategoryId, content, amount, registerDate } = formValues;
-    console.log(formValues, content);
     createAccountMutation.mutate({
       userCategoryId,
       content,
