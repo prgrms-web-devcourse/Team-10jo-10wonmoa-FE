@@ -38,6 +38,7 @@ const Container = styled.button<DestinationStyle>`
   outline: none;
   background-color: ${(props) => props.theme.$white};
   position: relative;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,4 +56,5 @@ const Container = styled.button<DestinationStyle>`
 
 const DestinationText = styled.span`
   margin-top: 10px;
+  font-weight: lighter;
 `;

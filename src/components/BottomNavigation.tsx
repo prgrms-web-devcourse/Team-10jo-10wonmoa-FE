@@ -48,9 +48,10 @@ const Container = styled.div`
   bottom: 0;
   background: #fff;
   width: 100%;
-  height: 7rem;
+  height: ${({ theme }) => theme.$bottom_navigation_height};
   display: flex;
   align-items: center;
+  border-top: 2px solid ${({ theme }) => theme.$gray_light};
 `;
 
 export default BottomNavigation;

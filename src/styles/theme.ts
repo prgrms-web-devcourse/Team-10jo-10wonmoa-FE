@@ -24,11 +24,14 @@ const theme = {
   $chart_purple: '#A089D0',
   $chart_pink: '#DE82D7',
 
+  $font_xxs: '1rem',
   $font_xs: '1.2rem',
   $font_sm: '1.4rem',
   $font_md: '1.6rem',
   $font_lg: '1.8rem',
   $font_xlg: '2rem',
   $font_xxlg: '2.4rem',
+
+  $bottom_navigation_height: '5.5rem',
 };
 export default theme;
