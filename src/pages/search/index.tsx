@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from '@emotion/styled';
 import { useInfiniteQuery, useQuery } from 'react-query';
 import { TopNavBar } from '@components';
-import { SearchForm, SearchResultAccountItem } from '@components/search';
+import {
+  SearchForm,
+  SearchResultAccountItem,
+  SearchResultEmpty,
+} from '@components/search';
 import { TabsDisplayAccountSum } from '@components/account';
 import { fetchGetSearchResult, fetchGetSearchSumResult } from '@api';
 import { CreateSearchRequest } from '@types';
@@ -132,9 +136,7 @@ const Search = () => {
           </>
         )}
         {searchResult && searchResult.pages[0].results.length === 0 && (
-          <SearchNoResultParagraph>
-            검색 결과가 존재하지 않습니다
-          </SearchNoResultParagraph>
+          <SearchResultEmpty />
         )}
       </SearchResultContainer>
     </SearchPageContainer>
@@ -168,12 +170,6 @@ const SearchResultContainer = styled.div`
 const SearchResultAccountList = styled.div`
   width: 100%;
   overflow-y: scroll;
-`;
-
-const SearchNoResultParagraph = styled.p`
-  text-align: center;
-  padding: 3rem;
-  color: ${(props) => props.theme.$black};
 `;
 
 const InfiniteScrollDiv = styled.div`
