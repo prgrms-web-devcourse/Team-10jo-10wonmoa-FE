@@ -9,15 +9,6 @@ const BudgetItem: React.FC<Budget> = ({
   expenditure,
   percent,
 }) => {
-  if (!amount) {
-    return (
-      <BudgetItemContainer>
-        <div>{categoryName}</div>
-        <div>{currencyFormatter(expenditure)}원</div>
-      </BudgetItemContainer>
-    );
-  }
-
   return (
     <BudgetItemContainer>
       <BudgetLeftInnerContainer>
@@ -28,18 +19,23 @@ const BudgetItem: React.FC<Budget> = ({
       </BudgetLeftInnerContainer>
       <BudgetRightInnerContainer>
         <ProgressBar>
-          <Percent>{percent > 100 ? 100 : percent}%</Percent>
           <Progress
             percent={percent > 100 ? 100 : percent}
             isOverBudget={amount - expenditure < 0}
-          />
+          >
+            <Percent percent={percent}>
+              {percent > 100 ? 100 : percent}%
+            </Percent>
+          </Progress>
         </ProgressBar>
         <ProgressBarBottom>
-          <span> 예산 {currencyFormatter(amount)}원</span>
+          <span>예산 {currencyFormatter(amount, true)}</span>
           <span>
             남은 예산{' '}
-            {currencyFormatter(amount < expenditure ? 0 : amount - expenditure)}
-            원
+            {currencyFormatter(
+              amount < expenditure ? 0 : amount - expenditure,
+              true
+            )}
           </span>
         </ProgressBarBottom>
       </BudgetRightInnerContainer>
@@ -47,7 +43,7 @@ const BudgetItem: React.FC<Budget> = ({
   );
 };
 
-const BudgetItemContainer = styled.div`
+const BudgetItemContainer = styled.li`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -64,12 +60,14 @@ const BudgetLeftInnerContainer = styled.div`
 `;
 
 const BudgetCategory = styled.span`
+  font-size: ${({ theme }) => theme.$font_xs};
+  font-weight: lighter;
   color: ${(props) => props.theme.$gray_medium};
 `;
 
 const BudgetExpenditure = styled.span`
   font-weight: bold;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.$font_xxs};
 `;
 
 const BudgetRightInnerContainer = styled.div`
@@ -95,16 +93,20 @@ const Progress = styled.div<{ percent: number; isOverBudget: boolean }>`
     props.isOverBudget ? props.theme.$red : props.theme.$blue};
 `;
 
-const Percent = styled.span`
+const Percent = styled.span<{ percent: number }>`
   position: absolute;
-  right: 5px;
+  left: 10px;
   top: 2px;
-  color: ${({ theme }) => theme.$white};
+  color: ${({ percent, theme }) => (percent > 5 ? theme.$white : theme.$black)};
 `;
 
 const ProgressBarBottom = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 0.25rem;
+  span {
+    font-weight: lighter;
+  }
 `;
 
 export default BudgetItem;
