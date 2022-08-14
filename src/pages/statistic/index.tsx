@@ -14,7 +14,8 @@ import { STATISTICS_TABS } from '../../constants/Tabs';
 import * as d3 from 'd3';
 import useStatistic from '@hooks/statistics/useStatistic';
 import type { DateSelectorProps } from '@components/DateSelector';
-
+import { makePieData } from './makePieData';
+import { AccountBookEmpty } from '@components/account';
 const Statistics = () => {
   const {
     monthDate,
@@ -55,33 +56,8 @@ const Statistics = () => {
   if (isLoading) {
     return <Spinner />;
   }
-
-  if (!isLoading && data.length === 0) {
-    return <div>데이터가 없습니다</div>;
-  }
-
   const { incomeTotalSum, expenditureTotalSum, incomes, expenditures } = data;
 
-  const makePieData = (consumption: StatisticIncome[]) => {
-    const moreThanTenPercent = consumption.filter((x: StatisticIncome) =>
-      x.percent >= 10 ? x : null
-    );
-    const leftPercent =
-      100 -
-      moreThanTenPercent
-        .map((item) => item.percent)
-        .reduce((prev, next) => prev + next, 0);
-    const ETC =
-      leftPercent !== 0 && leftPercent !== 100
-        ? {
-            name: '기타',
-            total: 0,
-            percent: Number(leftPercent.toFixed(1)),
-          }
-        : [];
-    const pieData = moreThanTenPercent.concat(ETC);
-    return pieData;
-  };
   const incomePieData = makePieData(incomes);
   const expendituresPieData = makePieData(expenditures);
 
@@ -105,54 +81,63 @@ const Statistics = () => {
               : dateSelectorHandlers['year'].onChangeNext
           }
         >
-          <DropDown setIsMonth={setIsMonth} />
+          <DropDown
+            setIsMonth={setIsMonth}
+            initialMenu={isMonth ? '월별' : '연별'}
+          />
         </TopNabMonthWithDropDown>
       </YearMonthWrapper>
-
-      <TabsWrapper>
-        <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
-          {currentTab.title === '수입' ? (
-            <div>{`수입: ${currencyFormatter(incomeTotalSum)}`}</div>
-          ) : (
-            <div>{`지출: ${currencyFormatter(expenditureTotalSum)}`}</div>
+      {incomes.length > 0 || expenditures.length > 0 ? (
+        <TabsWrapper>
+          <Tabs
+            tabItems={STATISTICS_TABS}
+            onClick={handleTabClick}
+            total={
+              currentTab.title === '수입'
+                ? `${currencyFormatter(incomeTotalSum)}원`
+                : `${currencyFormatter(expenditureTotalSum)}원`
+            }
+          >
+            <ChartContainer>
+              {currentTab.title === '수입' && (
+                <PieChart data={incomePieData} colorList={colorList} />
+              )}
+              {currentTab.title === '지출' && (
+                <PieChart data={expendituresPieData} colorList={colorList} />
+              )}
+            </ChartContainer>
+          </Tabs>
+          {currentTab.title === '수입' && (
+            <ListWrapper>
+              {incomes.map((item: StatisticIncome, idx: number) => (
+                <StatisticItem
+                  key={idx}
+                  percent={item.percent}
+                  name={item.name}
+                  total={currencyFormatter(item.total)}
+                  color={colorList[idx]}
+                />
+              ))}
+            </ListWrapper>
           )}
+          {currentTab.title === '지출' && (
+            <ListWrapper>
+              {expenditures.map((item: StatisticIncome, idx: number) => (
+                <StatisticItem
+                  key={idx}
+                  percent={item.percent}
+                  name={item.name}
+                  total={currencyFormatter(item.total)}
+                  color={colorList[idx]}
+                />
+              ))}
+            </ListWrapper>
+          )}
+        </TabsWrapper>
+      ) : (
+        <AccountBookEmpty />
+      )}
 
-          <ChartContainer>
-            {currentTab.title === '수입' && (
-              <PieChart data={incomePieData} colorList={colorList} />
-            )}
-            {currentTab.title === '지출' && (
-              <PieChart data={expendituresPieData} colorList={colorList} />
-            )}
-          </ChartContainer>
-        </Tabs>
-        {currentTab.title === '수입' && (
-          <ListWrapper>
-            {incomes.map((item: StatisticIncome, idx: number) => (
-              <StatisticItem
-                key={idx}
-                percent={item.percent}
-                name={item.name}
-                total={currencyFormatter(item.total)}
-                color={colorList[idx]}
-              />
-            ))}
-          </ListWrapper>
-        )}
-        {currentTab.title === '지출' && (
-          <ListWrapper>
-            {expenditures.map((item: StatisticIncome, idx: number) => (
-              <StatisticItem
-                key={idx}
-                percent={item.percent}
-                name={item.name}
-                total={currencyFormatter(item.total)}
-                color={colorList[idx]}
-              />
-            ))}
-          </ListWrapper>
-        )}
-      </TabsWrapper>
       <BottomNavigation />
     </>
   );
@@ -161,25 +146,24 @@ const Statistics = () => {
 export default Statistics;
 
 const YearMonthWrapper = styled.div`
-  min-width: 100%;
-  padding-top: 1.5rem;
-  padding-left: 1rem;
+  width: 100%;
 `;
 
 const ListWrapper = styled.div`
   width: 100%;
-  height: 35rem;
+  height: 28rem;
   overflow-y: auto;
-  border-top: 2rem solid ${theme.$gray_light};
+  border-top: 1rem solid ${theme.$gray_light};
 `;
 
 const TabsWrapper = styled.div`
   width: 100%;
+  height: 100%;
 `;
 
 const ChartContainer = styled.div`
   width: 100%;
-  height: 30rem;
+  height: 25rem;
   display: flex;
   align-items: center;
   justify-content: center;
