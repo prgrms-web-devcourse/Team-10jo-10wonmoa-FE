@@ -30,7 +30,7 @@ export default StatisticItem;
 
 const Container = styled.div`
   width: 100%;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   border-bottom: 0.2rem solid ${(props) => props.theme.$gray_light};
   display: flex;
   justify-content: space-between;

@@ -48,7 +48,7 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
         d={createArc(data) || undefined}
         fill={colors(index)}
         stroke="white"
-        strokeWidth={4}
+        strokeWidth={1}
       />
       <text
         transform={`translate(${positionName})`}

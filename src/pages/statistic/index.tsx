@@ -151,13 +151,14 @@ const YearMonthWrapper = styled.div`
 
 const ListWrapper = styled.div`
   width: 100%;
-  height: 20rem;
+  height: 28rem;
   overflow-y: auto;
   border-top: 1rem solid ${theme.$gray_light};
 `;
 
 const TabsWrapper = styled.div`
   width: 100%;
+  height: 100%;
 `;
 
 const ChartContainer = styled.div`
