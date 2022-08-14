@@ -110,7 +110,6 @@ const CategoryModal = ({
     (categoryInfo: CreateCategoryRequest) => fetchPostCategory(categoryInfo),
     {
       onSuccess: () => {
-        toast.success('추가 성공');
         queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }
@@ -122,7 +121,6 @@ const CategoryModal = ({
       fetchUpdateCategory({ categoryId, name }),
     {
       onSuccess: () => {
-        toast.success('수정 성공');
         queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }
@@ -133,7 +131,6 @@ const CategoryModal = ({
     (categoryId: number) => fetchDeleteCategory(categoryId),
     {
       onSuccess: () => {
-        toast.success('삭제 성공');
         queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }
