@@ -74,7 +74,7 @@ const SearchPageContainer = styled.div`
 `;
 
 const SearchResultContainer = styled.div`
-  margin-top: 1rem;
+  margin-top: 0.8rem;
   background-color: ${(props) => props.theme.$white};
   display: flex;
   flex-direction: column;

@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@components';
-import { CategoryBox } from '@components/account';
-import { useClickAway } from '@hooks';
-import type { Category, AccountDetailResponse } from '@types';
+import { CategoryModal } from '@components/search';
+import type { Category, AccountDetailResponse, TabItem } from '@types';
 import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
 
 interface AccountFormProps {
   onSubmit: () => void;
   onChangeForm: React.Dispatch<React.SetStateAction<AccountDetailResponse>>;
-  categories: Category[];
   formValues: AccountDetailResponse;
   onDelete?: (e: React.FormEvent<HTMLButtonElement>) => void;
+  accountType?: TabItem;
 }
 const AMOUNT_MIN_LIMIT = 0;
 const AMOUNT_MAX_LIMIT = 1000000000000;
@@ -27,13 +26,12 @@ const initialErrorForm: Record<string, string> = {
 const AccountForm = ({
   onSubmit,
   onChangeForm,
-  categories,
   formValues,
   onDelete,
+  accountType,
 }: AccountFormProps) => {
   const [formErrors, setFormErrors] = useState(initialErrorForm);
   const [categoryToggle, setCategoryToggle] = useState(false);
-  const categoryRef = useClickAway(() => setCategoryToggle(false));
 
   const isValidAmount = () => {
     return (
@@ -115,64 +113,77 @@ const AccountForm = ({
     handleChange(e, amountToNumberFormatter(value));
   };
 
-  const handleCategorySelect = (category: Category) => {
+  const handleCategorySelect = (selectedCategories: Category[]) => {
+    if (selectedCategories.length === 0) {
+      return;
+    }
+
+    const selectCategory = selectedCategories[0];
+
     onChangeForm((prevForm) => ({
       ...prevForm,
-      userCategoryId: category.id,
-      categoryName: category.name,
+      userCategoryId: selectCategory.id,
+      categoryName: selectCategory.name,
     }));
-    setCategoryToggle(false);
   };
 
   return (
     <>
       <StyledForm onSubmit={handleSubmit}>
         <InputContainer>
-          <StyledInputContainer>
-            금액
-            <input
-              type="text"
-              name="amount"
-              required
-              value={currencyFormatter(formValues.amount)}
-              onChange={handleAmountChange}
-            />
+          <div>
+            <StyledInput>
+              금액
+              <input
+                type="text"
+                name="amount"
+                required
+                value={currencyFormatter(formValues.amount)}
+                onChange={handleAmountChange}
+              />
+            </StyledInput>
             <ErrorMessageContent>{formErrors.amount}</ErrorMessageContent>
-          </StyledInputContainer>
-          <StyledInputContainer>
-            날짜
-            <input
-              type="datetime-local"
-              name="registerDate"
-              required
-              value={formValues.registerDate}
-              onChange={handleChange}
-            />
-          </StyledInputContainer>
-          <StyledInputContainer>
-            분류
-            <input
-              type="text"
-              name="userCategoryId"
-              readOnly
-              required
-              value={formValues.categoryName}
-              onClick={() => setCategoryToggle(true)}
-            />
+          </div>
+          <div>
+            <StyledInput>
+              날짜
+              <input
+                type="datetime-local"
+                name="registerDate"
+                required
+                value={formValues.registerDate}
+                onChange={handleChange}
+              />
+            </StyledInput>
+          </div>
+          <div>
+            <StyledInput>
+              분류
+              <input
+                type="text"
+                name="userCategoryId"
+                readOnly
+                required
+                value={formValues.categoryName}
+                onClick={() => setCategoryToggle(true)}
+              />
+            </StyledInput>
             <ErrorMessageContent>
               {formErrors.userCategoryId}
             </ErrorMessageContent>
-          </StyledInputContainer>
-          <StyledInputContainer>
-            내용
-            <input
-              type="text"
-              name="content"
-              value={formValues.content ?? ''}
-              onChange={handleChange}
-            />
+          </div>
+          <div>
+            <StyledInput>
+              내용
+              <input
+                type="text"
+                name="content"
+                value={formValues.content ?? ''}
+                onChange={handleChange}
+              />
+            </StyledInput>
             <ErrorMessageContent>{formErrors.content}</ErrorMessageContent>
-          </StyledInputContainer>
+          </div>
         </InputContainer>
         <ButtonContainer>
           {onDelete && (
@@ -185,14 +196,13 @@ const AccountForm = ({
           </Button>
         </ButtonContainer>
       </StyledForm>
-      {categoryToggle && (
-        <CategoryBox
-          CategoryList={categories}
-          categoryRef={categoryRef}
-          onClose={() => setCategoryToggle(false)}
-          onSelect={handleCategorySelect}
-        />
-      )}
+      <CategoryModal
+        visible={categoryToggle}
+        type="radio"
+        onClose={() => setCategoryToggle(false)}
+        onSubmit={handleCategorySelect}
+        parentAccountType={accountType}
+      />
     </>
   );
 };
@@ -201,7 +211,7 @@ export default AccountForm;
 
 const StyledForm = styled.form`
   width: 100%;
-  padding: 20px;
+  padding: 1rem 1.5rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -214,20 +224,25 @@ const InputContainer = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   flex-grow: 0.7;
+  width: 100%;
 `;
 
-const StyledInputContainer = styled.label`
+const StyledInput = styled.label`
   color: ${(props) => props.theme.$gray_dark};
+  word-break: keep-all;
+  display: flex;
+  align-items: baseline;
   & > input {
-    width: 20rem;
-    height: 2.5rem;
+    width: 100%;
+    height: 2rem;
     border: 0;
-    border-bottom: 0.1rem solid #afb1b6;
+    border-bottom: 0.1rem solid ${(props) => props.theme.$gray_medium};
     box-sizing: border-box;
     outline: none;
-    margin-left: 1rem;
     padding: 0.5rem;
     font-size: 1.1rem;
+    margin: 0 0.5rem;
+
     &:focus {
       border-bottom: 0.1rem solid ${(props) => props.theme.$primary};
     }
@@ -245,7 +260,8 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const ErrorMessageContent = styled.p`
+const ErrorMessageContent = styled.span`
+  display: block;
   color: ${(props) => props.theme.$red};
   text-align: center;
 `;
