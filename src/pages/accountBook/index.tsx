@@ -1,12 +1,19 @@
 import React from 'react';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
-import { TabsDisplayAccountSum, TabsNavigation } from '@components/account';
-import { Outlet, useLocation } from 'react-router-dom';
+import {
+  TabsDisplayAccountSum,
+  TabsNavigation,
+  PlusButton,
+} from '@components/account';
 import { useMonthSelector } from '@hooks';
 import { useAccountBookSum } from '@hooks/account';
 import type { DateSelectorProps } from '@components/DateSelector';
 
+type AccountBookPathTypes = 'daily' | 'monthly' | 'calendar';
+
 const AccountBook = () => {
+  const navigate = useNavigate();
   const {
     monthDate,
     yearDate,
@@ -20,7 +27,9 @@ const AccountBook = () => {
   const { pathname } = useLocation();
   const [, , path] = pathname.split('/');
 
-  type AccountBookPathTypes = 'daily' | 'monthly' | 'calendar';
+  const handleNavigateCreateAccount = async () => {
+    navigate('/account/create');
+  };
 
   const isAccountBookPath = (path: string): path is AccountBookPathTypes => {
     if (path === 'daily') return true;
@@ -77,6 +86,7 @@ const AccountBook = () => {
       />
       <TabsNavigation tabItems={ACCOUNT_BOOK_TAB_ITEMS} />
       <TabsDisplayAccountSum sumResult={sumResult} />
+      <PlusButton onClickPlus={handleNavigateCreateAccount} />
       <Outlet />
       <BottomNavigation />
     </>

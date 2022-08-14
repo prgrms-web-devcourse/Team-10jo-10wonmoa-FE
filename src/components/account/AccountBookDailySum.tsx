@@ -1,52 +1,60 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { theme } from '@styles';
 import { dateFormatter, currencyFormatter } from '@utils/formatter';
 
 const AccountBookDailySum = <T extends DailySum>(props: T) => {
   return (
-    <Container>
-      <p>{dateFormatter(props.registerDate, 'DAY')}</p>
-      <p>{dateFormatter(props.registerDate, 'WEEKDAY')}</p>
-      <p color={theme.$blue}>{currencyFormatter(props.dayIncome)}원</p>
-      <p color={theme.$red}>{currencyFormatter(props.dayExpenditure)}원</p>
-    </Container>
+    <StyledAccountBookDailySum>
+      <div>
+        <span>{dateFormatter(props.registerDate, 'DAY')}</span>
+        <span>{dateFormatter(props.registerDate, 'WEEKDAY')}요일</span>
+      </div>
+      <div>
+        <span>{currencyFormatter(props.dayIncome)}원</span>
+        <span>{currencyFormatter(props.dayExpenditure)}원</span>
+      </div>
+    </StyledAccountBookDailySum>
   );
 };
 
 export default AccountBookDailySum;
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr repeat(4);
-  width: 100%;
-  height: 2rem;
-  padding: 2rem 0;
+const StyledAccountBookDailySum = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 1rem 2rem;
   border-bottom: solid 1px lightgray;
 
-  & p:nth-of-type(1) {
-    font-size: 1.6rem;
-    font-weight: bolder;
+  & div:nth-of-type(1) {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 1rem;
+    & span:nth-of-type(1) {
+      font-size: 1.6rem;
+      font-weight: bolder;
+    }
+    & span:nth-of-type(2) {
+      font-size: 1rem;
+      color: ${(props) => props.theme.$gray_medium};
+    }
   }
-  & p:nth-of-type(2) {
-    width: 5.2rem;
-    background: gray;
-    padding: 0.3rem;
-    text-align: center;
-    border-radius: 8px;
-    color: white;
-  }
-  & p:nth-of-type(3) {
-    font-size: 1rem;
-    font-weight: 500;
-    color: ${(props) => props.theme.$blue};
-  }
-  & p:nth-of-type(4) {
-    font-size: 1rem;
-    font-weight: 500;
-    color: ${(props) => props.theme.$red};
+
+  & div:nth-of-type(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: right;
+    & span:nth-of-type(1) {
+      font-size: 1rem;
+      font-weight: 700;
+      color: ${(props) => props.theme.$blue};
+    }
+    & span:nth-of-type(2) {
+      font-size: 1rem;
+      font-weight: 700;
+      color: ${(props) => props.theme.$red};
+    }
   }
 `;

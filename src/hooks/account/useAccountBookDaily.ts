@@ -34,9 +34,17 @@ const useAccountBookDaily = () => {
     { getNextPageParam: (lastPage) => lastPage.nextPage || undefined }
   );
 
+  const pageComputedDatas = data?.pages.flatMap(
+    (page: DailyAccountBook) => page.results
+  );
+
+  const isEmpty = !isLoading && pageComputedDatas?.length === 0;
+
   return {
     data,
+    computedDatas: pageComputedDatas,
     isLoading,
+    isEmpty,
     fetchNextPage,
     hasNextPage,
   };
