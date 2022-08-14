@@ -54,6 +54,7 @@ const Tab = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.$gray_dark};
   color: ${(props) => props.theme.$gray_dark};
   background-color: ${(props) => props.theme.$white};
+  font-size: 1rem;
 
   &.active {
     background-color: ${(props) => props.theme.$secondary};
