@@ -40,11 +40,11 @@ const BudgetEditItem = ({
       </BudgetLeftInnerContainer>
       <BudgetRightInnerContainer>
         <Input
-          placeholder={inputString}
           value={inputString}
           onInput={handleInput}
           onFocus={handleFocus}
         />
+        <span>원</span>
       </BudgetRightInnerContainer>
     </BudgetItemContainer>
   );
@@ -53,12 +53,19 @@ const BudgetEditItem = ({
 export default BudgetEditItem;
 
 const Input = styled.input`
-  font-size: 1.5rem;
+  font-size: ${({ theme }) => theme.$font_md};
   text-align: right;
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+  outline: 0;
+  border: 0;
+  width: 10rem;
+  border-bottom: 2px solid ${({ theme }) => theme.$gray_medium};
+  &:focus {
+    border-color: ${({ theme }) => theme.$primary};
   }
 `;
 
@@ -67,21 +74,24 @@ const BudgetItemContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
+  padding: 1.5rem 0;
   background-color: ${({ theme }) => theme.$white};
+  font-size: ${({ theme }) => theme.$font_md};
 `;
 
 const BudgetLeftInnerContainer = styled.div`
   display: flex;
-  flex: 1;
 `;
 
 const BudgetExpenditure = styled.span`
   font-weight: bold;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.$font_sm};
 `;
 
 const BudgetRightInnerContainer = styled.div`
-  flex: 1;
-  padding: 0.625rem 0rem;
+  display: flex;
+  span {
+    margin-left: 5px;
+    font-size: ${({ theme }) => theme.$font_sm};
+  }
 `;

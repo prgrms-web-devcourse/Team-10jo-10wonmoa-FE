@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { BottomNavigation } from '@components';
+import { BottomNavigation, DateSelector, TopNavOutline } from '@components';
 import BudgetEditItem from './components/BudgetEditItem';
 import { fetchGetBudgetList, fetchPutBudgetItem } from '@api/budget';
 import { useMutation, useQuery } from 'react-query';
 import debounce from 'lodash/debounce';
+import dayjs from 'dayjs';
 
 const BudgetEdit = () => {
-  const today = new Date();
-  const todayFullYear = today.getFullYear().toString();
-  const todayMonth = (today.getMonth() + 1).toString();
-  const dateFormat = `${todayFullYear}-${todayMonth.padStart(2, '0')}`;
+  const [currentDate, setTodayDate] = useState(dayjs());
+  const dateFormat = currentDate.format('YYYY-MM');
 
-  const { data } = useQuery('budgetList2', async () => {
+  const { data } = useQuery(['budgetList', currentDate], async () => {
     const { data } = await fetchGetBudgetList(dateFormat);
     return data;
   });
@@ -23,27 +22,46 @@ const BudgetEdit = () => {
       return response.data;
     }
   );
+  const handleChangePrev = () => {
+    setTodayDate((prevDate) => prevDate.add(-1, 'M'));
+  };
+
+  const handleChangeNext = () => {
+    setTodayDate((prevDate) => prevDate.add(1, 'M'));
+  };
 
   const debounced = debounce((amount: number, id: number) => {
     mutate({ id, amount });
   }, 1000);
 
   return (
-    <Container>
-      <TotalMonthlyBudgetSection>
-        <h2>{`${today.getMonth() + 1}월 예산`}</h2>
-      </TotalMonthlyBudgetSection>
-      {data?.budgets.map((budget, index) => (
-        <BudgetEditItem
-          {...budget}
-          key={index}
-          mutateBudget={(amount: number, id: number) => {
-            debounced(amount, id);
-          }}
-        />
-      ))}
+    <>
+      <Container>
+        <TopNavOutline>
+          <DateSelector
+            date={`${currentDate.format('YYYY년 MM월')}`}
+            onChangePev={handleChangePrev}
+            onChangeNext={handleChangeNext}
+          />
+        </TopNavOutline>
+
+        <ItemListContainer
+          key={`${currentDate.format('YYYY-MM')}`}
+          className="fadeIn"
+        >
+          {data?.budgets.map((budget, index) => (
+            <BudgetEditItem
+              {...budget}
+              key={`${currentDate.format('YYYY-MM')}-${index}`}
+              mutateBudget={(amount: number, id: number) => {
+                debounced(amount, id);
+              }}
+            />
+          ))}
+        </ItemListContainer>
+      </Container>
       <BottomNavigation />
-    </Container>
+    </>
   );
 };
 
@@ -52,11 +70,14 @@ export default BudgetEdit;
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${({ theme }) => theme.$background};
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.$white};
 `;
 
-const TotalMonthlyBudgetSection = styled.section`
-  padding: 1rem 1.5rem;
-  background-color: ${({ theme }) => theme.$white};
-  margin-bottom: 1rem;
+const ItemListContainer = styled.ul`
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
 `;

@@ -1,102 +1,112 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { BottomNavigation, TopNavMonthSelector } from '@components';
+import {
+  BottomNavigation,
+  DateSelector,
+  TopNavOutline,
+  DropDown,
+} from '@components';
 import BudgetItem from './components/BudgetItem';
 import { currencyFormatter } from '@utils/formatter';
-import { useMonthSelector } from '@hooks';
 import { fetchGetMonthlyBudgetList } from '@api/budget';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const Budget = () => {
-  const {
-    monthDate,
-    yearDate,
-    handlePrevMonth,
-    handleNextMonth,
-    handleNextYear,
-    handlePrevYear,
-  } = useMonthSelector();
+  const [currentDate, setCurrentDate] = useState(dayjs());
+  const [isMonth, setIsMonth] = useState(true);
 
-  const [isMonth] = useState(true);
+  const dateFormat = currentDate.format('YYYY-MM');
 
-  const { data } = useQuery(['monthlyBudget', monthDate], async () => {
-    const year = monthDate.slice(0, 4);
-    const month = monthDate.slice(6, 8);
-    const response = await fetchGetMonthlyBudgetList(year, month);
-    return response.data;
-  });
+  const handleChangePrev = () => {
+    setCurrentDate((prevDate) => prevDate.add(-1, isMonth ? 'M' : 'y'));
+  };
 
-  if (!data) {
-    return <></>;
-  }
+  const handleChangeNext = () => {
+    setCurrentDate((prevDate) => prevDate.add(1, isMonth ? 'M' : 'y'));
+  };
+
+  const { data } = useQuery(
+    ['monthlyBudget', currentDate, isMonth],
+    async () => {
+      const [year, month] = dateFormat.split('-');
+      const response = await fetchGetMonthlyBudgetList({
+        year,
+        month: isMonth ? month : undefined,
+      });
+      return response.data;
+    }
+  );
 
   return (
-    <Container>
-      {isMonth ? (
-        <TopNavMonthSelector
-          date={monthDate}
-          onChangePev={handlePrevMonth}
-          onChangeNext={handleNextMonth}
+    <>
+      <TopNavOutline>
+        <DateSelector
+          date={
+            isMonth
+              ? currentDate.format('YYYY년 MM월')
+              : currentDate.format('YYYY년')
+          }
+          onChangePev={handleChangePrev}
+          onChangeNext={handleChangeNext}
         />
-      ) : (
-        <TopNavMonthSelector
-          date={yearDate}
-          onChangePev={handlePrevYear}
-          onChangeNext={handleNextYear}
-        />
-      )}
-      <TotalBudgetSection>
-        <TotalBudgetTop>
-          <h5>한 달 예산</h5>
-          <Link to="/budget/edit">
-            <h6>예산설정</h6>
-          </Link>
-        </TotalBudgetTop>
-        <h3>
-          {currencyFormatter(
-            data.amount - data.expenditure < 0
-              ? 0
-              : data.amount - data.expenditure
-          )}
-          원 남음
-        </h3>
-        <ProgressContainer>
-          <ProgressBar>
-            <Progress
-              percent={data.percent > 100 ? 100 : data.percent}
-              isOverBudget={data.amount < data.expenditure}
-            >
-              <Percent>{data.percent > 100 ? 100 : data.percent}%</Percent>
-            </Progress>
-          </ProgressBar>
-          <ProgressBarBottom>
-            <BudgetDetailList>
-              <BudgetDetail>
-                <BudgetDetailLabel>총 예산</BudgetDetailLabel>
-                <BudgetDetailMoney>
-                  {currencyFormatter(data.amount)}원
-                </BudgetDetailMoney>
-              </BudgetDetail>
-              <BudgetDetail>
-                <BudgetDetailLabel>오늘까지 지출</BudgetDetailLabel>
-                <BudgetDetailMoney>
-                  {currencyFormatter(data.expenditure)}원
-                </BudgetDetailMoney>
-              </BudgetDetail>
-            </BudgetDetailList>
-          </ProgressBarBottom>
-        </ProgressContainer>
-      </TotalBudgetSection>
-      <BudgetItemListSection>
-        {data?.budgets
-          .filter((budget) => budget.amount !== 0)
-          .map((budget, index) => (
-            <BudgetItem {...budget} key={index} />
-          ))}
-      </BudgetItemListSection>
+        <DropDown setIsMonth={setIsMonth} />
+      </TopNavOutline>
+      <Container className="fadeIn">
+        <TotalBudgetSection>
+          <TotalBudgetTop>
+            <h5>{isMonth ? '한 달 예산' : '1년 예산'}</h5>
+            <Link to="/budget/edit">
+              <h6>예산설정</h6>
+            </Link>
+          </TotalBudgetTop>
+          <h3 className="fadeIn" key={dateFormat}>
+            {data &&
+              `${currencyFormatter(data.amount - data.expenditure, true)} 남음`}
+          </h3>
+          <ProgressContainer>
+            <ProgressBar>
+              <Progress
+                percent={data ? (data.percent > 100 ? 100 : data.percent) : 0}
+                isOverBudget={data ? data.amount < data.expenditure : false}
+              >
+                <Percent>
+                  {data ? (data.percent > 100 ? 100 : data.percent) : 0}%
+                </Percent>
+              </Progress>
+            </ProgressBar>
+
+            <ProgressBarBottom>
+              <ul className="fadeIn" key={dateFormat}>
+                <li>
+                  <label>총 예산</label>
+                  <span>{currencyFormatter(data ? data.amount : 0, true)}</span>
+                </li>
+                <li>
+                  <label>오늘까지 지출</label>
+                  <span>
+                    {currencyFormatter(data ? data.expenditure : 0, true)}
+                  </span>
+                </li>
+              </ul>
+            </ProgressBarBottom>
+          </ProgressContainer>
+        </TotalBudgetSection>
+
+        <BudgetItemListSection>
+          <h4>카테고리별 예산</h4>
+          <ul className="fadeIn" key={dateFormat}>
+            {data?.budgets
+              .filter((budget) => budget.amount !== 0)
+              .map((budget, index) => (
+                <BudgetItem {...budget} key={`${dateFormat}-${index}`} />
+              ))}
+          </ul>
+        </BudgetItemListSection>
+      </Container>
       <BottomNavigation />
-    </Container>
+    </>
   );
 };
 
@@ -105,19 +115,23 @@ export default Budget;
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  position: relative;
   background-color: ${({ theme }) => theme.$background};
 `;
 
 const Section = styled.section`
   width: 100%;
   background-color: ${({ theme }) => theme.$white};
-  padding: 1rem 1.5rem;
 `;
 
 const TotalBudgetSection = styled(Section)`
   width: 100%;
   background-color: ${({ theme }) => theme.$white};
-  padding-bottom: 2rem;
+  h3 {
+    height: 1rem;
+    margin-top: 1rem;
+  }
+  padding: 5rem 0;
 `;
 
 const TotalBudgetTop = styled.div`
@@ -130,18 +144,18 @@ const TotalBudgetTop = styled.div`
 `;
 
 const BudgetItemListSection = styled(Section)`
-  position: absolute;
-  margin-top: 2rem;
-  bottom: 7rem;
-  height: 40rem;
+  h4 {
+    margin: 1.5rem 0;
+  }
   width: 100%;
   background-color: ${({ theme }) => theme.$white};
-
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
+  position: absolute;
+  bottom: 5rem;
+  height: 25rem;
+  ul {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
   }
 `;
 
@@ -152,16 +166,16 @@ const ProgressContainer = styled.div`
 const Progress = styled.div<{ percent: number; isOverBudget: boolean }>`
   position: relative;
   border-radius: inherit;
-  width: ${(props) => props.percent}%;
   height: 100%;
-  font-size: 1.25rem;
+  width: ${(props) => props.percent}%;
+
   background-color: ${(props) =>
     props.isOverBudget ? props.theme.$red : props.theme.$blue};
 `;
 
 const Percent = styled.span`
   position: absolute;
-  right: 5px;
+  right: 10px;
   top: 2px;
   color: ${({ theme }) => theme.$white};
 `;
@@ -170,32 +184,28 @@ const ProgressBarBottom = styled.div`
   margin-top: 0.5rem;
   display: flex;
   justify-content: space-between;
+  ul {
+    width: 100%;
+    margin-top: 0.5rem;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      font-size: ${({ theme }) => theme.$font_xs};
+      label {
+        font-weight: lighter;
+      }
+      span {
+        font-weight: bold;
+      }
+    }
+  }
 `;
 
 const ProgressBar = styled.div`
   position: relative;
   width: 100%;
-  border-radius: 6px;
-
+  border-radius: 8px;
   height: 1.75rem;
-  background-color: ${(props) => props.theme.$gray_light};
-`;
-
-const BudgetDetailList = styled.ul`
-  width: 100%;
-  margin-top: 0.5rem;
-`;
-
-const BudgetDetail = styled.li`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const BudgetDetailLabel = styled.label`
-  font-size: 1rem;
-  font-weight: 300;
-`;
-
-const BudgetDetailMoney = styled.span`
-  font-weight: bold;
+  background-color: ${(props) => props.theme.$gray_accent};
 `;
