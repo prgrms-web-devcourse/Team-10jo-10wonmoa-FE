@@ -25,7 +25,7 @@ export default PlusButton;
 
 const Wrapper = styled.div`
   position: fixed;
-  bottom: 7rem;
+  bottom: ${({ theme }) => theme.$bottom_navigation_height};
   left: calc(50% + 9rem);
   display: flex;
   flex-direction: column;
