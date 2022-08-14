@@ -80,6 +80,7 @@ const MenuWrapper = styled.div<{ top?: number; right?: number }>`
   padding: 0.2rem 0.6rem;
   top: ${(props) => props.top}rem;
   right: ${(props) => props.right}rem;
+  z-index: 999;
 `;
 
 const SelectedMenu = styled.div`
