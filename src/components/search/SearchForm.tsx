@@ -87,7 +87,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
     if (!isValidPrice()) {
       setFormErrors({
         ...initialErrorForm,
-        date: '최소 금액은 최대 금액보다 낮아야 합니다.',
+        price: '최소 금액은 최대 금액보다 낮아야 합니다.',
       });
       return false;
     }
@@ -139,17 +139,19 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
           </button>
         </SearchInputContainer>
         {searchOptionToggle && (
-          <>
-            <StyledInputContainer>
-              분류
-              <StyledInput
-                type="text"
-                name="categories"
-                value={formValues.categoryNames}
-                onClick={() => setCategoryModalToggle(true)}
-                readOnly
-              />
-            </StyledInputContainer>
+          <InputContainer>
+            <div>
+              <StyledInputContainer>
+                분류
+                <StyledInput
+                  type="text"
+                  name="categories"
+                  value={formValues.categoryNames}
+                  onClick={() => setCategoryModalToggle(true)}
+                  readOnly
+                />
+              </StyledInputContainer>
+            </div>
             <div>
               <StyledInputContainer>
                 금액
@@ -194,7 +196,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
               </StyledInputContainer>
               <ErrorMessageContent>{formErrors.date}</ErrorMessageContent>
             </div>
-          </>
+          </InputContainer>
         )}
       </SearchFormContainer>
       <SearchOptionToggleContainer>
@@ -204,6 +206,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
       </SearchOptionToggleContainer>
       <CategoryModal
         visible={categoryModalToggle}
+        type="checkbox"
         onClose={() => setCategoryModalToggle(false)}
         onSubmit={handleCategoryChange}
       />
@@ -219,14 +222,11 @@ const SearchFormContainer = styled.form`
   padding: 0 1.5rem;
   display: flex;
   flex-direction: column;
-
-  & > * {
-    margin-top: 1.5rem;
-  }
 `;
 
 const SearchInputContainer = styled.div`
   display: flex;
+  margin-bottom: 2rem;
 
   & > label {
     position: absolute;
@@ -278,6 +278,13 @@ const StyledInputContainer = styled.label`
   color: ${(props) => props.theme.$gray_dark};
   display: flex;
   word-break: keep-all;
+  align-items: baseline;
+`;
+
+const InputContainer = styled.div`
+  & > div {
+    height: 3.5rem;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -289,7 +296,7 @@ const StyledInput = styled.input`
   outline: none;
   box-sizing: border-box;
   margin: 0 0.5rem;
-  border-bottom: 0.1rem solid #afb1b6;
+  border-bottom: 0.1rem solid ${(props) => props.theme.$gray_medium};
   text-align: center;
   text-overflow: ellipsis;
   &:focus {
@@ -304,7 +311,7 @@ const SearchOptionToggleContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: ${(props) => props.theme.$white};
 
   & > button {
@@ -315,7 +322,8 @@ const SearchOptionToggleContainer = styled.div`
   }
 `;
 
-const ErrorMessageContent = styled.p`
+const ErrorMessageContent = styled.span`
+  display: block;
   color: ${(props) => props.theme.$red};
   text-align: center;
 `;

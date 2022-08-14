@@ -48,13 +48,13 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
         d={createArc(data) || undefined}
         fill={colors(index)}
         stroke="white"
-        strokeWidth={4}
+        strokeWidth={1}
       />
       <text
         transform={`translate(${positionName})`}
         textAnchor="middle"
         fill="black"
-        fontSize="16"
+        fontSize="14"
       >
         {data ? data.data.name : null}
       </text>

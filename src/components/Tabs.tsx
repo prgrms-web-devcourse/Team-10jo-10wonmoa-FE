@@ -7,9 +7,16 @@ interface TabsProps {
   onClick: (item: TabItem) => void;
   children?: React.ReactNode;
   initialItem?: TabItem;
+  total?: string;
 }
 
-const Tabs = ({ tabItems, onClick, children, initialItem }: TabsProps) => {
+const Tabs = ({
+  tabItems,
+  onClick,
+  children,
+  initialItem,
+  total,
+}: TabsProps) => {
   const [selectedItem, setSelectedItem] = useState(
     initialItem?.title ?? tabItems[0].title
   );
@@ -29,6 +36,9 @@ const Tabs = ({ tabItems, onClick, children, initialItem }: TabsProps) => {
             onClick={() => handleClick(item)}
           >
             {item.title}
+            <ToTal className={item.title != selectedItem ? 'noneTotal' : ''}>
+              {total}
+            </ToTal>
           </Tab>
         ))}
       </TabListContainer>
@@ -48,17 +58,26 @@ const TabListContainer = styled.div`
 const Tab = styled.div`
   display: flex;
   flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   border-bottom: 1px solid ${(props) => props.theme.$gray_dark};
   color: ${(props) => props.theme.$gray_dark};
   background-color: ${(props) => props.theme.$white};
-  font-size: 1rem;
+  font-size: 1.2rem;
 
   &.active {
     background-color: ${(props) => props.theme.$secondary};
     border-bottom: 1px solid ${(props) => props.theme.$primary};
     color: ${(props) => props.theme.$primary};
+  }
+`;
+
+const ToTal = styled.span`
+  margin-left: 1rem;
+  &.noneTotal {
+    display: none;
   }
 `;

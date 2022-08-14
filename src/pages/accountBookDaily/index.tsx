@@ -1,28 +1,23 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
-import { AccountBookDailyCard, PlusButton } from '@components/account';
-import { GoTopButton, Spinner, CoinIcon } from '@components';
+import { AccountBookDailyCard, AccountBookEmpty } from '@components/account';
+import { GoTopButton, Spinner } from '@components';
 import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
 
 const AccountBookDaily = () => {
   const [visible, setVisible] = useState(false);
-  const navigate = useNavigate();
 
   const topRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
 
   const {
-    data: dailyResult,
+    computedDatas: dailyAccounts,
     isLoading,
+    isEmpty,
     hasNextPage,
     fetchNextPage,
   } = useAccountBookDaily();
-
-  const handleNavigateCreateAccount = async () => {
-    navigate('/account/create');
-  };
 
   const createTopObserver = useCallback(() => {
     const options = {
@@ -62,20 +57,13 @@ const AccountBookDaily = () => {
     createTopObserver();
   }, []);
 
-  if (!isLoading && dailyResult?.pages.length === 0) {
-    return (
-      <>
-        <p>👇 클릭해서 가계부를 등록해보세요!</p>
-        <a onClick={handleNavigateCreateAccount}>
-          <CoinIcon />
-        </a>
-      </>
-    );
+  if (isLoading) {
+    return <Spinner />;
   }
 
-  const dailyAccounts = dailyResult?.pages.flatMap(
-    (page: DailyAccountBook) => page.results
-  );
+  if (isEmpty) {
+    return <AccountBookEmpty />;
+  }
 
   return (
     <CardArea>
@@ -88,7 +76,6 @@ const AccountBookDaily = () => {
       ))}
       <div ref={loadingRef}>{hasNextPage && <Spinner />}</div>
       <GoTopButton topRef={topRef} isVisible={visible} />
-      <PlusButton onClickPlus={handleNavigateCreateAccount} />
     </CardArea>
   );
 };

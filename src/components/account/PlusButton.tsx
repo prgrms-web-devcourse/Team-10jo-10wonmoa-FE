@@ -8,28 +8,23 @@ interface ButtonInterface {
 
 const PlusButton = ({ onClickPlus }: ButtonInterface) => {
   return (
-    <Wrapper>
-      <a onClick={onClickPlus}>
-        <PlusCircle
-          fill={theme.$primary}
-          stroke={theme.$white}
-          width="3.5rem"
-          height="3.5rem"
-        />
-      </a>
-    </Wrapper>
+    <StyledPlusCircle onClick={onClickPlus}>
+      <PlusCircle
+        fill={theme.$primary}
+        stroke={theme.$white}
+        width="3.5rem"
+        height="3.5rem"
+      />
+    </StyledPlusCircle>
   );
 };
 
 export default PlusButton;
 
-const Wrapper = styled.div`
-  position: fixed;
-  bottom: ${({ theme }) => theme.$bottom_navigation_height};
-  left: calc(50% + 9rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const StyledPlusCircle = styled.a`
+  position: absolute;
+  right: 1rem;
+  bottom: 7rem;
   z-index: 10;
   cursor: pointer;
 `;
