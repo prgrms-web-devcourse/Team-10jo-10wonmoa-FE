@@ -4,7 +4,13 @@ import type { TotalBudgetList, BudgetItemToEdit } from '../types/budget';
 export const fetchGetBudgetList = (date: string) =>
   authRequest().get<BudgetItemToEdit>(`/budgets?registerDate=${date}`);
 
-export const fetchGetMonthlyBudgetList = (year: string, month: string) =>
+export const fetchGetMonthlyBudgetList = ({
+  year,
+  month,
+}: {
+  year: string;
+  month?: string;
+}) =>
   authRequest().get<TotalBudgetList>('/budgets/statistics', {
     params: { year, month },
   });
