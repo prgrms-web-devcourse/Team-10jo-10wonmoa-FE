@@ -260,19 +260,6 @@ const reset = css`
     font-size: 16px;
   }
 
-  div {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-
-  div::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
-  }
-
-  body {
-    background-color: #f7f7f7;
-  }
-
   html {
     box-sizing: border-box;
   }
@@ -281,6 +268,12 @@ const reset = css`
   *:before,
   *:after {
     box-sizing: inherit;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
