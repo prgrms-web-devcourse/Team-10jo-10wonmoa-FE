@@ -34,6 +34,5 @@ declare module '@emotion/react' {
     $font_lg: string;
     $font_xlg: string;
     $font_xxlg: string;
-    $bottom_navigation_height: string;
   }
 }
