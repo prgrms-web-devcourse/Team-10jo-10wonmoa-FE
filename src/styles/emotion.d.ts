@@ -1,4 +1,5 @@
 import '@emotion/react';
+import { string } from 'prop-types';
 
 declare module '@emotion/react' {
   export interface Theme {
@@ -26,6 +27,11 @@ declare module '@emotion/react' {
     $chart_blue: string;
     $chart_purple: string;
     $chart_pink: string;
-    //[key: string]: string;
+    $font_xs: string;
+    $font_sm: string;
+    $font_md: string;
+    $font_lg: string;
+    $font_xlg: string;
+    $font_xxlg: string;
   }
 }
