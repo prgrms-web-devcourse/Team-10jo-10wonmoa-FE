@@ -5,7 +5,6 @@ import { Tabs, TopNavBar } from '@components';
 import { AccountForm } from '@components/account';
 import { ACCOUNT_TYPE } from '@constants/Tabs';
 import {
-  fetchGetCategory,
   fetchGetIncomes,
   fetchGetExpenditures,
   fetchUpdateExpenditures,
@@ -51,14 +50,6 @@ const UpdateAccount = () => {
       navigate('/account-book/daily', { replace: true });
     }
   }, [accountId]);
-
-  const { data: categories } = useQuery(
-    ['categories', accountType.value],
-    () => fetchGetCategory(accountType.value),
-    {
-      enabled: !!accountType,
-    }
-  );
 
   useQuery(
     ['getAccount', accountId],
@@ -140,7 +131,6 @@ const UpdateAccount = () => {
       <AccountForm
         onSubmit={handleSubmit}
         onChangeForm={setFormValues}
-        categories={categories?.categories}
         formValues={formValues}
         onDelete={handleDelete}
       />

@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TopNavBar } from '@components';
 import { AccountForm } from '@components/account';
 import { ACCOUNT_TYPE } from '@constants/Tabs';
-import {
-  fetchGetCategory,
-  fetchPostExpenditures,
-  fetchPostIncomes,
-} from '@api';
+import { fetchPostExpenditures, fetchPostIncomes } from '@api';
 import type {
   TabItem,
   CreateAccountRequest,
@@ -26,14 +22,6 @@ const CreateAccount = () => {
     content: '',
   });
   const navigate = useNavigate();
-
-  const { data: categories } = useQuery(
-    ['categories', accountType.value],
-    () => fetchGetCategory(accountType.value),
-    {
-      enabled: !!accountType,
-    }
-  );
 
   const createAccountMutation = useMutation(
     'AddAccount',
@@ -77,7 +65,6 @@ const CreateAccount = () => {
       <AccountForm
         onSubmit={handleSubmit}
         onChangeForm={setFormValues}
-        categories={categories?.categories}
         formValues={formValues}
       />
     </>
