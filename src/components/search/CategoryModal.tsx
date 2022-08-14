@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
-import { BackupLayer, Tabs, CheckBox, Toggle } from '@components';
+import { BackupLayer, Tabs, Toggle } from '@components';
 import { useClickAway } from '@hooks';
 import { ACCOUNT_TYPE } from '@constants/Tabs';
 import { TabItem, Category } from '@types';
@@ -13,6 +13,7 @@ import {
 } from '@api';
 import type { CreateCategoryRequest, UpdateCategoryRequest } from '@types';
 import { default as toast } from 'react-hot-toast';
+import CheckBoxList from './CheckBoxList';
 
 interface ModalProps {
   visible: boolean;
@@ -33,31 +34,6 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
 
   const handleTabClick = (item: TabItem) => {
     setAccountType(item);
-  };
-
-  const handleCategoryChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    category: Category
-  ) => {
-    setSelectedCategory((prevState) =>
-      e.target.checked
-        ? [...prevState, category]
-        : prevState.filter((prevCategory) => prevCategory.id !== category.id)
-    );
-  };
-
-  const handleAllCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const filteredState = selectedCategory.filter(
-      (category) => category.categoryType !== accountType.value
-    );
-
-    const currentAllCategory = categories?.categories ?? [];
-
-    setSelectedCategory(
-      e.target.checked
-        ? [...filteredState, ...currentAllCategory]
-        : [...filteredState]
-    );
   };
 
   const handleAddCategory = () => {
@@ -155,7 +131,7 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
       <ModalContainer ref={modalRef}>
         <ContentContainer>
           <ModalTitle>
-            <p>분류</p>
+            <span>분류</span>
             <Toggle
               name="category-editmode-toggle"
               on={editModeToggle}
@@ -168,42 +144,25 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
             onClick={handleTabClick}
             initialItem={accountType}
           />
-          <CheckBoxContainer>
-            <CheckBox
-              key="category_all_select"
-              text="전체 선택"
-              isChecked={
-                categories?.categories.every((category: Category) =>
-                  selectedCategory.includes(category)
-                ) ?? false
-              }
-              onChange={handleAllCategoryChange}
-              isEditMode={false}
-            />
-            {categories?.categories.map((category: Category) => (
-              <CheckBox
-                key={category.id}
-                text={category.name}
-                isChecked={selectedCategory.includes(category)}
-                onChange={(e) => handleCategoryChange(e, category)}
-                onEdit={(name) => handleUpdateCategory(category, name)}
-                onDelete={() => handleDeleteCategory(category.id)}
-                isEditMode={editModeToggle}
+          <CheckBoxList
+            categories={categories?.categories}
+            selectedCategory={selectedCategory}
+            isEditMode={editModeToggle}
+            onChange={setSelectedCategory}
+            onEdit={handleUpdateCategory}
+            onDelete={handleDeleteCategory}
+          >
+            <CategoryAddContainer>
+              <label htmlFor="category-add-input" />
+              <input
+                id="category-add-input"
+                type="text"
+                placeholder="카테고리 추가"
+                ref={categoryInputRef}
               />
-            ))}
-            {editModeToggle && (
-              <CategoryAddContainer>
-                <label htmlFor="category-add-input" />
-                <input
-                  id="category-add-input"
-                  type="text"
-                  placeholder="카테고리 추가"
-                  ref={categoryInputRef}
-                />
-                <button onClick={handleAddCategory}>추가</button>
-              </CategoryAddContainer>
-            )}
-          </CheckBoxContainer>
+              <button onClick={handleAddCategory}>추가</button>
+            </CategoryAddContainer>
+          </CheckBoxList>
         </ContentContainer>
         <ButtonContainer>
           <button onClick={onClose}>취소</button>
@@ -238,14 +197,10 @@ const ModalTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  & > p {
+  & > span {
     font-size: 1.2rem;
     font-weight: bold;
   }
-`;
-
-const CheckBoxContainer = styled.div`
-  overflow-y: auto;
 `;
 
 const ButtonContainer = styled.div`
