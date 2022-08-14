@@ -105,5 +105,5 @@ const CardArea = styled.div`
   -webkit-box-pack: center;
   justify-content: center;
   row-gap: 1rem;
-  margin-bottom: 7rem;
+  margin-bottom: ${({ theme }) => theme.$bottom_navigation_height};
 `;

@@ -31,5 +31,7 @@ const theme = {
   $font_lg: '1.8rem',
   $font_xlg: '2rem',
   $font_xxlg: '2.4rem',
+
+  $bottom_navigation_height: '5.5rem',
 };
 export default theme;
