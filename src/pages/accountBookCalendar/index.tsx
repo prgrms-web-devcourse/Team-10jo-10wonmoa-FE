@@ -22,15 +22,15 @@ const AccountBookCalendar = () => {
   const template = {
     /* 수입 */
     allday(event: CalendarEvents) {
-      return `<p style="color: #228be6;">${event.title}</p>`;
+      return `<p style="color: #228be6; font-weight: 400;">${event.title}</p>`;
     },
     /* 지출 */
     milestone(event: CalendarEvents) {
-      return `<p style="color: #D81921; ">${event.title}</p>`;
+      return `<p style="color: #D81921; font-weight: 400;">${event.title}</p>`;
     },
     /* 합계 */
     task(event: CalendarEvents) {
-      return <p>{event.title}</p>;
+      return `<p style=" font-weight: 400;">${event.title}</p>`;
     },
   };
   // eslint-disable-next-line
