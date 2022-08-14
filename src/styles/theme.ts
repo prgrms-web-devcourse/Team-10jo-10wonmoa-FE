@@ -35,3 +35,4 @@ const theme = {
   $bottom_navigation_height: '5.5rem',
 };
 export default theme;
+
