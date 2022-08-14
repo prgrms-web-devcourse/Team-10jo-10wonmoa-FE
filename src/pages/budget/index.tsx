@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import {
-  BottomNavigation,
-  DateSelector,
-  TopNavOutline,
-  DropDown,
-} from '@components';
+import { BottomNavigation, DateSelector, TopNavOutline } from '@components';
 import BudgetItem from './components/BudgetItem';
 import { currencyFormatter } from '@utils/formatter';
 import { fetchGetMonthlyBudgetList } from '@api/budget';
@@ -15,7 +10,7 @@ import dayjs from 'dayjs';
 
 const Budget = () => {
   const [currentDate, setCurrentDate] = useState(dayjs());
-  const [isMonth, setIsMonth] = useState(true);
+  const [isMonth] = useState(true);
 
   const dateFormat = currentDate.format('YYYY-MM');
 
@@ -51,7 +46,6 @@ const Budget = () => {
           onChangePev={handleChangePrev}
           onChangeNext={handleChangeNext}
         />
-        <DropDown setIsMonth={setIsMonth} />
       </TopNavOutline>
       <Container className="fadeIn">
         <TotalBudgetSection>
