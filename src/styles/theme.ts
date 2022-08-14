@@ -24,6 +24,7 @@ const theme = {
   $chart_purple: '#A089D0',
   $chart_pink: '#DE82D7',
 
+  $font_xxs: '1rem',
   $font_xs: '1.2rem',
   $font_sm: '1.4rem',
   $font_md: '1.6rem',
