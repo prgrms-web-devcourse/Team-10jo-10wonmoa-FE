@@ -19,6 +19,7 @@ import Spinner from './Spinner';
 import Divider from './Divider';
 import CheckBox from './CheckBox';
 import Toggle from './Toggle';
+import Radio from './Radio';
 import { default as Toast } from './Toast';
 export {
   AppLayout,
@@ -42,5 +43,6 @@ export {
   Divider,
   CheckBox,
   Toggle,
+  Radio,
   Toast,
 };
