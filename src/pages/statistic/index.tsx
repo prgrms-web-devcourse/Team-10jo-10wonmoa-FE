@@ -14,7 +14,7 @@ import { STATISTICS_TABS } from '../../constants/Tabs';
 import * as d3 from 'd3';
 import useStatistic from '@hooks/statistics/useStatistic';
 import type { DateSelectorProps } from '@components/DateSelector';
-
+import { makePieData } from './makePieData';
 const Statistics = () => {
   const {
     monthDate,
@@ -62,26 +62,6 @@ const Statistics = () => {
 
   const { incomeTotalSum, expenditureTotalSum, incomes, expenditures } = data;
 
-  const makePieData = (consumption: StatisticIncome[]) => {
-    const moreThanTenPercent = consumption.filter((x: StatisticIncome) =>
-      x.percent >= 10 ? x : null
-    );
-    const leftPercent =
-      100 -
-      moreThanTenPercent
-        .map((item) => item.percent)
-        .reduce((prev, next) => prev + next, 0);
-    const ETC =
-      leftPercent !== 0 && leftPercent !== 100
-        ? {
-            name: '기타',
-            total: 0,
-            percent: Number(leftPercent.toFixed(1)),
-          }
-        : [];
-    const pieData = moreThanTenPercent.concat(ETC);
-    return pieData;
-  };
   const incomePieData = makePieData(incomes);
   const expendituresPieData = makePieData(expenditures);
 
@@ -113,13 +93,15 @@ const Statistics = () => {
       </YearMonthWrapper>
 
       <TabsWrapper>
-        <Tabs tabItems={STATISTICS_TABS} onClick={handleTabClick}>
-          {currentTab.title === '수입' ? (
-            <div>{`수입: ${currencyFormatter(incomeTotalSum)}`}</div>
-          ) : (
-            <div>{`지출: ${currencyFormatter(expenditureTotalSum)}`}</div>
-          )}
-
+        <Tabs
+          tabItems={STATISTICS_TABS}
+          onClick={handleTabClick}
+          total={
+            currentTab.title === '수입'
+              ? currencyFormatter(incomeTotalSum)
+              : currencyFormatter(expenditureTotalSum)
+          }
+        >
           <ChartContainer>
             {currentTab.title === '수입' && (
               <PieChart data={incomePieData} colorList={colorList} />
@@ -182,7 +164,7 @@ const TabsWrapper = styled.div`
 
 const ChartContainer = styled.div`
   width: 100%;
-  height: 30rem;
+  height: 25rem;
   display: flex;
   align-items: center;
   justify-content: center;
