@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 
 type FormatKey =
   | 'YEAR'
@@ -21,5 +22,5 @@ const DATE_FORMAT_TYPE = {
 
 export const dateFormatter = (d: Date | string, format: FormatKey) => {
   const date = dayjs(d);
-  return date.format(DATE_FORMAT_TYPE[format]);
+  return date.locale('ko').format(DATE_FORMAT_TYPE[format]);
 };

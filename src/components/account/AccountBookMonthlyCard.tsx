@@ -9,10 +9,10 @@ const AccountBookMonthlyCard = <T extends { item: MonthlyAccount }>(
     <Card>
       <div>{props.item.month}월</div>
       <div>
-        <p>{currencyFormatter(props.item.incomeSum)}원</p>
-        <p>{currencyFormatter(props.item.expenditureSum)}원</p>
-        <Divider />
-        <p>{currencyFormatter(props.item.totalSum)}원</p>
+        <span>{currencyFormatter(props.item.incomeSum)}원</span>
+        <span>{currencyFormatter(props.item.expenditureSum)}원</span>
+        <Divider thick={2} />
+        <strong>{currencyFormatter(props.item.totalSum)}원</strong>
       </div>
     </Card>
   );
@@ -38,14 +38,17 @@ const Card = styled.div`
   }
   & div:nth-of-type(2) {
     text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
-  & p:nth-of-type(1) {
+  & span:nth-of-type(1) {
     color: ${(props) => props.theme.$blue};
   }
-  & p:nth-of-type(2) {
+  & span:nth-of-type(2) {
     color: ${(props) => props.theme.$red};
   }
-  & p:nth-of-type(3) {
+  & strong:nth-of-type(1) {
     font-size: 1.2rem;
   }
 `;
