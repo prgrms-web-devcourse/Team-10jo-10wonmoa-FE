@@ -40,9 +40,9 @@ const makeEachData = (data: CalendarAccount) => {
 };
 
 export const makeCalendarData = (calendarData: CalendarAccount[]) => {
-  const IncomeData = calendarData.map((x) => makeEachData(x).income);
-  const ExpenditureData = calendarData.map((x) => makeEachData(x).expenditure);
-  const TotalData = calendarData.map((x) => makeEachData(x).total);
+  const incomeData = calendarData.map((x) => makeEachData(x).income);
+  const expenditureData = calendarData.map((x) => makeEachData(x).expenditure);
+  const totalData = calendarData.map((x) => makeEachData(x).total);
 
-  return IncomeData.concat(ExpenditureData).concat(TotalData);
+  return incomeData.concat(expenditureData).concat(totalData);
 };
