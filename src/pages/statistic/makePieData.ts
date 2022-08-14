@@ -10,7 +10,7 @@ export const makePieData = (consumption: StatisticIncome[]) => {
   const ETC =
     leftPercent !== 0 && leftPercent !== 100
       ? {
-          name: '기타',
+          name: '그외',
           total: 0,
           percent: Number(leftPercent.toFixed(1)),
         }

@@ -54,7 +54,7 @@ const Arc: React.FC<ArcProp> = ({ data, index, createArc, colors, format }) => {
         transform={`translate(${positionName})`}
         textAnchor="middle"
         fill="black"
-        fontSize="16"
+        fontSize="14"
       >
         {data ? data.data.name : null}
       </text>
