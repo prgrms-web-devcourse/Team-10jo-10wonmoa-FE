@@ -94,8 +94,8 @@ const Statistics = () => {
             onClick={handleTabClick}
             total={
               currentTab.title === '수입'
-                ? currencyFormatter(incomeTotalSum)
-                : currencyFormatter(expenditureTotalSum)
+                ? `${currencyFormatter(incomeTotalSum)}원`
+                : `${currencyFormatter(expenditureTotalSum)}원`
             }
           >
             <ChartContainer>
@@ -146,14 +146,12 @@ const Statistics = () => {
 export default Statistics;
 
 const YearMonthWrapper = styled.div`
-  min-width: 100%;
-  padding-top: 1.5rem;
-  padding-left: 1rem;
+  width: 100%;
 `;
 
 const ListWrapper = styled.div`
   width: 100%;
-  height: 35rem;
+  height: 20rem;
   overflow-y: auto;
   border-top: 2rem solid ${theme.$gray_light};
 `;
@@ -168,10 +166,4 @@ const ChartContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const Test = styled.div`
-  background-color: pink;
-  height: 20rem;
-  width: 40rem;
 `;

@@ -20,7 +20,7 @@ const StatisticItem: React.FC<StatisticItemProp> = ({
     <Container theme={theme}>
       <Percent color={color}>{Number(percent?.toFixed(1))}%</Percent>
       <CategoryInfo>{name}</CategoryInfo>
-      <CategoryInfo>{total}</CategoryInfo>
+      <CategoryInfo>{total}원</CategoryInfo>
     </Container>
   );
 };
@@ -46,7 +46,6 @@ const Percent = styled.button`
 `;
 
 const CategoryInfo = styled.div`
-  font-size: 1.5rem;
   color: ${theme.$gray_dark};
   padding-top: 0.2rem;
 `;
