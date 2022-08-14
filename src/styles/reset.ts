@@ -275,6 +275,21 @@ const reset = css`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fadeIn {
+    animation: fadeIn 0.5s;
+    -moz-animation: fadeIn 0.5s; /* Firefox */
+    -webkit-animation: fadeIn 0.5s; /* Safari and Chrome */
+  }
 `;
 
 export default reset;
