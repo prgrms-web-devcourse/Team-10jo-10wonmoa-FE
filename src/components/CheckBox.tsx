@@ -26,10 +26,6 @@ const Wrapper = styled.label`
   font-size: 0.9rem;
   color: ${(props) => props.theme.$gray_dark};
   flex-grow: 1;
-  & + & {
-    border-top: 1px solid ${(props) => props.theme.$gray_accent};
-  }
-
   & > span {
     flex-grow: 1;
   }
