@@ -13,23 +13,36 @@ import {
 } from '@api';
 import type { CreateCategoryRequest, UpdateCategoryRequest } from '@types';
 import { default as toast } from 'react-hot-toast';
-import CheckBoxList from './CheckBoxList';
+import { CheckBoxList, RadioList } from '@components/search';
 
 interface ModalProps {
   visible: boolean;
+  type: 'radio' | 'checkbox';
   onClose: () => void;
   onSubmit: (categories: Category[]) => void;
+  parentAccountType?: TabItem;
 }
 
 const CATEGORY_MIN_LIMIT = 0;
 const CATEGORY_MAX_LIMIT = 20;
 
-const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
+const CategoryModal = ({
+  visible,
+  type,
+  onClose,
+  onSubmit,
+  parentAccountType,
+}: ModalProps) => {
   const modalRef = useClickAway(onClose);
   const categoryInputRef = useRef<HTMLInputElement>(null);
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE[0]);
+  const currentCategoryType = parentAccountType
+    ? parentAccountType.value
+    : accountType.value;
   const [selectedCategory, setSelectedCategory] = useState<Category[]>([]);
   const [editModeToggle, setEditModeToggle] = useState(false);
+  const isCheckBoxForm = type === 'checkbox';
+  const InputTypeListTag = isCheckBoxForm ? CheckBoxList : RadioList;
   const queryClient = useQueryClient();
 
   const handleTabClick = (item: TabItem) => {
@@ -51,7 +64,7 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
     }
 
     addCategoryMutation.mutate({
-      categoryType: accountType.value,
+      categoryType: currentCategoryType,
       name: inputRef.value,
     });
 
@@ -85,8 +98,8 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
   };
 
   const { data: categories } = useQuery(
-    ['categories', accountType.value],
-    () => fetchGetCategory(accountType.value),
+    ['categories', currentCategoryType],
+    () => fetchGetCategory(currentCategoryType),
     {
       enabled: !!accountType,
     }
@@ -98,7 +111,7 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
     {
       onSuccess: () => {
         alert('추가 성공');
-        queryClient.invalidateQueries(['categories', accountType.value]);
+        queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }
   );
@@ -110,7 +123,7 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
     {
       onSuccess: () => {
         alert('수정 성공');
-        queryClient.invalidateQueries(['categories', accountType.value]);
+        queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }
   );
@@ -121,7 +134,7 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
     {
       onSuccess: () => {
         alert('삭제 성공');
-        queryClient.invalidateQueries(['categories', accountType.value]);
+        queryClient.invalidateQueries(['categories', currentCategoryType]);
       },
     }
   );
@@ -139,12 +152,14 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
               onChange={() => setEditModeToggle((prevState) => !prevState)}
             />
           </ModalTitle>
-          <Tabs
-            tabItems={ACCOUNT_TYPE}
-            onClick={handleTabClick}
-            initialItem={accountType}
-          />
-          <CheckBoxList
+          {isCheckBoxForm && (
+            <Tabs
+              tabItems={ACCOUNT_TYPE}
+              onClick={handleTabClick}
+              initialItem={accountType}
+            />
+          )}
+          <InputTypeListTag
             categories={categories?.categories}
             selectedCategory={selectedCategory}
             isEditMode={editModeToggle}
@@ -162,7 +177,7 @@ const CategoryModal = ({ visible, onClose, onSubmit }: ModalProps) => {
               />
               <button onClick={handleAddCategory}>추가</button>
             </CategoryAddContainer>
-          </CheckBoxList>
+          </InputTypeListTag>
         </ContentContainer>
         <ButtonContainer>
           <button onClick={onClose}>취소</button>
