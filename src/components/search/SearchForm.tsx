@@ -206,6 +206,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
       </SearchOptionToggleContainer>
       <CategoryModal
         visible={categoryModalToggle}
+        type="checkbox"
         onClose={() => setCategoryModalToggle(false)}
         onSubmit={handleCategoryChange}
       />

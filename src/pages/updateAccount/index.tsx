@@ -133,6 +133,7 @@ const UpdateAccount = () => {
         onChangeForm={setFormValues}
         formValues={formValues}
         onDelete={handleDelete}
+        accountType={accountType}
       />
     </>
   );

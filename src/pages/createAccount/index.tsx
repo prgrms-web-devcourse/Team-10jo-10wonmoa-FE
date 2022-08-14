@@ -66,6 +66,7 @@ const CreateAccount = () => {
         onSubmit={handleSubmit}
         onChangeForm={setFormValues}
         formValues={formValues}
+        accountType={accountType}
       />
     </>
   );

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@components';
 import { CategoryModal } from '@components/search';
-import type { Category, AccountDetailResponse } from '@types';
+import type { Category, AccountDetailResponse, TabItem } from '@types';
 import { amountToNumberFormatter, currencyFormatter } from '@utils/formatter';
 
 interface AccountFormProps {
@@ -10,6 +10,7 @@ interface AccountFormProps {
   onChangeForm: React.Dispatch<React.SetStateAction<AccountDetailResponse>>;
   formValues: AccountDetailResponse;
   onDelete?: (e: React.FormEvent<HTMLButtonElement>) => void;
+  accountType?: TabItem;
 }
 const AMOUNT_MIN_LIMIT = 0;
 const AMOUNT_MAX_LIMIT = 1000000000000;
@@ -27,6 +28,7 @@ const AccountForm = ({
   onChangeForm,
   formValues,
   onDelete,
+  accountType,
 }: AccountFormProps) => {
   const [formErrors, setFormErrors] = useState(initialErrorForm);
   const [categoryToggle, setCategoryToggle] = useState(false);
@@ -196,8 +198,10 @@ const AccountForm = ({
       </StyledForm>
       <CategoryModal
         visible={categoryToggle}
+        type="radio"
         onClose={() => setCategoryToggle(false)}
         onSubmit={handleCategorySelect}
+        parentAccountType={accountType}
       />
     </>
   );
