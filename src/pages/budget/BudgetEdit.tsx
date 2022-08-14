@@ -45,14 +45,11 @@ const BudgetEdit = () => {
           />
         </TopNavOutline>
 
-        <ItemListContainer
-          key={`${currentDate.format('YYYY-MM')}`}
-          className="fadeIn"
-        >
+        <ItemListContainer key={dateFormat} className="fadeIn">
           {data?.budgets.map((budget, index) => (
             <BudgetEditItem
               {...budget}
-              key={`${currentDate.format('YYYY-MM')}-${index}`}
+              key={`${dateFormat}-${index}`}
               mutateBudget={(amount: number, id: number) => {
                 debounced(amount, id);
               }}
