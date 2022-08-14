@@ -153,7 +153,7 @@ const ListWrapper = styled.div`
   width: 100%;
   height: 20rem;
   overflow-y: auto;
-  border-top: 2rem solid ${theme.$gray_light};
+  border-top: 1rem solid ${theme.$gray_light};
 `;
 
 const TabsWrapper = styled.div`

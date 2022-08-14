@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useTheme } from '@emotion/react';
-import { theme } from '@styles';
 interface StatisticItemProp {
   percent?: number;
   name?: string;
@@ -18,8 +17,10 @@ const StatisticItem: React.FC<StatisticItemProp> = ({
   const theme = useTheme();
   return (
     <Container theme={theme}>
-      <Percent color={color}>{Number(percent?.toFixed(1))}%</Percent>
-      <CategoryInfo>{name}</CategoryInfo>
+      <PercentName>
+        <Percent color={color}>{Number(percent?.toFixed(1))}%</Percent>
+        <CategoryInfo className="name">{name}</CategoryInfo>
+      </PercentName>
       <CategoryInfo>{total}원</CategoryInfo>
     </Container>
   );
@@ -30,22 +31,36 @@ export default StatisticItem;
 const Container = styled.div`
   width: 100%;
   padding: 1rem 2rem;
-  border-bottom: 0.3rem solid ${theme.$gray_light};
+  border-bottom: 0.2rem solid ${(props) => props.theme.$gray_light};
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
 `;
 
-const Percent = styled.button`
-  width: 5rem;
-  height: 3rem;
+const PercentName = styled.div`
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  text-align: center;
+  flex-shrink: 0;
+`;
+
+const Percent = styled.div`
+  width: 4rem;
+  height: 2.5rem;
   border: none;
   border-radius: 0.5rem;
-  color: ${theme.$white};
+  padding-top: 0.5rem;
+  text-align: center;
+  color: ${(props) => props.theme.$white};
   background-color: ${(props) => props.color};
 `;
 
 const CategoryInfo = styled.div`
-  color: ${theme.$gray_dark};
-  padding-top: 0.2rem;
+  color: ${(props) => props.theme.$gray_dark};
+  padding-top: 0.5rem;
+  flex-shrink: 0;
+  &.name {
+    padding-left: 3rem;
+  }
 `;
