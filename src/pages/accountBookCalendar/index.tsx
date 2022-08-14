@@ -7,7 +7,7 @@ import { makeCalendarData } from './makeCalendarData';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 import { default as toast } from 'react-hot-toast';
-
+import { theme } from '@styles';
 const AccountBookCalendar = () => {
   const calendars = [
     {
@@ -22,15 +22,15 @@ const AccountBookCalendar = () => {
   const template = {
     /* 수입 */
     allday(event: CalendarEvents) {
-      return `<p style="color: #228be6; font-size: 2px;">${event.title}</p>`;
+      return `<p style="color: ${theme.$blue}; font-weight: 400;">${event.title}</p>`;
     },
     /* 지출 */
     milestone(event: CalendarEvents) {
-      return `<p style="color: #D81921; font-size: 2px;">${event.title}</p>`;
+      return `<p style="color: ${theme.$red}; font-weight: 400;">${event.title}</p>`;
     },
     /* 합계 */
     task(event: CalendarEvents) {
-      return `<p style="font-size: 2px;">${event.title}</p>`;
+      return `<p style=" font-weight: 400;">${event.title}</p>`;
     },
   };
   // eslint-disable-next-line
@@ -73,7 +73,8 @@ const AccountBookCalendar = () => {
     }
   }, [searchParams, calendarRef]);
   const [apiData, setAPIData] = useState<CalendarAccount[] | undefined>();
-  const [Events, setEvents] = useState<CalendarEvents[] | undefined>();
+  const [events, setEvents] = useState<CalendarEvents[] | undefined>();
+
   const { isLoading, data } = useCalendar(currentDate);
 
   useEffect(() => {
@@ -88,7 +89,8 @@ const AccountBookCalendar = () => {
   return (
     <CalendarWrapper>
       <Calendar
-        height="600px"
+        isReadOnly={true}
+        height="45rem"
         view="month"
         month={{
           isAlways6Weeks: false,
@@ -96,8 +98,12 @@ const AccountBookCalendar = () => {
           dayNames: ['일', '월', '화', '수', '목', '금', '토'],
         }}
         calendars={calendars}
-        events={Events}
-        onClickEvent={(event) => toast(`${event.event.title}원 입니다`)}
+        events={events}
+        onClickEvent={(event) =>
+          event.event.title !== ''
+            ? toast(`${event.event.title}원 입니다`)
+            : null
+        }
         template={template}
         ref={calendarRef}
       />
@@ -108,4 +114,6 @@ export default AccountBookCalendar;
 
 const CalendarWrapper = styled.div`
   width: 100%;
+  height: 45rem;
+  overflow-y: auto;
 `;
