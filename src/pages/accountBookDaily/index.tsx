@@ -5,10 +5,9 @@ import { GoTopButton, Spinner } from '@components';
 import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
 
 const AccountBookDaily = () => {
-  const [visible, setVisible] = useState(false);
-
   const topRef = useRef<HTMLDivElement>(null);
   const [loadingRef, setLoadingRef] = useState<HTMLDivElement>();
+  const [visibleTopButton, setVisibleTopButton] = useState(false);
 
   const {
     computedDatas: dailyAccounts,
@@ -28,7 +27,9 @@ const AccountBookDaily = () => {
     const observer = new IntersectionObserver(
       (entires: IntersectionObserverEntry[]) => {
         entires.forEach((entry: IntersectionObserverEntry) =>
-          entry.isIntersecting ? setVisible(false) : setVisible(true)
+          entry.isIntersecting
+            ? setVisibleTopButton(false)
+            : setVisibleTopButton(true)
         );
       },
       options
@@ -70,7 +71,7 @@ const AccountBookDaily = () => {
 
   return (
     <CardArea>
-      <div ref={topRef} />
+      <div ref={topRef} onScroll={handleOnSchroll} />
       {dailyAccounts?.map((item: DailyAccount, idx) => (
         <AccountBookDailyCard
           key={`daily-account-${item.registerDate}-${idx}`}
@@ -78,7 +79,7 @@ const AccountBookDaily = () => {
         />
       ))}
       <div ref={loadingTargetRef}>{hasNextPage && <Spinner />}</div>
-      <GoTopButton topRef={topRef} isVisible={visible} />
+      <GoTopButton topRef={topRef} isVisible={visibleTopButton} />
     </CardArea>
   );
 };
