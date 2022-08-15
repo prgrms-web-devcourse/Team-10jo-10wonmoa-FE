@@ -71,7 +71,7 @@ const AccountBookDaily = () => {
 
   return (
     <CardArea>
-      <div ref={topRef} onScroll={handleOnSchroll} />
+      <div ref={topRef} />
       {dailyAccounts?.map((item: DailyAccount, idx) => (
         <AccountBookDailyCard
           key={`daily-account-${item.registerDate}-${idx}`}
