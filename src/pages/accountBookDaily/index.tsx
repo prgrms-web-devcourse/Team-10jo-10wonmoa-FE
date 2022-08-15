@@ -9,7 +9,7 @@ const AccountBookDaily = () => {
 
   const topRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const loadingRef = useRef<HTMLDivElement>(null);
+  const [targetRef, setLoadingRef] = useState<HTMLDivElement>();
 
   const {
     computedDatas: dailyAccounts,
@@ -20,6 +20,8 @@ const AccountBookDaily = () => {
   } = useAccountBookDaily();
 
   const createTopObserver = useCallback(() => {
+    if (topRef.current === null) return;
+
     const options = {
       threshold: 1,
     };
@@ -33,11 +35,11 @@ const AccountBookDaily = () => {
       options
     );
 
-    if (topRef.current === null) return;
     observer.observe(topRef.current);
   }, []);
 
-  const createBottomObserver = useCallback(() => {
+  const createLoadingObserver = useCallback(() => {
+    if (!targetRef) return;
     const options = {
       root: cardRef.current,
       rootMargin: '0px',
@@ -48,14 +50,20 @@ const AccountBookDaily = () => {
       fetchNextPage();
     }, options);
 
-    if (loadingRef.current === null) return;
-    observer.observe(loadingRef.current);
-  }, []);
+    observer.observe(targetRef);
+  }, [targetRef]);
 
   useEffect(() => {
-    createBottomObserver();
+    createLoadingObserver();
     createTopObserver();
-  }, []);
+  }, [createLoadingObserver, createTopObserver]);
+
+  const loadingRef = useCallback(
+    (node: HTMLDivElement) => {
+      setLoadingRef(node);
+    },
+    [cardRef.current]
+  );
 
   if (isLoading) {
     return <Spinner />;
@@ -66,7 +74,7 @@ const AccountBookDaily = () => {
   }
 
   return (
-    <CardArea>
+    <CardArea ref={cardRef}>
       <div ref={topRef} />
       {dailyAccounts?.map((item: DailyAccount, idx) => (
         <AccountBookDailyCard
