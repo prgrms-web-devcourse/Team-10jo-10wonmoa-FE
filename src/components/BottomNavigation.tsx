@@ -15,7 +15,7 @@ const BottomNavigation = () => {
   return (
     <Container>
       <Destination
-        selected={location.pathname.includes('/account-book/daily')}
+        selected={location.pathname.includes('/account-book')}
         text={'가계부'}
         icon={Tabs.ACCOUNT_BOOK}
         linkTo={'/account-book/daily'}
