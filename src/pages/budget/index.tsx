@@ -51,8 +51,8 @@ const Budget = () => {
       <Container className="fadeIn">
         <TotalBudgetSection>
           <TotalBudgetTop>
-            <h5>{isMonth ? '한 달 예산' : '일 년 예산'}</h5>
-            <Link to="/budget/edit">
+            <h5>{isMonth ? '한 달 예산' : '1년 예산'}</h5>
+            <Link to={`/budget/edit/${dateFormat}`}>
               <h6>예산설정</h6>
             </Link>
           </TotalBudgetTop>

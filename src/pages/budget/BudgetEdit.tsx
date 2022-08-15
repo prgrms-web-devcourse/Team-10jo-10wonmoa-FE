@@ -6,9 +6,12 @@ import { fetchGetBudgetList, fetchPutBudgetItem } from '@api/budget';
 import { useMutation, useQuery } from 'react-query';
 import debounce from 'lodash/debounce';
 import dayjs from 'dayjs';
+import { useLocation } from 'react-router-dom';
 
 const BudgetEdit = () => {
-  const [currentDate, setTodayDate] = useState(dayjs());
+  const location = useLocation();
+  const pathNameDateFormat = location.pathname.split('/')[3];
+  const [currentDate, setTodayDate] = useState(dayjs(pathNameDateFormat));
   const dateFormat = currentDate.format('YYYY-MM');
 
   const { data } = useQuery(['budgetList', currentDate], async () => {
