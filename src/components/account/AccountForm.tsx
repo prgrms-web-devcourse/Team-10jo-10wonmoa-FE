@@ -231,7 +231,7 @@ const StyledInput = styled.label`
   color: ${(props) => props.theme.$gray_dark};
   word-break: keep-all;
   display: flex;
-  align-items: baseline;
+
   & > input {
     width: 100%;
     height: 2rem;
