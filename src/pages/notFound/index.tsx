@@ -8,7 +8,7 @@ const NotFound = () => {
     <>
       <ErrorSection>
         <h2> Not Found </h2>
-        <Link to="/account-book/daily">
+        <Link to="/">
           <CoinIcon />
         </Link>
       </ErrorSection>

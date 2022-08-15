@@ -12,7 +12,7 @@ const useLogin = () => {
       onSuccess: (res) => {
         tokenStorage.setAccessToken(res.accessToken);
         tokenStorage.setRefreshToken(res.refreshToken);
-        navigate('/account-book/daily');
+        navigate('/');
       },
     }
   );
