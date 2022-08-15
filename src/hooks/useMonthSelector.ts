@@ -21,7 +21,11 @@ const timeReducer = (state: dayjs.Dayjs, action: ActionInterface) => {
 };
 
 const useMonthSelector = (initialDate = dayjs()) => {
-  const [date, dispatchMonth] = useReducer(timeReducer, initialDate);
+  const [searchParams] = useSearchParams();
+  const [date, dispatchMonth] = useReducer(
+    timeReducer,
+    dayjs(searchParams.get('date')) || initialDate
+  );
   const [, setSearchParams] = useSearchParams();
 
   const handleNextMonth = () => {
