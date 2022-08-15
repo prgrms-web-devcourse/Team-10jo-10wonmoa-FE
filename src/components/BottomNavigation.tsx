@@ -15,26 +15,26 @@ const BottomNavigation = () => {
   return (
     <Container>
       <Destination
-        selected={location.pathname === '/account-book/daily'}
+        selected={location.pathname.includes('/account-book/daily')}
         text={'가계부'}
         icon={Tabs.ACCOUNT_BOOK}
         linkTo={'/account-book/daily'}
       />
       <Destination
-        selected={location.pathname === '/statistics'}
+        selected={location.pathname.includes('/statistics')}
         text={'통계'}
         icon={Tabs.STATICS}
         linkTo={'/statistics'}
       />
       <Destination
-        selected={location.pathname === '/budget'}
+        selected={location.pathname.includes('/budget')}
         text={'예산'}
         icon={Tabs.BUDGET}
         linkTo={'/budget'}
       />
 
       <Destination
-        selected={location.pathname === '/profile'}
+        selected={location.pathname.includes('/profile')}
         text={'프로필'}
         icon={Tabs.PROFILE}
         linkTo={'/profile'}
