@@ -198,7 +198,7 @@ const ContentContainer = styled.div`
   color: ${(props) => props.theme.$black};
   background-color: ${(props) => props.theme.$white};
   border-radius: 0.5rem;
-  height: 75vh;
+  height: calc(var(--vh, 1vh) * 75);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -227,6 +227,10 @@ const ButtonContainer = styled.div`
     border: 0;
     background-color: transparent;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${(props) => props.theme.$black};
   }
   button + button {
     border-left: 1px solid ${(props) => props.theme.$gray_medium};
