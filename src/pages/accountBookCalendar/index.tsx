@@ -72,25 +72,19 @@ const AccountBookCalendar = () => {
       setCurrentDate(date);
     }
   }, [searchParams, calendarRef]);
-  const [apiData, setAPIData] = useState<CalendarAccount[] | undefined>();
-  const [events, setEvents] = useState<CalendarEvents[] | undefined>();
 
+  const events = [];
   const { isLoading, data } = useCalendar(currentDate);
 
-  useEffect(() => {
-    if (!isLoading) {
-      setAPIData(data);
-    }
-    if (apiData !== undefined) {
-      setEvents(makeCalendarData(apiData));
-    }
-  }, [data, apiData]);
+  if (!isLoading && data !== undefined) {
+    events.push(...makeCalendarData(data));
+  }
 
   return (
     <CalendarWrapper>
       <Calendar
         isReadOnly={true}
-        height="45rem"
+        height="35rem"
         view="month"
         month={{
           isAlways6Weeks: false,
@@ -114,6 +108,7 @@ export default AccountBookCalendar;
 
 const CalendarWrapper = styled.div`
   width: 100%;
-  height: 45rem;
+  height: 35rem;
+  padding-bottom: 7rem;
   overflow-y: auto;
 `;
