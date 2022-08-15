@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from 'react';
-import dayjs from 'dayjs';
 import { useSearchParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 type ActionType = 'NEXT_MONTH' | 'PREV_MONTH' | 'NEXT_YEAR' | 'PREV_YEAR';
 interface ActionInterface {
@@ -22,9 +22,12 @@ const timeReducer = (state: dayjs.Dayjs, action: ActionInterface) => {
 
 const useMonthSelector = (initialDate = dayjs()) => {
   const [searchParams] = useSearchParams();
+  const isValidDate =
+    searchParams.get('date') && searchParams.get('date') !== 'Invalid Date';
+
   const [date, dispatchMonth] = useReducer(
     timeReducer,
-    dayjs(searchParams.get('date')) || initialDate
+    isValidDate ? initialDate : dayjs()
   );
   const [, setSearchParams] = useSearchParams();
 
@@ -45,7 +48,7 @@ const useMonthSelector = (initialDate = dayjs()) => {
   };
 
   useEffect(() => {
-    setSearchParams({ date: date.format('YYYY-MM-DD') });
+    setSearchParams({ date: date.format('YYYY-MM') });
   }, [date]);
 
   return {
