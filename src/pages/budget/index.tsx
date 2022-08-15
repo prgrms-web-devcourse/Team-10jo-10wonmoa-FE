@@ -7,6 +7,7 @@ import { fetchGetMonthlyBudgetList } from '@api/budget';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { AccountBookEmpty } from '@components/account';
 
 const Budget = () => {
   const [currentDate, setCurrentDate] = useState(dayjs());
@@ -50,14 +51,19 @@ const Budget = () => {
       <Container className="fadeIn">
         <TotalBudgetSection>
           <TotalBudgetTop>
-            <h5>{isMonth ? '한 달 예산' : '1년 예산'}</h5>
+            <h5>{isMonth ? '한 달 예산' : '일 년 예산'}</h5>
             <Link to="/budget/edit">
               <h6>예산설정</h6>
             </Link>
           </TotalBudgetTop>
           <h3 className="fadeIn" key={dateFormat}>
             {data &&
-              `${currencyFormatter(data.amount - data.expenditure, true)} 남음`}
+              `${currencyFormatter(
+                data.amount - data.expenditure > 0
+                  ? data.amount - data.expenditure
+                  : 0,
+                true
+              )} 남음`}
           </h3>
           <ProgressContainer>
             <ProgressBar>
@@ -90,13 +96,18 @@ const Budget = () => {
 
         <BudgetItemListSection>
           <h4>카테고리별 예산</h4>
-          <ul className="fadeIn" key={dateFormat}>
-            {data?.budgets
-              .filter((budget) => budget.amount !== 0)
-              .map((budget, index) => (
-                <BudgetItem {...budget} key={`${dateFormat}-${index}`} />
-              ))}
-          </ul>
+          <EmptyContainer>
+            {data?.budgets.length === 0 && <AccountBookEmpty />}
+          </EmptyContainer>
+          {data && (
+            <ul className="fadeIn" key={dateFormat}>
+              {data.budgets
+                .filter((budget) => budget.amount !== 0)
+                .map((budget, index) => (
+                  <BudgetItem {...budget} key={`${dateFormat}-${index}`} />
+                ))}
+            </ul>
+          )}
         </BudgetItemListSection>
       </Container>
       <BottomNavigation />
@@ -196,4 +207,9 @@ const ProgressBar = styled.div`
   border-radius: 8px;
   height: 1.75rem;
   background-color: ${(props) => props.theme.$gray_accent};
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
