@@ -102,3 +102,25 @@
 |      신다혜      | <img src="https://avatars.githubusercontent.com/u/64780560?v=4" width = "200px"> | [💸 click](https://github.com/dahye1013)  | Developer |
 |      정현진      | <img src="https://avatars.githubusercontent.com/u/95457808?v=4" width = "200px"> | [💸 click](https://github.com/hyunjin0910)  | Developer |
 |      임재현      | <img src="https://avatars.githubusercontent.com/u/24430239?v=4" width = "200px"> | [💸 click](https://github.com/violet9503)  | Developer |
+
+
+
+
+## 주요기능
+
+| 가계부 검색 | 로그인 |
+|------|------|
+|<p align="center"><img src="https://user-images.githubusercontent.com/50866506/184688146-663b9e26-4aa6-4d82-a4fd-a93cf259d718.gif" height=300/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/50866506/184686469-b7e97e46-a943-4972-8341-bd125afcfc6f.gif" height=300/></p> |
+|<li>카테고리별, 기간별 검색 가능</li> <li>금액 최소, 최대에 따른 검색</li> | <li>이메일 로그인</li> <li>구글 로그인</li> 
+
+| 가계부 등록 | 가계부 조회| 
+|------|------|
+|<p align="center"><img src="https://user-images.githubusercontent.com/50866506/184686599-c31c1183-397c-4bee-873a-3c7bca671bc1.gif" height=300/></p> |<img src="https://user-images.githubusercontent.com/50866506/184686827-a95e3f9e-b162-4049-85d2-24ed6b22bce7.gif" height=300/>
+|<li>수입, 지출 등록</li> <li>카테고리별 등록</li> | <li>월별, 년별 조회</li> <li>무한 스크롤 구현</li>
+
+
+
+| 예산 페이지 | 통계 페이지 |
+|------|------|
+|<p align="center"><img src="https://user-images.githubusercontent.com/50866506/184687744-503eb349-8a29-4339-8d1f-1e23f7059d04.gif" height=300/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/50866506/184687106-5b5fe708-cab6-4931-8298-0c79df5635d2.gif" height=300/></p> |
+|<li>예산 등록, 조회</li><li>애니메이션으로 로딩 깜빡임 문제해결 </li> <li>debounce로 예산등록</li>|<li>d3.js를 사용해 차트 구현</li><li>드롭다운 월별, 년별 조회</li> |
