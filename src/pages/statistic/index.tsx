@@ -57,7 +57,6 @@ const Statistics = () => {
 
   const incomePieData = incomes && makePieData(incomes);
   const expendituresPieData = expenditures && makePieData(expenditures);
-
   return (
     <>
       <YearMonthWrapper>
@@ -89,6 +88,7 @@ const Statistics = () => {
         <TabsWrapper className="fadeIn">
           <Tabs
             tabItems={STATISTICS_TABS}
+            initialItem={currentTab}
             onClick={handleTabClick}
             total={
               currentTab.title === '수입'
