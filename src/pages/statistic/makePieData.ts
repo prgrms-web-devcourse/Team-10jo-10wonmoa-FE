@@ -8,7 +8,7 @@ export const makePieData = (consumption: StatisticIncome[]) => {
       .map((item) => item.percent)
       .reduce((prev, next) => prev + next, 0);
   const ETC =
-    leftPercent !== 0 && leftPercent !== 100
+    leftPercent >= 0.1 && leftPercent !== 100
       ? {
           name: '그외',
           total: 0,
