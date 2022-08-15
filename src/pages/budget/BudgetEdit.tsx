@@ -87,8 +87,3 @@ const ItemListContainer = styled.ul`
   height: 100%;
   overflow-y: scroll;
 `;
-
-const TopNavFlex = styled.div`
-  width: 100%;
-  display: flex;
-`;
