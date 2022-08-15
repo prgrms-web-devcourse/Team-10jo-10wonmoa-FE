@@ -13,24 +13,24 @@ const AccountBookCalendar = () => {
     {
       id: 'cal1',
       name: 'My Calendar',
-      backgroundColor: '#fff',
-      dragBgColor: '#fff',
-      borderColor: '#fff',
+      backgroundColor: '#ffffff',
+      dragBgColor: '#ffffff',
+      borderColor: '#ffffff',
     },
   ];
 
   const template = {
     /* 수입 */
     allday(event: CalendarEvents) {
-      return `<p style="color: ${theme.$blue}; font-weight: 400;">${event.title}</p>`;
+      return `<p style="color: ${theme.$blue}; font-weight: 400; font-size: 0.7rem;">${event.title}</p>`;
     },
     /* 지출 */
     milestone(event: CalendarEvents) {
-      return `<p style="color: ${theme.$red}; font-weight: 400;">${event.title}</p>`;
+      return `<p style="color: ${theme.$red}; font-weight: 400; font-size: 0.7rem;">${event.title}</p>`;
     },
     /* 합계 */
     task(event: CalendarEvents) {
-      return `<p style=" font-weight: 400;">${event.title}</p>`;
+      return `<p style=" font-weight: 400; font-size: 0.7rem;">${event.title}</p>`;
     },
   };
   // eslint-disable-next-line

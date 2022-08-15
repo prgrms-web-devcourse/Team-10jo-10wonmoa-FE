@@ -43,7 +43,8 @@ const Statistics = () => {
     },
   };
 
-  const colorList = d3.schemeSet2;
+  const colorList = d3.schemeSet2.concat(d3.schemeSet3).concat(d3.schemePaired);
+
   const [currentTab, setCurrentTab] = useState<TabItem>(STATISTICS_TABS[0]);
   const handleTabClick = (clickedTab: TabItem) => {
     setCurrentTab(clickedTab);
