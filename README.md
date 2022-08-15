@@ -54,7 +54,11 @@
 ```
 
 ## 📖 DOCS
+- [Moscow](https://backend-devcourse.notion.site/MoSCoW-f0c60e20dd014d02ac5410477fb73952)
+- [회의록](https://www.notion.so/backend-devcourse/362964f521f94c81a78b13cc7e0c695c)
+- [개발 일정](https://backend-devcourse.notion.site/9b6985903d314afcb28a7cac38b29377)
 ## 기능
+
 
 
 ## 📅 개발 일정 (7/22 ~ 8/16)
