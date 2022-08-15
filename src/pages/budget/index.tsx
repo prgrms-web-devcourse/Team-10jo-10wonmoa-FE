@@ -23,7 +23,7 @@ const Budget = () => {
     setCurrentDate((prevDate) => prevDate.add(1, isMonth ? 'M' : 'y'));
   };
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['monthlyBudget', currentDate, isMonth],
     async () => {
       const [year, month] = dateFormat.split('-');
@@ -57,6 +57,7 @@ const Budget = () => {
             </Link>
           </TotalBudgetTop>
           <h3 className="fadeIn" key={dateFormat}>
+            {isLoading && `${currencyFormatter(0, true)} 남음`}
             {data &&
               `${currencyFormatter(
                 data.amount - data.expenditure > 0
@@ -71,7 +72,7 @@ const Budget = () => {
                 percent={data ? (data.percent > 100 ? 100 : data.percent) : 0}
                 isOverBudget={data ? data.amount < data.expenditure : false}
               >
-                <Percent>
+                <Percent percent={data?.percent || 0}>
                   {data ? (data.percent > 100 ? 100 : data.percent) : 0}%
                 </Percent>
               </Progress>
@@ -123,7 +124,8 @@ const Container = styled.div`
   overflow-y: scroll;
 
   position: relative;
-  flex-direction: column;
+  overflow-y: scroll;
+  padding-bottom: ${({ theme }) => theme.$bottom_navigation_height};
   background-color: ${({ theme }) => theme.$white};
 `;
 
@@ -134,7 +136,6 @@ const Section = styled.section`
 `;
 
 const TotalBudgetSection = styled(Section)`
-  width: 100%;
   padding: 2rem 0;
 `;
 
@@ -147,16 +148,7 @@ const TotalBudgetTop = styled.div`
   }
 `;
 
-const BudgetItemListSection = styled(Section)`
-  padding-top: 2rem;
-  padding-bottom: 5rem;
-  width: 100%;
-
-  background-color: ${({ theme }) => theme.$white};
-  ul {
-    width: 100%;
-  }
-`;
+const BudgetItemListSection = styled(Section)``;
 
 const ProgressContainer = styled.div`
   margin-top: 2.5rem;
@@ -167,16 +159,16 @@ const Progress = styled.div<{ percent: number; isOverBudget: boolean }>`
   border-radius: inherit;
   height: 100%;
   width: ${(props) => props.percent}%;
-
   background-color: ${(props) =>
     props.isOverBudget ? props.theme.$red : props.theme.$blue};
 `;
 
-const Percent = styled.span`
+const Percent = styled.span<{ percent: number }>`
   position: absolute;
-  right: 10px;
+  left: 10px;
   top: 2px;
-  color: ${({ theme }) => theme.$white};
+  color: ${({ theme, percent }) =>
+    percent === 0 ? theme.$black : theme.$white};
 `;
 
 const ProgressBarBottom = styled.div`
@@ -206,7 +198,7 @@ const ProgressBar = styled.div`
   width: 100%;
   border-radius: 8px;
   height: 1.75rem;
-  background-color: ${(props) => props.theme.$gray_accent};
+  background-color: ${(props) => props.theme.$gray_light};
 `;
 
 const EmptyContainer = styled.div`
