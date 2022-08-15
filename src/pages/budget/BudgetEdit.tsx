@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { BottomNavigation, DateSelector, TopNavOutline } from '@components';
+import {
+  BottomNavigation,
+  DateSelector,
+  TopNavOutline,
+  TopNavBar,
+} from '@components';
 import BudgetEditItem from './components/BudgetEditItem';
 import { fetchGetBudgetList, fetchPutBudgetItem } from '@api/budget';
 import { useMutation, useQuery } from 'react-query';
 import debounce from 'lodash/debounce';
 import dayjs from 'dayjs';
+import { useLocation } from 'react-router-dom';
 
 const BudgetEdit = () => {
-  const [currentDate, setTodayDate] = useState(dayjs());
+  const location = useLocation();
+  const pathNameDateFormat = location.pathname.split('/')[3];
+  const [currentDate, setTodayDate] = useState(dayjs(pathNameDateFormat));
   const dateFormat = currentDate.format('YYYY-MM');
 
   const { data } = useQuery(['budgetList', currentDate], async () => {
@@ -37,6 +45,7 @@ const BudgetEdit = () => {
   return (
     <>
       <Container>
+        <TopNavBar title={'예산 수정'} isActiveGoBack />
         <TopNavOutline>
           <DateSelector
             date={`${currentDate.format('YYYY년 MM월')}`}
