@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { BottomNavigation, DateSelector, TopNavOutline } from '@components';
+import {
+  BottomNavigation,
+  DateSelector,
+  TopNavOutline,
+  TopNavBar,
+} from '@components';
 import BudgetEditItem from './components/BudgetEditItem';
 import { fetchGetBudgetList, fetchPutBudgetItem } from '@api/budget';
 import { useMutation, useQuery } from 'react-query';
@@ -40,6 +45,7 @@ const BudgetEdit = () => {
   return (
     <>
       <Container>
+        <TopNavBar title={'예산 수정'} isActiveGoBack />
         <TopNavOutline>
           <DateSelector
             date={`${currentDate.format('YYYY년 MM월')}`}
@@ -80,4 +86,9 @@ const ItemListContainer = styled.ul`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+`;
+
+const TopNavFlex = styled.div`
+  width: 100%;
+  display: flex;
 `;
