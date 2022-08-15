@@ -11,7 +11,7 @@ import { AccountBookEmpty } from '@components/account';
 
 const Budget = () => {
   const [currentDate, setCurrentDate] = useState(dayjs());
-  const [_, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const [isMonth] = useState(true);
 
   const dateFormat = currentDate.format('YYYY-MM');
