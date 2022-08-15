@@ -14,3 +14,6 @@ export const fetchGetUser = () =>
 export const fetchPostLogout = () => authRequest().post('/users/logout');
 
 export const fetchDeleteUser = () => authRequest().delete('/users/out');
+
+export const fetchPostPasswordCheck = (password: string) =>
+  authRequest().post('/users/password/check', { password });
