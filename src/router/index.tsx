@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import {
   Login,
   SignUp,
@@ -15,13 +15,12 @@ import {
   OAuth2RedirectHandler,
   Profile,
   Search,
-  Logo,
 } from '@pages';
 
 const AppRouter = () => {
   return (
     <Routes>
-      <Route index element={<Logo />} />
+      <Route index element={<Navigate replace to="/account-book/daily" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signUp" element={<SignUp />} />
       <Route

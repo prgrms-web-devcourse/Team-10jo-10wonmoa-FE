@@ -1,7 +1,5 @@
-import { animation } from './animation';
 import { css } from '@emotion/react';
 import theme from './theme';
-
 const reset = css`
   html,
   body,
@@ -311,7 +309,20 @@ const reset = css`
     display: none;
   }
 
-  ${animation}
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fadeIn {
+    animation: fadeIn 0.5s;
+    -moz-animation: fadeIn 0.5s; /* Firefox */
+    -webkit-animation: fadeIn 0.5s; /* Safari and Chrome */
+  }
 `;
 
 export default reset;
