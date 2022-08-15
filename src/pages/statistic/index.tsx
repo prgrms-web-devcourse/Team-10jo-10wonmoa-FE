@@ -164,7 +164,7 @@ const ChartContainer = styled.div`
 
 const ListWrapper = styled.div`
   width: 100%;
-  height: 15rem;
+  height: 20rem;
   border-top: 1rem solid ${theme.$gray_light};
   overflow-y: auto;
 `;
