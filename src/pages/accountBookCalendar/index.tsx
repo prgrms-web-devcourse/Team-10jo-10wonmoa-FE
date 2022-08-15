@@ -8,6 +8,7 @@ import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 import { default as toast } from 'react-hot-toast';
 import { theme } from '@styles';
+import { NONAME } from 'dns';
 const AccountBookCalendar = () => {
   const calendars = [
     {
@@ -84,11 +85,11 @@ const AccountBookCalendar = () => {
     <CalendarWrapper>
       <Calendar
         isReadOnly={true}
-        height="35rem"
+        height="40rem"
         view="month"
         month={{
           isAlways6Weeks: false,
-          visibleEventCount: 5,
+          visibleEventCount: 10,
           dayNames: ['일', '월', '화', '수', '목', '금', '토'],
         }}
         calendars={calendars}
