@@ -260,8 +260,41 @@ const reset = css`
     font-size: 16px;
   }
 
+  address,
+  em {
+    font-style: normal;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  button,
+  input {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    background: 0 0;
+  }
+
+  body {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  button {
+    color: inherit;
+  }
+
   html {
     box-sizing: border-box;
+  }
+
+  @media screen and (max-width: 576px) {
+    html {
+      font-size: 14px;
+    }
   }
 
   *,

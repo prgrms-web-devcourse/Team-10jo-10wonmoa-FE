@@ -219,14 +219,14 @@ export default SearchForm;
 const SearchFormContainer = styled.form`
   background-color: ${(props) => props.theme.$white};
   width: 100%;
-  padding: 0 1.5rem;
+  padding: 0.5rem 1.5rem;
   display: flex;
   flex-direction: column;
 `;
 
 const SearchInputContainer = styled.div`
   display: flex;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 
   & > label {
     position: absolute;
