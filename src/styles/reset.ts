@@ -287,6 +287,10 @@ const reset = css`
     color: inherit;
   }
 
+  input {
+    color: black;
+  }
+
   html {
     box-sizing: border-box;
   }
