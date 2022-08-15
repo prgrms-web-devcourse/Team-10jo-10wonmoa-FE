@@ -1,6 +1,4 @@
 import '@emotion/react';
-import { string } from 'prop-types';
-
 declare module '@emotion/react' {
   export interface Theme {
     $primary: string;
