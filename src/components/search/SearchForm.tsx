@@ -126,7 +126,6 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
       <SearchFormContainer>
         <SearchInputContainer>
           <label htmlFor="searchForm-searchInput">검색</label>
-          <Search size={20} />
           <StyledInput
             id="searchForm-searchInput"
             type="search"
@@ -227,6 +226,7 @@ const SearchFormContainer = styled.form`
 const SearchInputContainer = styled.div`
   display: flex;
   margin-bottom: 1.5rem;
+  height: 2.4rem;
 
   & > label {
     position: absolute;
@@ -239,19 +239,14 @@ const SearchInputContainer = styled.div`
     justify-content: center;
   }
 
-  & > svg {
-    position: absolute;
-    transform: translate(0.4rem, 0.4rem);
-  }
-
   & > input {
     background-color: ${(props) => props.theme.$gray_accent};
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
+    height: 2.4rem;
     border-bottom: 0;
     margin: 0;
-    padding: 0.5rem 0.8rem 0.5rem 2.5rem;
-    height: 2.4rem;
+    padding: 0.5rem 0.8rem;
     font-size: 1.2rem;
     text-align: left;
     &:focus {
@@ -265,6 +260,7 @@ const SearchInputContainer = styled.div`
     color: ${(props) => props.theme.$white};
     cursor: pointer;
     width: 4rem;
+    height: 2.4rem;
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
     display: flex;
@@ -278,12 +274,11 @@ const StyledInputContainer = styled.label`
   color: ${(props) => props.theme.$gray_dark};
   display: flex;
   word-break: keep-all;
-  align-items: baseline;
 `;
 
 const InputContainer = styled.div`
   & > div {
-    height: 3.5rem;
+    height: 3rem;
   }
 `;
 

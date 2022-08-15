@@ -27,7 +27,7 @@ const SearchResultAccountItem = ({ item }: SearchResultAccountItemProps) => {
         <p>{item.content}</p>
       </AccountItemContentDiv>
       <AccountItemAmountDiv color={colorType[item.type]}>
-        {currencyFormatter(item.amount)}
+        {currencyFormatter(item.amount, true)}
       </AccountItemAmountDiv>
     </AccountItemContainer>
   );
