@@ -7,6 +7,7 @@ import { fetchGetMonthlyBudgetList } from '@api/budget';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { AccountBookEmpty } from '@components/account';
 
 const Budget = () => {
   const [currentDate, setCurrentDate] = useState(dayjs());
@@ -22,7 +23,7 @@ const Budget = () => {
     setCurrentDate((prevDate) => prevDate.add(1, isMonth ? 'M' : 'y'));
   };
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['monthlyBudget', currentDate, isMonth],
     async () => {
       const [year, month] = dateFormat.split('-');
@@ -50,14 +51,20 @@ const Budget = () => {
       <Container className="fadeIn">
         <TotalBudgetSection>
           <TotalBudgetTop>
-            <h5>{isMonth ? '한 달 예산' : '1년 예산'}</h5>
+            <h5>{isMonth ? '한 달 예산' : '일 년 예산'}</h5>
             <Link to="/budget/edit">
               <h6>예산설정</h6>
             </Link>
           </TotalBudgetTop>
           <h3 className="fadeIn" key={dateFormat}>
+            {isLoading && `${currencyFormatter(0, true)} 남음`}
             {data &&
-              `${currencyFormatter(data.amount - data.expenditure, true)} 남음`}
+              `${currencyFormatter(
+                data.amount - data.expenditure > 0
+                  ? data.amount - data.expenditure
+                  : 0,
+                true
+              )} 남음`}
           </h3>
           <ProgressContainer>
             <ProgressBar>
@@ -65,7 +72,7 @@ const Budget = () => {
                 percent={data ? (data.percent > 100 ? 100 : data.percent) : 0}
                 isOverBudget={data ? data.amount < data.expenditure : false}
               >
-                <Percent>
+                <Percent percent={data?.percent || 0}>
                   {data ? (data.percent > 100 ? 100 : data.percent) : 0}%
                 </Percent>
               </Progress>
@@ -90,13 +97,18 @@ const Budget = () => {
 
         <BudgetItemListSection>
           <h4>카테고리별 예산</h4>
-          <ul className="fadeIn" key={dateFormat}>
-            {data?.budgets
-              .filter((budget) => budget.amount !== 0)
-              .map((budget, index) => (
-                <BudgetItem {...budget} key={`${dateFormat}-${index}`} />
-              ))}
-          </ul>
+          <EmptyContainer>
+            {data?.budgets.length === 0 && <AccountBookEmpty />}
+          </EmptyContainer>
+          {data && (
+            <ul className="fadeIn" key={dateFormat}>
+              {data.budgets
+                .filter((budget) => budget.amount !== 0)
+                .map((budget, index) => (
+                  <BudgetItem {...budget} key={`${dateFormat}-${index}`} />
+                ))}
+            </ul>
+          )}
         </BudgetItemListSection>
       </Container>
       <BottomNavigation />
@@ -109,23 +121,22 @@ export default Budget;
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
+
   position: relative;
-  background-color: ${({ theme }) => theme.$background};
+  overflow-y: scroll;
+  padding-bottom: ${({ theme }) => theme.$bottom_navigation_height};
+  background-color: ${({ theme }) => theme.$white};
 `;
 
 const Section = styled.section`
   width: 100%;
   background-color: ${({ theme }) => theme.$white};
+  border-top: 1px solid ${({ theme }) => theme.$gray_accent};
 `;
 
 const TotalBudgetSection = styled(Section)`
-  width: 100%;
-  background-color: ${({ theme }) => theme.$white};
-  h3 {
-    height: 1rem;
-    margin-top: 1rem;
-  }
-  padding: 5rem 0;
+  padding: 2rem 0;
 `;
 
 const TotalBudgetTop = styled.div`
@@ -137,21 +148,7 @@ const TotalBudgetTop = styled.div`
   }
 `;
 
-const BudgetItemListSection = styled(Section)`
-  h4 {
-    margin: 1.5rem 0;
-  }
-  width: 100%;
-  background-color: ${({ theme }) => theme.$white};
-  position: absolute;
-  bottom: 5rem;
-  height: 25rem;
-  ul {
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-  }
-`;
+const BudgetItemListSection = styled(Section)``;
 
 const ProgressContainer = styled.div`
   margin-top: 2.5rem;
@@ -162,16 +159,16 @@ const Progress = styled.div<{ percent: number; isOverBudget: boolean }>`
   border-radius: inherit;
   height: 100%;
   width: ${(props) => props.percent}%;
-
   background-color: ${(props) =>
     props.isOverBudget ? props.theme.$red : props.theme.$blue};
 `;
 
-const Percent = styled.span`
+const Percent = styled.span<{ percent: number }>`
   position: absolute;
-  right: 10px;
+  left: 10px;
   top: 2px;
-  color: ${({ theme }) => theme.$white};
+  color: ${({ theme, percent }) =>
+    percent === 0 ? theme.$black : theme.$white};
 `;
 
 const ProgressBarBottom = styled.div`
@@ -201,5 +198,10 @@ const ProgressBar = styled.div`
   width: 100%;
   border-radius: 8px;
   height: 1.75rem;
-  background-color: ${(props) => props.theme.$gray_accent};
+  background-color: ${(props) => props.theme.$gray_light};
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
