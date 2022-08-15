@@ -8,7 +8,6 @@ import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 import { default as toast } from 'react-hot-toast';
 import { theme } from '@styles';
-import { NONAME } from 'dns';
 const AccountBookCalendar = () => {
   const calendars = [
     {

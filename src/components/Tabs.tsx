@@ -51,7 +51,7 @@ export default Tabs;
 
 const TabListContainer = styled.div`
   width: 100%;
-  height: 50px;
+  height: 3rem;
   display: flex;
 `;
 
