@@ -149,16 +149,9 @@ const YearMonthWrapper = styled.div`
   width: 100%;
 `;
 
-const ListWrapper = styled.div`
-  width: 100%;
-  height: 15rem;
-  padding-bottom: 7rem;
-  border-top: 1rem solid ${theme.$gray_light};
-  overflow-y: auto;
-`;
-
 const TabsWrapper = styled.div`
   width: 100%;
+  padding-bottom: 7rem;
 `;
 
 const ChartContainer = styled.div`
@@ -167,4 +160,11 @@ const ChartContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const ListWrapper = styled.div`
+  width: 100%;
+  height: 15rem;
+  border-top: 1rem solid ${theme.$gray_light};
+  overflow-y: auto;
 `;
