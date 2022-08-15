@@ -1,17 +1,100 @@
-import { keyframes } from '@emotion/react';
-import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
+export const animation = css`
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
-  100% {
-    opacity: 1;
-  }
-`;
 
-export const FadeContainer = styled.div`
-  animation: ${fadeIn} 0.5s;
-  -moz-animation: ${fadeIn} 0.5s; /* Firefox */
-  -webkit-animation: ${fadeIn} 0.5s; /* Safari and Chrome */
+  .fadeIn {
+    animation: fadeIn 0.5s;
+    -moz-animation: fadeIn 0.5s;
+    -webkit-animation: fadeIn 0.5s;
+  }
+
+  .bounce {
+    position: relative;
+    -moz-animation: bounce 0.5s 2 linear;
+    -webkit-animation: bounce 0.5s 2 linear;
+    -o-animation: bounce 0.5s 2 linear;
+    animation: bounce 0.5s 2 linear;
+  }
+
+  @-webkit-keyframes bounce {
+    0% {
+      top: 0;
+    }
+    50% {
+      top: -5px;
+    }
+    70% {
+      top: -50px;
+    }
+    100% {
+      top: 0;
+    }
+  }
+
+  @-moz-keyframes bounce {
+    0% {
+      top: 0;
+    }
+    50% {
+      top: -5px;
+    }
+    70% {
+      top: -50px;
+    }
+    100% {
+      top: 0;
+    }
+  }
+
+  @-o-keyframes bounce {
+    0% {
+      top: 0;
+    }
+    50% {
+      top: -5px;
+    }
+    70% {
+      top: -50px;
+    }
+    100% {
+      top: 0;
+    }
+  }
+  @-ms-keyframes bounce {
+    0% {
+      top: 0;
+    }
+    50% {
+      top: -5px;
+    }
+    70% {
+      top: -50px;
+    }
+    100% {
+      top: 0;
+    }
+  }
+
+  @keyframes bounce {
+    0% {
+      top: 0;
+    }
+    50% {
+      top: -5px;
+    }
+    70% {
+      top: -50px;
+    }
+    100% {
+      top: 0;
+    }
+  }
 `;
