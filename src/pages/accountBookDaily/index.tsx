@@ -43,7 +43,7 @@ const AccountBookDaily = () => {
     const options = {
       root: cardRef.current,
       rootMargin: '0px',
-      threshold: 0.5,
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver(() => {
