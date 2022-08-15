@@ -23,7 +23,7 @@ const Layout = styled.div`
   max-width: 768px;
   min-width: 320px;
   padding: 0.5rem 1rem;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   background-color: ${theme.$white};
   margin: 0 auto;
   -ms-overflow-style: none;
