@@ -5,11 +5,9 @@ import { GoTopButton, Spinner } from '@components';
 import useAccountBookDaily from '@hooks/account/useAccountBookDaily';
 
 const AccountBookDaily = () => {
-  const [visible, setVisible] = useState(false);
-
   const topRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const loadingRef = useRef<HTMLDivElement>(null);
+  const [loadingRef, setLoadingRef] = useState<HTMLDivElement>();
+  const [visibleTopButton, setVisibleTopButton] = useState(false);
 
   const {
     computedDatas: dailyAccounts,
@@ -20,6 +18,8 @@ const AccountBookDaily = () => {
   } = useAccountBookDaily();
 
   const createTopObserver = useCallback(() => {
+    if (topRef.current === null) return;
+
     const options = {
       threshold: 1,
     };
@@ -27,34 +27,38 @@ const AccountBookDaily = () => {
     const observer = new IntersectionObserver(
       (entires: IntersectionObserverEntry[]) => {
         entires.forEach((entry: IntersectionObserverEntry) =>
-          entry.isIntersecting ? setVisible(false) : setVisible(true)
+          entry.isIntersecting
+            ? setVisibleTopButton(false)
+            : setVisibleTopButton(true)
         );
       },
       options
     );
 
-    if (topRef.current === null) return;
     observer.observe(topRef.current);
   }, []);
 
-  const createBottomObserver = useCallback(() => {
+  const createLoadingObserver = useCallback(() => {
+    if (!loadingRef) return;
+
     const options = {
-      root: cardRef.current,
-      rootMargin: '0px',
-      threshold: 0.5,
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver(() => {
       fetchNextPage();
     }, options);
 
-    if (loadingRef.current === null) return;
-    observer.observe(loadingRef.current);
-  }, []);
+    observer.observe(loadingRef);
+  }, [loadingRef]);
 
   useEffect(() => {
-    createBottomObserver();
+    createLoadingObserver();
     createTopObserver();
+  }, [createLoadingObserver, createTopObserver]);
+
+  const loadingTargetRef = useCallback((node: HTMLDivElement) => {
+    setLoadingRef(node);
   }, []);
 
   if (isLoading) {
@@ -74,8 +78,8 @@ const AccountBookDaily = () => {
           items={item}
         />
       ))}
-      <div ref={loadingRef}>{hasNextPage && <Spinner />}</div>
-      <GoTopButton topRef={topRef} isVisible={visible} />
+      <div ref={loadingTargetRef}>{hasNextPage && <Spinner />}</div>
+      <GoTopButton topRef={topRef} isVisible={visibleTopButton} />
     </CardArea>
   );
 };
