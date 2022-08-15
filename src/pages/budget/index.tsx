@@ -5,22 +5,25 @@ import BudgetItem from './components/BudgetItem';
 import { currencyFormatter } from '@utils/formatter';
 import { fetchGetMonthlyBudgetList } from '@api/budget';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { AccountBookEmpty } from '@components/account';
 
 const Budget = () => {
   const [currentDate, setCurrentDate] = useState(dayjs());
+  const [_, setSearchParams] = useSearchParams();
   const [isMonth] = useState(true);
 
   const dateFormat = currentDate.format('YYYY-MM');
 
   const handleChangePrev = () => {
     setCurrentDate((prevDate) => prevDate.add(-1, isMonth ? 'M' : 'y'));
+    setSearchParams(`date=${currentDate.add(-1, 'M').format('YYYY-MM')}`);
   };
 
   const handleChangeNext = () => {
     setCurrentDate((prevDate) => prevDate.add(1, isMonth ? 'M' : 'y'));
+    setSearchParams(`date=${currentDate.add(1, 'M').format('YYYY-MM')}`);
   };
 
   const { data, isLoading } = useQuery(
