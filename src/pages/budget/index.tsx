@@ -109,23 +109,22 @@ export default Budget;
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
+
   position: relative;
-  background-color: ${({ theme }) => theme.$background};
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.$white};
 `;
 
 const Section = styled.section`
   width: 100%;
   background-color: ${({ theme }) => theme.$white};
+  border-top: 1px solid ${({ theme }) => theme.$gray_accent};
 `;
 
 const TotalBudgetSection = styled(Section)`
   width: 100%;
-  background-color: ${({ theme }) => theme.$white};
-  h3 {
-    height: 1rem;
-    margin-top: 1rem;
-  }
-  padding: 5rem 0;
+  padding: 2rem 0;
 `;
 
 const TotalBudgetTop = styled.div`
@@ -138,18 +137,13 @@ const TotalBudgetTop = styled.div`
 `;
 
 const BudgetItemListSection = styled(Section)`
-  h4 {
-    margin: 1.5rem 0;
-  }
+  padding-top: 2rem;
+  padding-bottom: 5rem;
   width: 100%;
+
   background-color: ${({ theme }) => theme.$white};
-  position: absolute;
-  bottom: 5rem;
-  height: 25rem;
   ul {
     width: 100%;
-    height: 100%;
-    overflow-y: scroll;
   }
 `;
 
