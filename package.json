@@ -12,6 +12,7 @@
     "@toast-ui/react-calendar": "^2.1.1",
     "@types/d3": "^7.4.0",
     "@types/jest": "^27.5.2",
+    "@types/lodash": "^4.14.182",
     "@types/node": "^16.11.45",
     "@types/react": "^18.0.15",
     "@types/react-calendar": "^3.5.2",
@@ -21,6 +22,7 @@
     "d3": "^7.6.1",
     "dayjs": "^1.11.4",
     "dotenv": "^16.0.1",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
@@ -39,9 +41,7 @@
     "prepare": "husky install",
     "prettier": "prettier --write .",
     "lint:eslint": "eslint src/ --ext .ts,.tsx --config .eslintrc.json",
-    "lint:type": "tsc --noEmit",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "lint:type": "tsc --noEmit"
   },
   "eslintConfig": {
     "extends": [
@@ -73,16 +73,6 @@
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
-    "@storybook/addon-actions": "^6.5.9",
-    "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/addon-interactions": "^6.5.9",
-    "@storybook/addon-links": "^6.5.9",
-    "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack5": "^6.5.9",
-    "@storybook/node-logger": "^6.5.9",
-    "@storybook/preset-create-react-app": "^4.1.2",
-    "@storybook/react": "^6.5.9",
-    "@storybook/testing-library": "^0.0.13",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "babel-plugin-named-exports-order": "^0.0.2",

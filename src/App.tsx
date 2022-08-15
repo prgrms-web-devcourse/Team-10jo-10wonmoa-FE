@@ -6,9 +6,11 @@ import { QueryClientProvider } from 'react-query';
 import { queryClient } from '@api/react-query/queryClient';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import AppRouter from '@router';
-import useApiError from '@hooks/useApiError';
+import { useApiError, useLayoutResize } from '@hooks';
+
 const App = () => {
   const { handleError } = useApiError();
+  useLayoutResize();
 
   return (
     <QueryClientProvider client={queryClient(handleError)}>
