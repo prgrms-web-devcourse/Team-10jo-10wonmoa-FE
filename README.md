@@ -52,6 +52,8 @@
 ├── tsconfig.paths.json
 └── yarn.lock
 ```
+
+## 📖 DOCS
 ## 기능
 
 
@@ -85,7 +87,9 @@
 
 ## 🎨와이어 프레임
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FIBDPDMU1UD5gUtXOEm1YCe%2F10%25EC%259B%2590%25EB%25AA%25A8%25EC%2595%258410%25EC%25A1%25B0-%25EA%25B0%2580%25EA%25B3%2584%25EB%25B6%2580---WireFrame%3Fnode-id%3D50%253A1962" allowfullscreen></iframe>
+<img width="840" alt="스크린샷 2022-08-15 오후 11 00 32" src="https://user-images.githubusercontent.com/50866506/184649782-d6d8748e-d90c-4ae7-8981-4cb1181bbc92.png">
+
+[피그마 구경하러 가기](https://www.figma.com/file/IBDPDMU1UD5gUtXOEm1YCe/10%EC%9B%90%EB%AA%A8%EC%95%8410%EC%A1%B0-%EA%B0%80%EA%B3%84%EB%B6%80---WireFrame?node-id=50%3A1962)
 
 ## 👨‍👨‍👧‍👧 팀원
 |     Name      | Profile                                                                          | GitHub                                |   Role    |
