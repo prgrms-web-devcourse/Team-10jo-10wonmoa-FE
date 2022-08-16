@@ -87,7 +87,6 @@ const SelectedMenu = styled.div`
 
 const Menus = styled.div`
   background-color: ${(props) => props.theme.$white};
-  padding: 0.3rem 2rem 0.3rem 0rem;
 `;
 
 const Menu = styled.div`

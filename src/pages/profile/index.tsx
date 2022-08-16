@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { BottomNavigation, TopNavBar, CoinIcon, Button } from '@components';
-import { fetchDeleteUser, fetchPostLogout, fetchGetUser } from '@api/users';
+import { fetchPostLogout, fetchGetUser } from '@api/users';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import tokenStorage from '@utils/storage/TokenStorage';
+import PasswordCheck from './components/PasswordCheck';
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [isWidthDrawBtnClicked, setIsWidthDrawBtnClicked] = useState(false);
+
   const { data } = useQuery('user', async () => {
     const response = await fetchGetUser();
     return response.data;
@@ -27,19 +30,6 @@ const Profile = () => {
     }
   );
 
-  const { mutate: mutateWithdraw } = useMutation(
-    'withdraw',
-    async () => {
-      const response = await fetchDeleteUser();
-      return response.data;
-    },
-    {
-      onSuccess: () => {
-        tokenStorage.clearTokens();
-      },
-    }
-  );
-
   return (
     <>
       <TopNavBar />
@@ -49,9 +39,11 @@ const Profile = () => {
         <Button sizeType="large" onClick={() => mutateLogout()}>
           로그아웃
         </Button>
-        <Button sizeType="large" onClick={() => mutateWithdraw()}>
-          회원탈퇴
+
+        <Button sizeType="large" onClick={() => setIsWidthDrawBtnClicked(true)}>
+          회원탈퇴하기
         </Button>
+        {isWidthDrawBtnClicked && <PasswordCheck />}
       </Container>
       <BottomNavigation />
     </>

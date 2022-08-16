@@ -5,7 +5,7 @@ import {
   TopNabMonthWithDropDown,
   PieChart,
 } from '@components/statistic';
-import { Spinner, BottomNavigation, DropDown, Tabs } from '@components';
+import { BottomNavigation, DropDown, Tabs } from '@components';
 import { currencyFormatter } from '@utils/formatter';
 import { theme } from '@styles';
 import { useMonthSelector } from '@hooks';
@@ -43,7 +43,8 @@ const Statistics = () => {
     },
   };
 
-  const colorList = d3.schemeSet2;
+  const colorList = d3.schemeSet2.concat(d3.schemeSet3).concat(d3.schemePaired);
+
   const [currentTab, setCurrentTab] = useState<TabItem>(STATISTICS_TABS[0]);
   const handleTabClick = (clickedTab: TabItem) => {
     setCurrentTab(clickedTab);
@@ -53,14 +54,10 @@ const Statistics = () => {
     ? useStatistic(monthDate)
     : useStatistic(yearDate);
 
-  if (isLoading) {
-    return <Spinner />;
-  }
   const { incomeTotalSum, expenditureTotalSum, incomes, expenditures } = data;
 
-  const incomePieData = makePieData(incomes);
-  const expendituresPieData = makePieData(expenditures);
-
+  const incomePieData = incomes && makePieData(incomes);
+  const expendituresPieData = expenditures && makePieData(expenditures);
   return (
     <>
       <YearMonthWrapper>
@@ -87,25 +84,29 @@ const Statistics = () => {
           />
         </TopNabMonthWithDropDown>
       </YearMonthWrapper>
-      {incomes.length > 0 || expenditures.length > 0 ? (
-        <TabsWrapper>
+
+      {incomes?.length > 0 || expenditures?.length > 0 ? (
+        <TabsWrapper className="fadeIn">
           <Tabs
             tabItems={STATISTICS_TABS}
+            initialItem={currentTab}
             onClick={handleTabClick}
             total={
               currentTab.title === '수입'
-                ? `${currencyFormatter(incomeTotalSum)}원`
-                : `${currencyFormatter(expenditureTotalSum)}원`
+                ? `${currencyFormatter(incomeTotalSum) || 0}원`
+                : `${currencyFormatter(expenditureTotalSum) || 0}원`
             }
           >
-            <ChartContainer>
-              {currentTab.title === '수입' && (
-                <PieChart data={incomePieData} colorList={colorList} />
-              )}
-              {currentTab.title === '지출' && (
-                <PieChart data={expendituresPieData} colorList={colorList} />
-              )}
-            </ChartContainer>
+            {
+              <ChartContainer>
+                {currentTab.title === '수입' && incomePieData && (
+                  <PieChart data={incomePieData} colorList={colorList} />
+                )}
+                {currentTab.title === '지출' && expendituresPieData && (
+                  <PieChart data={expendituresPieData} colorList={colorList} />
+                )}
+              </ChartContainer>
+            }
           </Tabs>
           {currentTab.title === '수입' && (
             <ListWrapper>
@@ -134,9 +135,9 @@ const Statistics = () => {
             </ListWrapper>
           )}
         </TabsWrapper>
-      ) : (
+      ) : !isLoading ? (
         <AccountBookEmpty />
-      )}
+      ) : null}
 
       <BottomNavigation />
     </>
@@ -149,16 +150,9 @@ const YearMonthWrapper = styled.div`
   width: 100%;
 `;
 
-const ListWrapper = styled.div`
-  width: 100%;
-  height: 28rem;
-  overflow-y: auto;
-  border-top: 1rem solid ${theme.$gray_light};
-`;
-
 const TabsWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  padding-bottom: 7rem;
 `;
 
 const ChartContainer = styled.div`
@@ -167,4 +161,11 @@ const ChartContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const ListWrapper = styled.div`
+  width: 100%;
+  height: 20rem;
+  border-top: 1rem solid ${theme.$gray_light};
+  overflow-y: auto;
 `;

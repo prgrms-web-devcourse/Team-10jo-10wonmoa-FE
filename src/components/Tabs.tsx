@@ -36,9 +36,11 @@ const Tabs = ({
             onClick={() => handleClick(item)}
           >
             {item.title}
-            <ToTal className={item.title != selectedItem ? 'noneTotal' : ''}>
-              {total}
-            </ToTal>
+            {total && (
+              <ToTal className={item.title != selectedItem ? 'noneTotal' : ''}>
+                <span>{total}</span>
+              </ToTal>
+            )}
           </Tab>
         ))}
       </TabListContainer>
@@ -51,7 +53,7 @@ export default Tabs;
 
 const TabListContainer = styled.div`
   width: 100%;
-  height: 50px;
+  height: 3rem;
   display: flex;
 `;
 
@@ -76,8 +78,10 @@ const Tab = styled.div`
 `;
 
 const ToTal = styled.span`
-  margin-left: 1rem;
   &.noneTotal {
     display: none;
+  }
+  & > span {
+    margin-left: 0.5rem;
   }
 `;

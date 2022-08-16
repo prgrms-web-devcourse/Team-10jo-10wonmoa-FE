@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 import theme from './theme';
+import animation from './animation';
+
 const reset = css`
   html,
   body,
@@ -260,8 +262,45 @@ const reset = css`
     font-size: 16px;
   }
 
+  address,
+  em {
+    font-style: normal;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  button,
+  input {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    background: 0 0;
+  }
+
+  body {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  button {
+    color: inherit;
+  }
+
+  input {
+    color: black;
+  }
+
   html {
     box-sizing: border-box;
+  }
+
+  @media screen and (max-width: 576px) {
+    html {
+      font-size: 14px;
+    }
   }
 
   *,
@@ -276,20 +315,7 @@ const reset = css`
     display: none;
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  .fadeIn {
-    animation: fadeIn 0.5s;
-    -moz-animation: fadeIn 0.5s; /* Firefox */
-    -webkit-animation: fadeIn 0.5s; /* Safari and Chrome */
-  }
+  ${animation}
 `;
 
 export default reset;

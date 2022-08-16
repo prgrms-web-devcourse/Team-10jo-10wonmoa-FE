@@ -1,8 +1,9 @@
 import React from 'react';
+import styled from '@emotion/styled';
 import { Button, Input } from '@components';
 import { AuthFormWrapper } from '@components/auth';
 import { useForm } from '@hooks';
-import { ReactComponent as GoogleLogin } from '@assets/Icon/btn_google_light_normal_ios.svg';
+import { ReactComponent as GoogleLogin } from '@assets/Icon/GoogleIcon.svg';
 
 const LoginForm = (props: { submitHandler: (data: LoginUser) => void }) => {
   const { formValues, handleChange } = useForm<LoginUser>({
@@ -38,10 +39,22 @@ const LoginForm = (props: { submitHandler: (data: LoginUser) => void }) => {
         로그인하기
       </Button>
       <Button sizeType="large" buttonType="white" onClick={loginSSOHandler}>
-        <GoogleLogin width={40} /> 구글로 로그인하기
+        <StyledGoogleLogin>
+          <GoogleLogin width={30} />
+          <span>구글로 로그인하기</span>
+        </StyledGoogleLogin>
       </Button>
     </AuthFormWrapper>
   );
 };
 
 export default LoginForm;
+
+const StyledGoogleLogin = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    margin-left: 0.3rem;
+  }
+`;

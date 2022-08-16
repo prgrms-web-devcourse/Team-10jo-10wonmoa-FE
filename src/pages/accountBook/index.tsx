@@ -1,5 +1,10 @@
 import React from 'react';
-import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import {
+  useNavigate,
+  Outlet,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom';
 import { BottomNavigation, TopNavMonthSelector } from '@components';
 import {
   TabsDisplayAccountSum,
@@ -9,11 +14,13 @@ import {
 import { useMonthSelector } from '@hooks';
 import { useAccountBookSum } from '@hooks/account';
 import type { DateSelectorProps } from '@components/DateSelector';
+import dayjs from 'dayjs';
 
 type AccountBookPathTypes = 'daily' | 'monthly' | 'calendar';
 
 const AccountBook = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const {
     monthDate,
     yearDate,
@@ -21,7 +28,7 @@ const AccountBook = () => {
     handleNextMonth,
     handleNextYear,
     handlePrevYear,
-  } = useMonthSelector();
+  } = useMonthSelector(dayjs(searchParams.get('date')));
   const { monthSumResult, yearSumResult } = useAccountBookSum();
 
   const { pathname } = useLocation();

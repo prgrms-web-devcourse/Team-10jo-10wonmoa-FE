@@ -21,7 +21,7 @@ const OAuth2RedirectHandler = () => {
 
     tokenStorage.setAccessToken(accessToken);
     tokenStorage.setRefreshToken(refreshToken);
-    navigate('/account-book/daily');
+    navigate('/');
   }, []);
 
   return <Spinner />;

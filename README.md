@@ -92,6 +92,7 @@
 
 ## 기능
 
+=======
 | 가계부 검색                                                                                                                                         | 로그인                                                                                                                                              |
 | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <p align="center"><img src="https://user-images.githubusercontent.com/50866506/184688146-663b9e26-4aa6-4d82-a4fd-a93cf259d718.gif" height=300/></p> | <p align="center"><img src="https://user-images.githubusercontent.com/50866506/184686469-b7e97e46-a943-4972-8341-bd125afcfc6f.gif" height=300/></p> |
@@ -125,3 +126,4 @@
 | 신다혜 | <img src="https://avatars.githubusercontent.com/u/64780560?v=4" width = "200px"> |  [💸 click](https://github.com/dahye1013)  |             Developer              |
 | 정현진 | <img src="https://avatars.githubusercontent.com/u/95457808?v=4" width = "200px"> | [💸 click](https://github.com/hyunjin0910) |             Developer              |
 | 임재현 | <img src="https://avatars.githubusercontent.com/u/24430239?v=4" width = "200px"> | [💸 click](https://github.com/violet9503)  |             Developer              |
+

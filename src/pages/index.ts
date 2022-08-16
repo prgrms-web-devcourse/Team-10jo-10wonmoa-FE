@@ -13,6 +13,7 @@ import NotFound from './notFound';
 import OAuth2RedirectHandler from './OAuth2RedirectHandler';
 import Profile from './profile';
 import Search from './search';
+import Logo from './logo';
 
 export {
   Login,
@@ -30,4 +31,5 @@ export {
   OAuth2RedirectHandler,
   Profile,
   Search,
+  Logo,
 };

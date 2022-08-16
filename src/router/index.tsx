@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import {
   Login,
   SignUp,
@@ -15,12 +15,13 @@ import {
   OAuth2RedirectHandler,
   Profile,
   Search,
+  Logo,
 } from '@pages';
 
 const AppRouter = () => {
   return (
     <Routes>
-      <Route index element={<Navigate replace to="/account-book/daily" />} />
+      <Route index element={<Logo />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signUp" element={<SignUp />} />
       <Route
@@ -46,7 +47,7 @@ const AppRouter = () => {
       <Route path="/search" element={<Search />}></Route>
       <Route path="/statistics" element={<Statistics />}></Route>
       <Route path="/budget" element={<Budget />}></Route>
-      <Route path="/budget/edit" element={<BudgetEdit />}></Route>
+      <Route path="/budget/edit/:date" element={<BudgetEdit />}></Route>
 
       <Route path="/404" element={<NotFound />} />
       <Route path="*" element={<NotFound />} />

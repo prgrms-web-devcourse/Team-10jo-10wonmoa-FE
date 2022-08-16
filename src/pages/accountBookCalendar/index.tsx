@@ -13,24 +13,24 @@ const AccountBookCalendar = () => {
     {
       id: 'cal1',
       name: 'My Calendar',
-      backgroundColor: '#fff',
-      dragBgColor: '#fff',
-      borderColor: '#fff',
+      backgroundColor: '#ffffff',
+      dragBgColor: '#ffffff',
+      borderColor: '#ffffff',
     },
   ];
 
   const template = {
     /* 수입 */
     allday(event: CalendarEvents) {
-      return `<p style="color: ${theme.$blue}; font-weight: 400;">${event.title}</p>`;
+      return `<p style="color: ${theme.$blue}; font-weight: 400; font-size: 0.7rem;">${event.title}</p>`;
     },
     /* 지출 */
     milestone(event: CalendarEvents) {
-      return `<p style="color: ${theme.$red}; font-weight: 400;">${event.title}</p>`;
+      return `<p style="color: ${theme.$red}; font-weight: 400; font-size: 0.7rem;">${event.title}</p>`;
     },
     /* 합계 */
     task(event: CalendarEvents) {
-      return `<p style=" font-weight: 400;">${event.title}</p>`;
+      return `<p style=" font-weight: 400; font-size: 0.7rem;">${event.title}</p>`;
     },
   };
   // eslint-disable-next-line
@@ -72,29 +72,23 @@ const AccountBookCalendar = () => {
       setCurrentDate(date);
     }
   }, [searchParams, calendarRef]);
-  const [apiData, setAPIData] = useState<CalendarAccount[] | undefined>();
-  const [events, setEvents] = useState<CalendarEvents[] | undefined>();
 
+  const events = [];
   const { isLoading, data } = useCalendar(currentDate);
 
-  useEffect(() => {
-    if (!isLoading) {
-      setAPIData(data);
-    }
-    if (apiData !== undefined) {
-      setEvents(makeCalendarData(apiData));
-    }
-  }, [data, apiData]);
+  if (!isLoading && data !== undefined) {
+    events.push(...makeCalendarData(data));
+  }
 
   return (
     <CalendarWrapper>
       <Calendar
         isReadOnly={true}
-        height="45rem"
+        height="40rem"
         view="month"
         month={{
           isAlways6Weeks: false,
-          visibleEventCount: 5,
+          visibleEventCount: 10,
           dayNames: ['일', '월', '화', '수', '목', '금', '토'],
         }}
         calendars={calendars}
@@ -114,6 +108,7 @@ export default AccountBookCalendar;
 
 const CalendarWrapper = styled.div`
   width: 100%;
-  height: 45rem;
+  height: 35rem;
+  padding-bottom: 7rem;
   overflow-y: auto;
 `;
